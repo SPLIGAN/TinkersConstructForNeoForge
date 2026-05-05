@@ -1,8 +1,9 @@
 package slimeknights.tconstruct.shared.data;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
@@ -13,7 +14,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import slimeknights.mantle.recipe.data.ConsumerWrapperBuilder;
 import slimeknights.mantle.recipe.data.ICommonRecipeHelper;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -31,11 +32,11 @@ import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.world.TinkerWorld;
 
 import java.util.Locale;
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonRecipeHelper {
-  public CommonRecipeProvider(PackOutput output) {
-    super(output);
+  public CommonRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    super(output, lookupProvider);
   }
 
   @Override
@@ -44,9 +45,9 @@ public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonR
   }
 
   @Override
-  protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
-    this.addCommonRecipes(consumer);
-    this.addMaterialRecipes(consumer);
+  protected void buildRecipes(RecipeOutput recipeOutput) {
+    this.addCommonRecipes(recipeOutput);
+    this.addMaterialRecipes(recipeOutput);
   }
 
   private void addCommonRecipes(Consumer<FinishedRecipe> consumer) {

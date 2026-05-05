@@ -5,15 +5,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import lombok.extern.log4j.Log4j2;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import slimeknights.mantle.data.datamap.RegistryDataMapLoader;
 import slimeknights.mantle.data.listener.IEarlySafeManagerReloadListener;
 import slimeknights.mantle.data.loadable.field.ContextKey;
@@ -52,11 +47,7 @@ public class MaterialRenderInfoLoader implements IEarlySafeManagerReloadListener
     // bit of a hack: instead of registering our resource listener to the list as we should, we use the additional model registration event
     // we do this as we need to guarantee we run before models are baked, which happens in the first stage of listeners in the bakery constructor
     // the other option would be to wait until the atlas stitch event, though that would make it more difficult to know which sprites we need
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, ModelEvent.RegisterAdditional.class, event -> {
-      if(ModLoader.isLoadingStateValid()) {
-        INSTANCE.onReloadSafe(Minecraft.getInstance().getResourceManager());
-      }
-    });
+    // TODO 1.21: wire this listener through injected mod event bus
   }
 
   /** Map of all loaded materials */

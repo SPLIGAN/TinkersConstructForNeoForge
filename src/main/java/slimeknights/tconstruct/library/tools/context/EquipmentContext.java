@@ -6,8 +6,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.LazyOptional;
-import slimeknights.mantle.util.LogicHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.context.EquipmentIterator.EquipmentEntry;
@@ -32,8 +30,8 @@ public class EquipmentContext {
   protected final boolean[] fetchedTool = new boolean[6];
   /** Array of tools currently on the entity */
   protected final IToolStackView[] toolsInSlots = new IToolStackView[6];
-  /** Cached tinker data capability, saves capability lookup times slightly */
-  private LazyOptional<TinkerDataCapability.Holder> tinkerData = null;
+  /** Cached tinker data holder */
+  private TinkerDataCapability.Holder tinkerData = null;
 
   /** Creates a context with an existing tool instance */
   public static EquipmentContext withTool(LivingEntity living, IToolStackView tool, EquipmentSlot slot) {
@@ -94,18 +92,19 @@ public class EquipmentContext {
     return hasModifiableArmor(EquipmentSlot.values());
   }
 
-  /** Gets the tinker data capability */
-  public LazyOptional<TinkerDataCapability.Holder> getTinkerData() {
+  /** Gets the tinker data holder */
+  public TinkerDataCapability.Holder getTinkerData() {
     if (tinkerData == null) {
-      tinkerData = entity.getCapability(TinkerDataCapability.CAPABILITY);
+      tinkerData = TinkerDataCapability.getData(entity);
     }
     return tinkerData;
   }
 
-  /** Gets the tinker data capability, or null if absent */
+  /** @deprecated Prefer {@link #getTinkerData()}; attachment always supplies a holder. */
+  @Deprecated(forRemoval = true)
   @Nullable
   public TinkerDataCapability.Holder getDataHolder() {
-    return LogicHelper.orElseNull(getTinkerData());
+    return getTinkerData();
   }
 
 

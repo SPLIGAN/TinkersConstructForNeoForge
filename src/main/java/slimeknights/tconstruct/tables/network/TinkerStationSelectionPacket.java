@@ -5,7 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.tables.menu.TinkerStationContainerMenu;
@@ -23,13 +23,13 @@ public class TinkerStationSelectionPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(Context context) {
-    ServerPlayer sender = context.getSender();
-    if (sender != null) {
-      AbstractContainerMenu container = sender.containerMenu;
-      if (container instanceof TinkerStationContainerMenu tinker) {
-        tinker.setToolSelection(StationSlotLayoutLoader.getInstance().get(layoutName));
-      }
+  public void handleThreadsafe(IPayloadContext context) {
+    if (!(context.player() instanceof ServerPlayer sender)) {
+      return;
+    }
+    AbstractContainerMenu container = sender.containerMenu;
+    if (container instanceof TinkerStationContainerMenu tinker) {
+      tinker.setToolSelection(StationSlotLayoutLoader.getInstance().get(layoutName));
     }
   }
 }

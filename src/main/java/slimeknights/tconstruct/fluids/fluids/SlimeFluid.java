@@ -3,11 +3,11 @@ package slimeknights.tconstruct.fluids.fluids;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 
-public abstract class SlimeFluid extends ForgeFlowingFluid {
+public abstract class SlimeFluid extends BaseFlowingFluid {
 
-  protected SlimeFluid(Properties properties) {
+  protected SlimeFluid(BaseFlowingFluid.Properties properties) {
     super(properties);
   }
 
@@ -48,7 +48,7 @@ public abstract class SlimeFluid extends ForgeFlowingFluid {
 
   public static class Flowing extends SlimeFluid {
 
-    public Flowing(Properties properties) {
+    public Flowing(BaseFlowingFluid.Properties properties) {
       super(properties);
       this.registerDefaultState(this.getStateDefinition().any().setValue(LEVEL, 7));
     }
@@ -72,7 +72,7 @@ public abstract class SlimeFluid extends ForgeFlowingFluid {
 
   public static class Source extends SlimeFluid {
 
-    public Source(Properties properties) {
+    public Source(BaseFlowingFluid.Properties properties) {
       super(properties);
     }
 

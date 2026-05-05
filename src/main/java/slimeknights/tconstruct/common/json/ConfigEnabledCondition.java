@@ -1,20 +1,16 @@
 package slimeknights.tconstruct.common.json;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.Serializer;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.shared.TinkerCommons;
@@ -27,7 +23,10 @@ import java.util.function.BooleanSupplier;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConfigEnabledCondition implements ICondition, LootItemCondition {
   public static final ResourceLocation ID = TConstruct.getResource("config");
-  public static final ConfigSerializer SERIALIZER = new ConfigSerializer();
+  public static final MapCodec<ConfigEnabledCondition> CODEC = net.minecraft.util.ExtraCodecs.NON_EMPTY_STRING.fieldOf("prop").flatXmap(
+    ConfigEnabledCondition::getForName,
+    condition -> DataResult.success(condition.configName)
+  );
   /* Map of config names to condition cache */
   private static final Map<String,ConfigEnabledCondition> PROPS = new HashMap<>();
 
@@ -35,13 +34,13 @@ public class ConfigEnabledCondition implements ICondition, LootItemCondition {
   private final BooleanSupplier supplier;
 
   @Override
-  public ResourceLocation getID() {
-    return ID;
+  public boolean test(IContext context) {
+    return supplier.getAsBoolean();
   }
 
   @Override
-  public boolean test(IContext context) {
-    return supplier.getAsBoolean();
+  public MapCodec<? extends ICondition> codec() {
+    return CODEC;
   }
 
   @Override
@@ -54,36 +53,12 @@ public class ConfigEnabledCondition implements ICondition, LootItemCondition {
     return TinkerCommons.lootConfig.get();
   }
 
-  private static class ConfigSerializer implements Serializer<ConfigEnabledCondition>, IConditionSerializer<ConfigEnabledCondition> {
-    @Override
-    public ResourceLocation getID() {
-      return ID;
+  private static DataResult<ConfigEnabledCondition> getForName(String prop) {
+    ConfigEnabledCondition config = PROPS.get(prop.toLowerCase(Locale.ROOT));
+    if (config == null) {
+      return DataResult.error(() -> "Invalid property name '" + prop + "'");
     }
-
-    @Override
-    public void write(JsonObject json, ConfigEnabledCondition value) {
-      json.addProperty("prop", value.configName);
-    }
-
-    @Override
-    public ConfigEnabledCondition read(JsonObject json) {
-      String prop = GsonHelper.getAsString(json, "prop");
-      ConfigEnabledCondition config = PROPS.get(prop.toLowerCase(Locale.ROOT));
-      if (config == null) {
-        throw new JsonSyntaxException("Invalid property name '" + prop + "'");
-      }
-      return config;
-    }
-
-    @Override
-    public void serialize(JsonObject json, ConfigEnabledCondition condition, JsonSerializationContext context) {
-      write(json, condition);
-    }
-
-    @Override
-    public ConfigEnabledCondition deserialize(JsonObject json, JsonDeserializationContext context) {
-      return read(json);
-    }
+    return DataResult.success(config);
   }
 
   /**

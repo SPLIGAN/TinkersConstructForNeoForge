@@ -174,7 +174,7 @@ public abstract class AbstractPartSpriteProvider {
       // determine the path to try for the sprite
       ResourceLocation fallbackPath = path;
       if (!name.isEmpty()) {
-        fallbackPath = new ResourceLocation(path.getNamespace(), path.getPath() + "_" + name);
+        fallbackPath = ResourceLocation.fromNamespaceAndPath(path.getNamespace(), path.getPath() + "_" + name);
       }
       // if the image exists, fetch it and return it
       NativeImage image = spriteReader.readIfExists(fallbackPath);

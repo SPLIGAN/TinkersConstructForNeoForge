@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.shared.TinkerEffects;
@@ -67,10 +67,11 @@ public enum TinkerControlPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(Context context) {
-    ServerPlayer player = context.getSender();
-    if (player != null) {
-      switch (this) {
+  public void handleThreadsafe(IPayloadContext context) {
+    if (!(context.player() instanceof ServerPlayer player)) {
+      return;
+    }
+    switch (this) {
         case DOUBLE_JUMP -> DoubleJumpHandler.extraJump(player);
         case ANTIGRAVITY_JUMP -> TinkerEffects.antigravity.get().antigravityJump(player);
         case START_HELMET_INTERACT, START_HELMET_INTERACT_SHIFT, START_HELMET_INTERACT_CONTROL, START_HELMET_INTERACT_ALT
@@ -80,6 +81,5 @@ public enum TinkerControlPacket implements IThreadsafePacket {
           -> InteractionHandler.startArmorInteract(player, EquipmentSlot.LEGS, this.modifier);
         case STOP_LEGGINGS_INTERACT -> InteractionHandler.stopArmorInteract(player, EquipmentSlot.LEGS);
       }
-    }
   }
 }

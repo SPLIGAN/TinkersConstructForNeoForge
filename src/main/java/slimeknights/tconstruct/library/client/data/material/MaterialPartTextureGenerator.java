@@ -6,7 +6,7 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import slimeknights.tconstruct.library.client.data.GenericTextureGenerator;
 import slimeknights.tconstruct.library.client.data.material.AbstractMaterialSpriteProvider.MaterialSpriteInfo;
 import slimeknights.tconstruct.library.client.data.material.AbstractPartSpriteProvider.PartSpriteInfo;
@@ -120,7 +120,8 @@ public class MaterialPartTextureGenerator extends GenericTextureGenerator {
   public static ResourceLocation outputPath(PartSpriteInfo part, MaterialSpriteInfo material) {
     // path format: pNamespace:pPath_mNamespace_mPath
     ResourceLocation materialTexture = material.getTexture();
-    return part.getPath().withSuffix("_" + materialTexture.getNamespace() + "_" + materialTexture.getPath());
+    ResourceLocation basePath = part.getPath();
+    return ResourceLocation.fromNamespaceAndPath(basePath.getNamespace(), basePath.getPath() + "_" + materialTexture.getNamespace() + "_" + materialTexture.getPath());
   }
 
   /**

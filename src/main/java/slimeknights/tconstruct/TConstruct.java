@@ -2,30 +2,26 @@ package slimeknights.tconstruct;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.MissingMappingsEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -88,7 +84,7 @@ import java.util.function.Supplier;
  */
 
 @Mod(TConstruct.MOD_ID)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TConstruct.MOD_ID, bus = Bus.MOD)
 public class TConstruct {
 
   public static final String MOD_ID = "tconstruct";
@@ -98,7 +94,7 @@ public class TConstruct {
   /* Instance of this mod, used for grabbing prototype fields */
   public static TConstruct instance;
 
-  public TConstruct() {
+  public TConstruct(IEventBus modBus) {
     instance = this;
 
     Config.init();
@@ -106,8 +102,8 @@ public class TConstruct {
     MaterialRegistry.init();
 
     // initialize modules, done this way rather than with annotations to give us control over the order
-    MinecraftForge.EVENT_BUS.addListener(TConstruct::missingMappings);
-    IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    // Registry remaps previously handled via MissingMappingsEvent should migrate to DeferredRegister.addAlias().
+    IEventBus bus = modBus;
     // base
     bus.register(new TinkerCommons());
     bus.register(new TinkerMaterials());
@@ -119,7 +115,7 @@ public class TConstruct {
     bus.register(new TinkerStructures());
     // tools
     bus.register(new TinkerTables());
-    bus.register(new TinkerModifiers());
+    bus.register(new TinkerModifiers(bus));
     bus.register(new TinkerToolParts());
     bus.register(new TinkerTools());
     // smeltery
@@ -127,11 +123,13 @@ public class TConstruct {
     bus.register(new TinkerFluids());
 
     // init deferred registers
-    TinkerModule.initRegisters();
-    TinkerNetwork.setup();
+    TinkerModule.initRegisters(bus);
+    TinkerNetwork.setup(bus);
     TinkerTags.init();
     // init client logic
-    DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> TinkerClient::onConstruct);
+    if (FMLEnvironment.dist == Dist.CLIENT) {
+      TinkerClient.onConstruct();
+    }
 
     // compat
     ModList modList = ModList.get();
@@ -156,6 +154,12 @@ public class TConstruct {
   static void commonSetup(final FMLCommonSetupEvent event) {
     ToolDefinitionLoader.init();
     StationSlotLayoutLoader.init();
+  }
+
+  @SubscribeEvent
+  static void registerCapabilities(RegisterCapabilitiesEvent event) {
+    TankBlockEntity.registerFluidCapability(event, TinkerSmeltery.tank.get());
+    TankBlockEntity.registerFluidCapability(event, TinkerSmeltery.proxyTank.get());
   }
 
   @SubscribeEvent
@@ -188,36 +192,11 @@ public class TConstruct {
     generator.addProvider(server, new DamageTypeTagProvider(packOutput, datapackRegistryProvider.getRegistryProvider(), existingFileHelper));
 
     // other datagen
-    generator.addProvider(server, new TConstructLootTableProvider(packOutput));
+    generator.addProvider(server, new TConstructLootTableProvider(packOutput, lookupProvider));
     generator.addProvider(server, new AdvancementsProvider(packOutput));
-    generator.addProvider(server, new GlobalLootModifiersProvider(packOutput));
+    generator.addProvider(server, new GlobalLootModifiersProvider(packOutput, lookupProvider));
     generator.addProvider(server, new LootTableInjectionProvider(packOutput));
     generator.addProvider(server, new ConfigurationDataProvider(packOutput));
-  }
-
-  /** Handles missing mappings of all types */
-  private static void missingMappings(MissingMappingsEvent event) {
-    RegistrationHelper.handleMissingMappings(event, MOD_ID, Registries.BLOCK, name -> switch (name) {
-      // silky jewel removal
-      case "silky_jewel_block" -> Blocks.EMERALD_BLOCK;
-      // piglin heads are vanilla
-      case "piglin_head" -> Blocks.PIGLIN_HEAD;
-      case "piglin_wall_head" -> Blocks.PIGLIN_WALL_HEAD;
-      default -> null;
-    });
-    RegistrationHelper.handleMissingMappings(event, MOD_ID, Registries.ITEM, name -> switch (name) {
-      // silky jewel removal
-      case "silky_jewel" -> Items.EMERALD;
-      case "silky_jewel_block" -> Items.EMERALD_BLOCK;
-      // piglin heads are vanilla
-      case "piglin_head" -> Items.PIGLIN_HEAD;
-      // round plate rename
-      case "round_plate" -> TinkerToolParts.adzeHead.get();
-      case "round_plate_cast" -> TinkerSmeltery.adzeHeadCast.get();
-      case "round_plate_sand_cast" -> TinkerSmeltery.adzeHeadCast.getSand();
-      case "round_plate_red_sand_cast" -> TinkerSmeltery.adzeHeadCast.getRedSand();
-      default -> null;
-    });
   }
 
   /* Utils */

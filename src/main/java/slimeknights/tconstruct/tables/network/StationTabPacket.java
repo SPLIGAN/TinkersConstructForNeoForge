@@ -9,8 +9,8 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkEvent.Context;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.network.NetworkHooks;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.tables.block.ITabbedBlock;
@@ -29,10 +29,11 @@ public class StationTabPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(Context context) {
-    ServerPlayer sender = context.getSender();
-    if (sender != null) {
-      ItemStack heldStack = sender.containerMenu.getCarried();
+  public void handleThreadsafe(IPayloadContext context) {
+    if (!(context.player() instanceof ServerPlayer sender)) {
+      return;
+    }
+    ItemStack heldStack = sender.containerMenu.getCarried();
       if (!heldStack.isEmpty()) {
         // set it to empty, so it's doesn't get dropped
         sender.containerMenu.setCarried(ItemStack.EMPTY);
@@ -56,6 +57,5 @@ public class StationTabPacket implements IThreadsafePacket {
         sender.containerMenu.setCarried(heldStack);
         TinkerNetwork.getInstance().sendVanillaPacket(sender, new ClientboundContainerSetSlotPacket(-1, -1, -1, heldStack));
       }
-    }
   }
 }

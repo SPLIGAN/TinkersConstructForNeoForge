@@ -6,9 +6,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 
 public class InventorySlotSyncPacket implements IThreadsafePacket {
@@ -37,7 +37,7 @@ public class InventorySlotSyncPacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(Context context) {
+  public void handleThreadsafe(IPayloadContext context) {
     HandleClient.handle(this);
   }
 
@@ -48,7 +48,7 @@ public class InventorySlotSyncPacket implements IThreadsafePacket {
       if (world != null) {
         BlockEntity te = world.getBlockEntity(packet.pos);
         if (te != null) {
-          te.getCapability(ForgeCapabilities.ITEM_HANDLER)
+          world.getCapability(Capabilities.ItemHandler.BLOCK, packet.pos, null)
             .filter(cap -> cap instanceof IItemHandlerModifiable)
             .ifPresent(cap -> {
               ((IItemHandlerModifiable)cap).setStackInSlot(packet.slot, packet.itemStack);

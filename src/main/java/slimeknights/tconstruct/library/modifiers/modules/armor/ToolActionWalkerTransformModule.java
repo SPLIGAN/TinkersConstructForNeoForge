@@ -14,9 +14,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
+import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import slimeknights.mantle.data.loadable.Loadables;
+import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.json.LevelingValue;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -43,16 +44,16 @@ import java.util.List;
  * @param radius     Radius to cover
  * @param condition  Standard module condition
  */
-public record ToolActionWalkerTransformModule(ToolAction action, SoundEvent sound, LevelingValue radius, ModifierCondition<IToolStackView> condition) implements ModifierModule, ArmorWalkRadiusModule<MutableUseOnContext>, ToolActionModifierHook, ConditionalModule<IToolStackView> {
+public record ToolActionWalkerTransformModule(ItemAbility action, SoundEvent sound, LevelingValue radius, ModifierCondition<IToolStackView> condition) implements ModifierModule, ArmorWalkRadiusModule<MutableUseOnContext>, ToolActionModifierHook, ConditionalModule<IToolStackView> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<ToolActionWalkerTransformModule>defaultHooks(ModifierHooks.BOOT_WALK, ModifierHooks.TOOL_ACTION);
   public static final RecordLoadable<ToolActionWalkerTransformModule> LOADER = RecordLoadable.create(
-    Loadables.TOOL_ACTION.requiredField("tool_action", ToolActionWalkerTransformModule::action),
+    TinkerLoadables.ITEM_ABILITY.requiredField("tool_action", ToolActionWalkerTransformModule::action),
     Loadables.SOUND_EVENT.requiredField("sound", ToolActionWalkerTransformModule::sound),
     LevelingValue.LOADABLE.requiredField("radius", ToolActionWalkerTransformModule::radius),
     ModifierCondition.TOOL_FIELD,
     ToolActionWalkerTransformModule::new);
   
-  /** @apiNote Internal constructor, use {@link #builder(ToolAction, SoundEvent)} */
+  /** @apiNote Internal constructor, use {@link #builder(ItemAbility, SoundEvent)} */
   @Internal
   public ToolActionWalkerTransformModule {}
 
@@ -67,8 +68,8 @@ public record ToolActionWalkerTransformModule(ToolAction action, SoundEvent soun
   }
 
   @Override
-  public boolean canPerformAction(IToolStackView tool, ModifierEntry modifier, ToolAction toolAction) {
-    return condition.matches(tool, modifier) && toolAction == this.action;
+  public boolean canPerformAction(IToolStackView tool, ModifierEntry modifier, ItemAbility ItemAbility) {
+    return condition.matches(tool, modifier) && ItemAbility == this.action;
   }
 
   @Override
@@ -111,13 +112,13 @@ public record ToolActionWalkerTransformModule(ToolAction action, SoundEvent soun
   /* Builder */
 
   /** Creates a builder instance */
-  public static Builder builder(ToolAction action, SoundEvent sound) {
+  public static Builder builder(ItemAbility action, SoundEvent sound) {
     return new Builder(action, sound);
   }
 
   @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
   public static class Builder extends ModuleBuilder.Stack<Builder> implements LevelingValue.Builder<ToolActionWalkerTransformModule> {
-    private final ToolAction action;
+    private final ItemAbility action;
     private final SoundEvent sound;
 
     @Override

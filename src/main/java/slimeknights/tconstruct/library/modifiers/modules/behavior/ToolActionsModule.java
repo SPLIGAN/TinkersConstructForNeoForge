@@ -1,8 +1,8 @@
 package slimeknights.tconstruct.library.modifiers.modules.behavior;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraftforge.common.ToolAction;
-import slimeknights.mantle.data.loadable.Loadables;
+import net.neoforged.neoforge.common.ItemAbility;
+import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
@@ -20,20 +20,20 @@ import java.util.Set;
 /**
  * Module that allows a modifier to perform tool actions
  */
-public record ToolActionsModule(Set<ToolAction> actions, ModifierCondition<IToolStackView> condition) implements ToolActionModifierHook, ModifierModule, ConditionalModule<IToolStackView> {
+public record ToolActionsModule(Set<ItemAbility> actions, ModifierCondition<IToolStackView> condition) implements ToolActionModifierHook, ModifierModule, ConditionalModule<IToolStackView> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<ToolActionsModule>defaultHooks(ModifierHooks.TOOL_ACTION);
   public static final RecordLoadable<ToolActionsModule> LOADER = RecordLoadable.create(
-    Loadables.TOOL_ACTION.set().requiredField("tool_actions", ToolActionsModule::actions),
+    TinkerLoadables.ITEM_ABILITY.set().requiredField("tool_actions", ToolActionsModule::actions),
     ModifierCondition.TOOL_FIELD,
     ToolActionsModule::new);
 
-  public ToolActionsModule(ToolAction... actions) {
+  public ToolActionsModule(ItemAbility... actions) {
     this(ImmutableSet.copyOf(actions), ModifierCondition.ANY_TOOL);
   }
 
   @Override
-  public boolean canPerformAction(IToolStackView tool, ModifierEntry modifier, ToolAction toolAction) {
-    return condition.matches(tool, modifier) && actions.contains(toolAction);
+  public boolean canPerformAction(IToolStackView tool, ModifierEntry modifier, ItemAbility ItemAbility) {
+    return condition.matches(tool, modifier) && actions.contains(ItemAbility);
   }
 
   @Override

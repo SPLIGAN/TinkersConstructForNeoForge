@@ -12,8 +12,9 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
-import net.minecraftforge.common.TierSortingRegistry;
-import net.minecraftforge.common.loot.LootModifierManager;
+import net.neoforged.neoforge.common.ItemAbility;
+import net.neoforged.neoforge.common.TierSortingRegistry;
+import net.neoforged.neoforge.common.loot.LootModifierManager;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.loadable.Loadable;
 import slimeknights.mantle.data.loadable.Loadables;
@@ -48,6 +49,11 @@ public class TinkerLoadables {
   /* Registries */
   public static final StringLoadable<ResourceLocation> CUSTOM_STAT = new RegistryLoadable<>(BuiltInRegistries.CUSTOM_STAT);
   public static final StringLoadable<RecipeType<?>> RECIPE_TYPE = new RegistryLoadable<>(BuiltInRegistries.RECIPE_TYPE);
+
+  /** Same string form as NeoForge {@link ItemAbility} names (typically a namespaced ID). */
+  public static final StringLoadable<ItemAbility> ITEM_ABILITY = Loadables.RESOURCE_LOCATION.flatXmap(
+      (id, error) -> ItemAbility.get(id.toString()),
+      (ability, error) -> ResourceLocation.parse(ability.name()));
 
   /* Tag keys */
   public static final StringLoadable<TagKey<Modifier>> MODIFIER_TAGS = Loadables.tagKey(ModifierManager.REGISTRY_KEY);

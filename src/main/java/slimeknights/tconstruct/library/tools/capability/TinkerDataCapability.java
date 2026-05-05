@@ -2,24 +2,15 @@ package slimeknights.tconstruct.library.tools.capability;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import slimeknights.mantle.registration.object.IdAwareObject;
 import slimeknights.tconstruct.TConstruct;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -27,68 +18,25 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * Capability to make it easy for Tinkers to store common data on the player, primarily used for armor
- * Data stored in this capability is not saved to NBT, most often its filled by the relevant equipment events
+ * Stores transient runtime data on living entities (armor/tool modifiers).
+ * Implemented as a NeoForge data attachment (not persisted).
  */
 public class TinkerDataCapability {
   private TinkerDataCapability() {}
 
-  /** Capability ID */
-  private static final ResourceLocation ID = TConstruct.getResource("modifier_data");
-  /** Capability type */
-  public static final Capability<Holder> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+  public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
+      DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, TConstruct.MOD_ID);
 
-  /** Registers this capability */
-  public static void register() {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, TinkerDataCapability::register);
-    MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, TinkerDataCapability::attachCapability);
-  }
+  public static final DeferredHolder<AttachmentType<?>, AttachmentType<Holder>> HOLDER_TYPE =
+      ATTACHMENT_TYPES.register("modifier_data", () -> AttachmentType.builder(Holder::new).build());
 
-  /** Registers the capability with the event bus */
-  private static void register(RegisterCapabilitiesEvent event) {
-    event.register(Holder.class);
-  }
+  /** @deprecated Use {@link #HOLDER_TYPE}. */
+  @Deprecated(forRemoval = true)
+  public static final DeferredHolder<AttachmentType<?>, AttachmentType<Holder>> HOLDER = HOLDER_TYPE;
 
-  /** Event listener to attach the capability */
-  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
-    if (event.getObject() instanceof LivingEntity) {
-      Provider provider = new Provider();
-      event.addCapability(ID, provider);
-      event.addListener(provider);
-    }
-  }
-
-  /** Gets the data capability from an entity, or null if missing */
-  @SuppressWarnings("DataFlowIssue")
-  @Nullable
-  public static TinkerDataCapability.Holder getData(LivingEntity entity) {
-    return entity.getCapability(CAPABILITY).orElse(null);
-  }
-
-
-  /* Required methods */
-
-  /** Capability provider instance */
-  private static class Provider implements ICapabilityProvider, Runnable {
-    private LazyOptional<Holder> data;
-    private Provider() {
-      this.data = LazyOptional.of(Holder::new);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-      return CAPABILITY.orEmpty(cap, data);
-    }
-
-    @Override
-    public void run() {
-      // called when capabilities invalidate, just invalidate but preserve the old data
-      // (as if they revive the equipment change event does not fire again, see dimension change)
-      Holder oldData = data.orElse(new Holder());
-      data.invalidate();
-      data = LazyOptional.of(() -> oldData);
-    }
+  /** Gets (creating if needed) the data holder for this entity. */
+  public static Holder getData(LivingEntity entity) {
+    return entity.getData(HOLDER_TYPE);
   }
 
   /** Class for generic keys */
@@ -108,6 +56,7 @@ public class TinkerDataCapability {
   /** Extension key that can automatically create an instance if missing */
   public static class ComputableDataKey<T> extends TinkerDataKey<T> implements Function<TinkerDataKey<?>, T> {
     private final Supplier<T> constructor;
+
     private ComputableDataKey(ResourceLocation name, Supplier<T> constructor) {
       super(name);
       this.constructor = constructor;
@@ -123,7 +72,6 @@ public class TinkerDataCapability {
       return constructor.get();
     }
   }
-
 
   /** Data class holding the tinker data */
   public static class Holder {
@@ -187,12 +135,12 @@ public class TinkerDataCapability {
 
     /** Gets the value from the holder, creating it if missing */
     @SuppressWarnings("unchecked")
-    public <T> T computeIfAbsent(TinkerDataKey<T> key, Function<TinkerDataKey<?>,T> constructor) {
+    public <T> T computeIfAbsent(TinkerDataKey<T> key, Function<TinkerDataKey<?>, T> constructor) {
       return (T) data.computeIfAbsent(key, constructor);
     }
 
     /** Gets the value from the holder, creating it if missing */
-    public <T, U extends TinkerDataKey<T> & Function<TinkerDataKey<?>,T>> T computeIfAbsent(U key) {
+    public <T, U extends TinkerDataKey<T> & Function<TinkerDataKey<?>, T>> T computeIfAbsent(U key) {
       return computeIfAbsent(key, key);
     }
 

@@ -5,15 +5,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 /** A hook used to provide BlockItems through the {@link BlockItemProviderCapability}, for modifiers such as exchanging */
 public interface BlockItemProviderModifierHook {
@@ -69,15 +66,4 @@ public interface BlockItemProviderModifierHook {
         }
     }
 
-    class Provider implements ToolCapabilityProvider.IToolCapabilityProvider {
-        private final LazyOptional<BlockItemProviderCapability> lazy;
-        public Provider(Supplier<? extends IToolStackView> tool) {
-            lazy = LazyOptional.of(() -> new CapabilityImpl(tool.get()));
-        }
-
-        @Override
-        public <T> LazyOptional<T> getCapability(IToolStackView tool, Capability<T> cap) {
-            return BlockItemProviderCapability.CAPABILITY.orEmpty(cap, lazy);
-        }
-    }
 }

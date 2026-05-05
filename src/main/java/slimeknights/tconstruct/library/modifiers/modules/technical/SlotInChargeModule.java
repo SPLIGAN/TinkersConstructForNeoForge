@@ -5,8 +5,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlot.Type;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.util.LazyOptional;
-import slimeknights.mantle.util.LogicHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
@@ -43,12 +41,11 @@ public record SlotInChargeModule(TinkerDataKey<SlotInCharge> key, @Nullable TagK
     // remove slot in charge if that is us
     EquipmentSlot slot = context.getChangedSlot();
     if (toolValid(tool, slot, context)) {
-      context.getTinkerData().ifPresent(data -> {
-        SlotInCharge slotInCharge = data.get(key);
-        if (slotInCharge != null) {
-          slotInCharge.removeSlot(slot);
-        }
-      });
+      TinkerDataCapability.Holder data = context.getTinkerData();
+      SlotInCharge slotInCharge = data.get(key);
+      if (slotInCharge != null) {
+        slotInCharge.removeSlot(slot);
+      }
     }
   }
 
@@ -56,7 +53,7 @@ public record SlotInChargeModule(TinkerDataKey<SlotInCharge> key, @Nullable TagK
   public void onEquip(IToolStackView tool, ModifierEntry modifier, EquipmentChangeContext context) {
     EquipmentSlot slot = context.getChangedSlot();
     if (toolValid(tool, slot, context)) {
-      context.getTinkerData().ifPresent(data -> data.computeIfAbsent(key, CONSTRUCTOR).addSlot(slot, modifier.getLevel()));
+      context.getTinkerData().computeIfAbsent(key, CONSTRUCTOR).addSlot(slot, modifier.getLevel());
     }
   }
 
@@ -66,23 +63,15 @@ public record SlotInChargeModule(TinkerDataKey<SlotInCharge> key, @Nullable TagK
   }
 
   /** Checks if the given slot is in charge */
-  public static boolean isInCharge(LazyOptional<TinkerDataCapability.Holder> capability, TinkerDataKey<SlotInCharge> key, EquipmentSlot slot) {
-    TinkerDataCapability.Holder data = LogicHelper.orElseNull(capability);
-    if (data != null) {
-      SlotInCharge inCharge = data.get(key);
-      return inCharge != null && inCharge.inCharge == slot;
-    }
-    return false;
+  public static boolean isInCharge(TinkerDataCapability.Holder data, TinkerDataKey<SlotInCharge> key, EquipmentSlot slot) {
+    SlotInCharge inCharge = data.get(key);
+    return inCharge != null && inCharge.inCharge == slot;
   }
 
   /** Gets the total level if the passed slot is in charge. */
-  public static int getLevel(LazyOptional<TinkerDataCapability.Holder> capability, TinkerDataKey<SlotInCharge> key, EquipmentSlot slot) {
-    TinkerDataCapability.Holder data = LogicHelper.orElseNull(capability);
-    if (data != null) {
-      SlotInCharge inCharge = data.get(key);
-      return inCharge != null && inCharge.inCharge == slot ? inCharge.totalLevel : 0;
-    }
-    return 0;
+  public static int getLevel(TinkerDataCapability.Holder data, TinkerDataKey<SlotInCharge> key, EquipmentSlot slot) {
+    SlotInCharge inCharge = data.get(key);
+    return inCharge != null && inCharge.inCharge == slot ? inCharge.totalLevel : 0;
   }
 
   /** Tracker to determine which slot should be in charge */
