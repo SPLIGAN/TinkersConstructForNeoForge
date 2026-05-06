@@ -53,7 +53,7 @@ public abstract class AbstractPartSpriteProvider {
 
   /** Function to add both sprites and materials */
   @CheckReturnValue
-  protected abstract void addAllSpites(); // TODO 1.21: rename to addAllSprites
+  protected abstract void addAllSprites();
 
 
   /* Builder functions */
@@ -123,7 +123,7 @@ public abstract class AbstractPartSpriteProvider {
   /** Gets all sprites produced by this provider */
   public List<PartSpriteInfo> getSprites() {
     if (finalSprites == null) {
-      addAllSpites();
+      addAllSprites();
       toolSprites.forEach(ToolSpriteBuilder::build);
       toolSprites.clear();
       finalSprites = sprites.stream().map(PartSpriteInfo.Builder::build).toList();

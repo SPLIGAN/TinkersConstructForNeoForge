@@ -99,7 +99,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public MaterialCastingRecipeBuilder setCast(Ingredient cast, boolean consumed) {
-    // TODO 1.21: switch MAYBE_MATERIAL to CONSUMED
+    // Historical quirk: {@code MAYBE_MATERIAL} preserves existing JSON behavior where casts may or may not be consumed.
     return setCast(cast, consumed ? CastPurpose.MAYBE_MATERIAL : CastPurpose.CATALYST);
   }
 

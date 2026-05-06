@@ -30,7 +30,7 @@ public record ModifierSlotModule(SlotType type, LevelingInt count, ModifierCondi
   public static final RecordLoadable<ModifierSlotModule> LOADER = RecordLoadable.create(
     SlotType.LOADABLE.requiredField("name", ModifierSlotModule::type),
     IntLoadable.ANY_SHORT.defaultField("flat", 0, m -> m.count.flat()),
-    // TODO 1.21ish: drop legacy support in favor of a direct LevelingInt field
+    // Legacy `each_level` field remains supported alongside `count` for older JSON module definitions.
     new LegacyField<>(IntLoadable.ANY_SHORT.defaultField("each_level", 0, m -> m.count.eachLevel()), "count"),
     ModifierCondition.CONTEXT_FIELD,
     (type, flat, leveling, condition) -> new ModifierSlotModule(type, new LevelingInt(flat, leveling), condition));

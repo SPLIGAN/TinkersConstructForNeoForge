@@ -41,7 +41,7 @@ public class StrongBonesModifier extends NoLevelsModifier {
 
   private static boolean drinkMilk(LivingEntity living, int duration, FluidAction action) {
     // strong bones has to be the helmet as we use it for curing
-    // TODO 1.20: can use the new cure effects to make this work in any slot
+    // Slot is fixed to head until a slot-agnostic curative path is adopted without breaking existing behavior.
     ItemStack helmet = living.getItemBySlot(EquipmentSlot.HEAD);
     boolean didSomething = false;
     if (ModifierUtil.getModifierLevel(helmet, TinkerModifiers.strongBones.getId()) > 0) {

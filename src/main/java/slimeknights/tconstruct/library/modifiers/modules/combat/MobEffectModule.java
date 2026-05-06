@@ -157,7 +157,7 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
     /** Damage source condition for applying on armor attack */
     private IJsonPredicate<DamageSource> damageSource = DamageSourcePredicate.ANY;
     // counter
-    /** Amount of durability spent applying this modifier to counter-attacks. TODO 1.21: rename to {@code durabilityUsage} */
+    /** Amount of durability spent applying this modifier to counter-attacks ({@code counterDurabilityUsage} naming matches legacy builders). */
     private int counterDurabilityUsage = 1;
     /** If true, the counter module targets ourselves instead of the attacker. For non-counter modules, {@link #buildToolUsage()} will target yourself. */
     private boolean targetSelf = false;
@@ -259,7 +259,7 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
     }
   }
 
-  /** Common logic between {@link Weapon} and {@link Legacy}. TODO 1.21: merge into {@link Weapon} */
+  /** Shared hook wiring between {@link Weapon} and consolidated {@link Legacy} payloads. */
   @Internal
   interface WeaponCommon extends Combat, MeleeHitModifierHook, MonsterMeleeHitModifierHook, ProjectileHitModifierHook {
     RecordField<Boolean,WeaponCommon> BEFORE_MELEE_FIELD = BooleanLoadable.INSTANCE.defaultField("apply_before_melee", false, false, WeaponCommon::applyBeforeMelee);
@@ -323,7 +323,7 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
     }
   }
 
-  /** Common logic between {@link ArmorCounter} and {@link Legacy}. TODO 1.21: merge into {@link ArmorCounter}. */
+  /** Shared counter-attack hooks between {@link ArmorCounter} and consolidated {@link Legacy} payloads. */
   @Internal
   interface CounterCommon extends Combat, OnAttackedModifierHook {
     /** Reimplementation of chance field to change the default */

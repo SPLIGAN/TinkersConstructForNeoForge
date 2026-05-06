@@ -9,10 +9,7 @@ import slimeknights.tconstruct.common.TinkerDamageTypes;
 import slimeknights.tconstruct.library.tools.helper.ToolAttackUtil;
 import slimeknights.tconstruct.tools.modifiers.traits.melee.LaceratingModifier;
 
-/**
- * Potion effect from {@link LaceratingModifier}
- * TODO 1.21: move to {@link slimeknights.tconstruct.shared.effect}
- */
+/** Potion effect from {@link LaceratingModifier}. */
 public class BleedingEffect extends NoMilkEffect {
   public BleedingEffect() {
     super(MobEffectCategory.HARMFUL, 0xa80000, true);

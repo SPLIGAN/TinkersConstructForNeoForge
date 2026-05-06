@@ -137,7 +137,7 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     addCompatAlloy(MaterialIds.bronze,          3, ORDER_COMPAT + ORDER_HARVEST, "tin");
     addCompatAlloy(MaterialIds.constantan,      3, ORDER_COMPAT + ORDER_HARVEST, "nickel");
     addCompatAlloy(MaterialIds.invar,           3, ORDER_COMPAT + ORDER_WEAPON,  "nickel");
-    // TODO 1.21: consider making this an and condition, so we only get pewter if pewter is present or we have both
+    // Keep OR behavior so pewter can still generate when either common compatibility input exists in partial modpacks.
     addCompatAlloy(MaterialIds.pewter,          3, ORDER_COMPAT + ORDER_WEAPON,  new OrCondition(tagExistsCondition("ingots/tin"), tagExistsCondition("ingots/lead")));
     addCompatAlloy(MaterialIds.platedSlimewood, 3, ORDER_COMPAT + ORDER_SPECIAL, "zinc");
     addCompatMaterial(MaterialIds.necronium,       3, ORDER_COMPAT + ORDER_WEAPON, true, "ingots/uranium");

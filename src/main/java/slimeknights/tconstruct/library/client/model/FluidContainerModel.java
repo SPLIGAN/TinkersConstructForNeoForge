@@ -34,7 +34,6 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,7 +51,6 @@ import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
 import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
 import net.neoforged.neoforge.client.model.geometry.StandaloneGeometryBakingContext;
 import net.neoforged.neoforge.client.model.geometry.UnbakedGeometryHelper;
-import net.neoforged.neoforge.common.crafting.CraftingHelper;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -85,17 +83,13 @@ public record FluidContainerModel(FluidStack fluid, boolean flipGas) implements 
     if (json.has("fluid")) {
       JsonElement fluidElement = json.get("fluid");
       Fluid fluid;
-      CompoundTag tag = null;
       if (fluidElement.isJsonObject()) {
         JsonObject fluidObject = fluidElement.getAsJsonObject();
         fluid = Loadables.FLUID.getIfPresent(fluidObject, "name");
-        if (fluidObject.has("nbt")) {
-          tag = CraftingHelper.getNBT(fluidObject.get("nbt"));
-        }
       } else {
         fluid = Loadables.FLUID.convert(fluidElement, "fluid");
       }
-      fluidStack = new FluidStack(fluid, FluidType.BUCKET_VOLUME, tag);
+      fluidStack = new FluidStack(fluid, FluidType.BUCKET_VOLUME);
     }
     boolean flipGas = GsonHelper.getAsBoolean(json, "flip_gas", true);
     return new FluidContainerModel(fluidStack, flipGas);

@@ -14,7 +14,7 @@ import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 import java.util.List;
 
-/** Stats for slimeskull skulls. TODO 1.21: merge into {@link RepairStats} */
+/** Stats for slimeskull skulls, layered on top of the generic {@link RepairStats} repair behavior. */
 public record SkullStats(int durability, int armor) implements IRepairableMaterialStats.ScaledTooltip {
   public static final MaterialStatsId ID = new MaterialStatsId(TConstruct.getResource("skull"));
   public static final MaterialStatType<SkullStats> TYPE = new MaterialStatType<>(ID, new SkullStats(1, 0), RecordLoadable.create(

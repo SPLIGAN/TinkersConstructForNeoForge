@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.exception;
 import slimeknights.tconstruct.library.utils.Util;
 
 // todo: make private, use static factory methods and move this to exception package
-// TODO 1.19: reevaluate whether this is actually needed
+/** Base runtime exception for TConstruct API misuse; message prefix is applied in constructors. */
 public class TinkerAPIException extends RuntimeException {
   protected TinkerAPIException(String message) {
     super("[TCon API] " + message);

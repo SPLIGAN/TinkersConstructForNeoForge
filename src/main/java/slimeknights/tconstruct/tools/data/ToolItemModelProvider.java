@@ -13,10 +13,7 @@ import java.io.IOException;
 
 import static slimeknights.tconstruct.TConstruct.getResource;
 
-/**
- * Provider for tool models, mostly used for duplicating displays
- * TODO 1.21: move to {@link slimeknights.tconstruct.tools.data.client}
- */
+/** Datagen provider for tool item models (blocking poses, duplicated displays). Related client datagen may live under {@link slimeknights.tconstruct.tools.data.client}. */
 public class ToolItemModelProvider extends AbstractToolItemModelProvider {
   public ToolItemModelProvider(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
     super(packOutput, existingFileHelper, TConstruct.MOD_ID);

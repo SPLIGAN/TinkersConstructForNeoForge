@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.casting.container;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -19,6 +20,8 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.field.ContextKey;
+import slimeknights.mantle.data.loadable.field.LoadableField;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.IMultiRecipe;
@@ -36,11 +39,12 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<DisplayCastingRecipe> {
-  public static final RecordLoadable<ContainerFillingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
+  private static final LoadableField<String, ContainerFillingRecipe> GROUP_FIELD = StringLoadable.DEFAULT.defaultField("group", "", r -> r.group);
+  public static final RecordLoadable<ContainerFillingRecipe> LOADER = RecordLoadable.withLoader(
+    ContextKey.ID.requiredField(), GROUP_FIELD,
     IntLoadable.FROM_ONE.requiredField("fluid_amount", r -> r.fluidAmount),
     Loadables.ITEM.requiredField("container", r -> r.container),
-    ContainerFillingRecipe::new);
+    (id, group, fluidAmount, container, loader) -> new ContainerFillingRecipe((TypeAwareRecipeSerializer<?>) loader, id, group, fluidAmount, container));
 
   @Getter
   private final TypeAwareRecipeSerializer<?> serializer;
@@ -91,22 +95,32 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<Disp
            && handler.fill(new FluidStack(fluid, this.fluidAmount), FluidAction.SIMULATE) > 0;
   }
 
-  /** @deprecated use {@link ICastingRecipe#assemble(Container, RegistryAccess)} */
+  /** @deprecated use {@link ICastingRecipe#assemble(Container, HolderLookup.Provider)} */
   @Override
   @Deprecated
-  public ItemStack getResultItem(RegistryAccess access) {
+  public ItemStack getResultItem(HolderLookup.Provider access) {
     return new ItemStack(this.container);
   }
 
-  @Override
   public ItemStack assemble(ICastingContainer inv, RegistryAccess access) {
     ItemStack stack = inv.getStack().copy();
     IFluidHandlerItem handler = stack.getCapability(Capabilities.FluidHandler.ITEM);
     if (handler == null) {
       return stack;
     }
-    handler.fill(new FluidStack(inv.getFluid(), this.fluidAmount, inv.getFluidTag()), FluidAction.EXECUTE);
+    handler.fill(new FluidStack(inv.getFluid(), this.fluidAmount), FluidAction.EXECUTE);
     return handler.getContainer();
+  }
+
+  @Override
+  public ItemStack assemble(ICastingContainer inv, HolderLookup.Provider access) {
+    return assemble(inv, (RegistryAccess) access);
+  }
+
+  /** @deprecated kept for older call sites */
+  @Deprecated
+  public ItemStack getResultItem(RegistryAccess access) {
+    return new ItemStack(this.container);
   }
 
   /* Display */

@@ -31,7 +31,7 @@ public class TinkerPartSpriteProvider extends AbstractPartSpriteProvider {
   }
 
   @Override
-  protected void addAllSpites() {
+  protected void addAllSprites() {
     // heads
     addHead("large_plate");
     addHead("small_blade");

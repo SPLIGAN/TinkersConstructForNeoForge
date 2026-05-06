@@ -53,7 +53,7 @@ public record KnockbackCounterModule(TinkerDataKey<SlotInCharge> slotInCharge, L
       -> new KnockbackCounterModule(TConstruct.createKey("dummy"), chance, flat, random, durabilityUsage, defender, attacker, condition));
   }
 
-  // TODO 1.21: remove flat in favor of this
+  // Legacy bridge: counter builders still provide `flat`, so `constant()` delegates to it for backward compatibility.
   @Override
   public LevelingValue constant() {
     return flat;

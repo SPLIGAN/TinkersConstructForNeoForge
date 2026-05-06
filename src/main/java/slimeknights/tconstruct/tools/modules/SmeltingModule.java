@@ -89,7 +89,7 @@ public record SmeltingModule(RecipeType<? extends AbstractCookingRecipe> recipeT
     FloatLoadable.FROM_ZERO.requiredField("multiplier", SmeltingModule::multiplier),
     InventoryModule.LOADER.directField(SmeltingModule::input),
     OutputKeyField.INSTANCE,
-    // TODO 1.21: remove default value
+    // Default output pattern keeps existing JSON compatible; explicit patterns can still override via {@code output_pattern}.
     Pattern.PARSER.defaultField("output_pattern", Patterns.RESULT, true, m -> m.output.pattern()),
     SmeltingModule::new);
 

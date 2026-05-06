@@ -15,7 +15,7 @@ import java.util.Collection;
 public interface DurabilityDisplayModifierHook {
   /**
    * Override the default tool logic for showing the durability bar.
-   * TODO 1.19: Switch to boolean return type, disallow a modifier from hiding the durability bar when the someone else wishes to show it.
+   * {@link Boolean} tri-state is retained so modifiers can defer; tightening merge rules would be a breaking API change.
    * @param tool      Tool instance
    * @param modifier  Modifier running the hook
    * @return  True forces the bar to show, false forces it to hide. Return null defer to later modifiers.

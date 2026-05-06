@@ -39,9 +39,8 @@ public interface IMaterialItem extends ItemLike {
     return stack;
   }
 
-  /** Returns the item with the given material, bypassing material validation */
+  /** Returns the item with the given material, bypassing material validation, primarily for UI display (search tabs, JEI, etc.). */
   default ItemStack withMaterialForDisplay(MaterialVariantId material) {
-    // TODO 1.21: ditch this in favor of setMaterialForDisplay?
     return setMaterialForced(new ItemStack(this), material);
   }
 

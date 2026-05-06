@@ -26,8 +26,8 @@ public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
   int getFluidAmount(ICastingContainer inv);
 
   /**
-   * TODO 1.21: move this method to {@link IDisplayableCastingRecipe}.
    * {@return true if the cast item is consumed on crafting}
+   * Declared here for all casting recipes; {@link IDisplayableCastingRecipe} repeats it for JEI/display-focused types.
    */
   boolean isConsumed();
 

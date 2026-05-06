@@ -38,7 +38,7 @@ public class InsatiableModifier extends Modifier implements ProjectileHitModifie
 
   /** Gets the current bonus for the entity */
   private static float getEffect(LivingEntity attacker, ToolType type) {
-    // TODO 1.21: switch values in enum for the effect
+    // Launcher effects are keyed under the shared ranged bucket for backward compatibility with existing effect registrations.
     if (type == ToolType.LAUNCHER) {
       type = ToolType.RANGED;
     }

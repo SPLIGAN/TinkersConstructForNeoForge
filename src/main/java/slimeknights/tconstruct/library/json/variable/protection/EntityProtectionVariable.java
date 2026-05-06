@@ -40,6 +40,6 @@ public record EntityProtectionVariable(EntityVariable entity, WhichEntity which,
     return LOADER;
   }
 
-  // TODO 1.21: add an entity predicate and add direct variable
+  /** Selects which entity in the protection context this variable samples ({@code TARGET} vs {@code ATTACKER}). */
   public enum WhichEntity { TARGET, ATTACKER }
 }

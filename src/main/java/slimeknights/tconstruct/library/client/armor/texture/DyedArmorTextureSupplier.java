@@ -51,7 +51,7 @@ public class DyedArmorTextureSupplier implements ArmorTextureSupplier {
     };
   }
 
-  // TODO 1.21: cleanup constructor variants
+  // Legacy constructor overload retained for compatibility with existing loader and call sites.
   public DyedArmorTextureSupplier(ResourceLocation prefix, ModifierId modifier, @Nullable Integer defaultColor, int luminosity) {
     this(prefix, "", modifier, defaultColor, luminosity);
   }

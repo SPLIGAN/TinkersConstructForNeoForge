@@ -1,6 +1,9 @@
 package slimeknights.tconstruct.smeltery.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -13,13 +16,15 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.fluid.FluidTransferHelper;
@@ -42,6 +47,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@SuppressWarnings("null")
 public class TankItem extends BlockTooltipItem {
   public static final String FLUID_ID = TConstruct.makeTranslationKey("item", "tank.fluid_id");
   private static final Predicate<FluidStack> NO_FILL = FluidStack::isEmpty;
@@ -51,11 +57,23 @@ public class TankItem extends BlockTooltipItem {
     this.limitStackSize = limitStackSize;
   }
 
+  private static CompoundTag getCustomTag(ItemStack stack) {
+    return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+  }
+
+  private static void setCustomTag(ItemStack stack, CompoundTag tag) {
+    if (tag.isEmpty()) {
+      stack.remove(DataComponents.CUSTOM_DATA);
+    } else {
+      stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+    }
+  }
+
   /** Checks if the tank item is filled */
   private static boolean isFilled(ItemStack stack) {
     // has a container if not empty
-    CompoundTag nbt = stack.getTag();
-    return nbt != null && nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND);
+    CompoundTag nbt = getCustomTag(stack);
+    return nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND);
   }
 
   @Override
@@ -76,33 +94,28 @@ public class TankItem extends BlockTooltipItem {
     return isFilled(stack) ? 16: 64;
   }
 
-  @Override
   public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flag) {
-    if (stack.hasTag()) {
+    if (isFilled(stack)) {
       FluidTank tank = getTank(stack, 1);
       if (tank.getFluidAmount() > 0) {
         FluidStack fluid = tank.getFluid();
-        tooltip.add(fluid.getDisplayName().plainCopy().withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(fluid.getFluidType().getDescriptionId()).withStyle(ChatFormatting.GRAY));
         if (flag.isAdvanced()) {
           tooltip.add(Component.translatable(FLUID_ID, Loadables.FLUID.getKey(fluid.getFluid())).withStyle(ChatFormatting.DARK_GRAY));
         }
         FluidTooltipHandler.appendMaterial(fluid, tooltip);
       }
     }
-    else {
-      super.appendHoverText(stack, worldIn, tooltip, flag);
-    }
   }
 
   @Nullable
-  @Override
-  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+  public ICapabilityProvider<ItemStack, Void, IFluidHandlerItem> initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
     return new TankItemFluidHandler(this, stack);
   }
 
   /** Checks if the given stack has fluid transfer */
   public static boolean mayHaveFluid(ItemStack stack) {
-    return FluidContainerTransferManager.INSTANCE.mayHaveTransfer(stack) || stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+    return FluidContainerTransferManager.INSTANCE.mayHaveTransfer(stack) || stack.getCapability(Capabilities.FluidHandler.ITEM) != null;
   }
 
   @Override
@@ -182,7 +195,7 @@ public class TankItem extends BlockTooltipItem {
         // transfer the fluid
         FluidTank tank = getTank(stack);
         // if both tanks are empty, just do standard stack operations; makes it nice and easy to move just 1 item at a time
-        if (tank.isEmpty() && ItemStack.isSameItemSameTags(stack, held)) {
+        if (tank.isEmpty() && ItemStack.matches(stack, held)) {
           return false;
         }
         TransferResult result = FluidTransferHelper.interactWithStack(tank, held, TransferDirection.AUTO);
@@ -204,13 +217,9 @@ public class TankItem extends BlockTooltipItem {
 
   /** Removes the tank from the given stack */
   private static void removeTank(ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
-    if (nbt != null) {
-      nbt.remove(NBTTags.TANK);
-      if (nbt.isEmpty()) {
-        stack.setTag(null);
-      }
-    }
+    CompoundTag nbt = getCustomTag(stack);
+    nbt.remove(NBTTags.TANK);
+    setCustomTag(stack, nbt);
   }
 
   /**
@@ -223,7 +232,9 @@ public class TankItem extends BlockTooltipItem {
     if (tank.isEmpty()) {
       removeTank(stack);
     } else {
-      stack.getOrCreateTag().put(NBTTags.TANK, tank.writeToNBT(new CompoundTag()));
+      CompoundTag nbt = getCustomTag(stack);
+      nbt.put(NBTTags.TANK, tank.writeToNBT((HolderLookup.Provider) RegistryAccess.EMPTY, new CompoundTag()));
+      setCustomTag(stack, nbt);
     }
     return stack;
   }
@@ -238,7 +249,9 @@ public class TankItem extends BlockTooltipItem {
     if (fluid.isEmpty()) {
       removeTank(stack);
     } else {
-      stack.getOrCreateTag().put(NBTTags.TANK, fluid.writeToNBT(new CompoundTag()));
+      FluidTank tank = ScaledFluidTank.create(TankBlockEntity.getCapacity(stack.getItem()), 1);
+      tank.fill(fluid, FluidTank.FluidAction.EXECUTE);
+      return setTank(stack, tank);
     }
     return stack;
   }
@@ -249,7 +262,9 @@ public class TankItem extends BlockTooltipItem {
     tag.putString("FluidName", fluid.toString());
     tag.putInt("Amount", amount);
     ItemStack stack = new ItemStack(item);
-    stack.getOrCreateTag().put(NBTTags.TANK, tag);
+    CompoundTag nbt = getCustomTag(stack);
+    nbt.put(NBTTags.TANK, tag);
+    setCustomTag(stack, nbt);
     return stack;
   }
 
@@ -276,9 +291,9 @@ public class TankItem extends BlockTooltipItem {
    */
   public static FluidTank getTank(ItemStack stack, int scale) {
     FluidTank tank = ScaledFluidTank.create(TankBlockEntity.getCapacity(stack.getItem()), scale);
-    if (stack.hasTag()) {
-      assert stack.getTag() != null;
-      tank.readFromNBT(stack.getTag().getCompound(NBTTags.TANK));
+    CompoundTag nbt = getCustomTag(stack);
+    if (nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND)) {
+      tank.readFromNBT((HolderLookup.Provider) RegistryAccess.EMPTY, nbt.getCompound(NBTTags.TANK));
     }
     return tank;
   }
@@ -289,18 +304,17 @@ public class TankItem extends BlockTooltipItem {
    * @return  String variant name
    */
   public static String getSubtype(ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
-    if (nbt != null && nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND)) {
+    CompoundTag nbt = getCustomTag(stack);
+    if (nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND)) {
       return nbt.getCompound(NBTTags.TANK).getString("FluidName");
     }
     return "";
   }
 
   /** Adds filled variants of all standard tank items to the given consumer */
-  @SuppressWarnings("deprecation")
   public static void addFilledVariants(Consumer<ItemStack> output) {
     BuiltInRegistries.FLUID.holders().filter(holder -> {
-      Fluid fluid = holder.get();
+      Fluid fluid = holder.value();
       return fluid.isSource(fluid.defaultFluidState()) && !holder.is(TinkerTags.Fluids.HIDE_IN_CREATIVE_TANKS);
     }).forEachOrdered(holder -> {
       // use an ingot variety for metals

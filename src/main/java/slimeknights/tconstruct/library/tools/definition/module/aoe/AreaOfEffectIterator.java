@@ -49,7 +49,7 @@ public interface AreaOfEffectIterator {
     }
   });
 
-  /** Registry of all AOE loaders. TODO 1.21: change field type to {@link DefaultingLoaderRegistry} */
+  /** Registry of all AOE loaders (instantiated as {@link DefaultingLoaderRegistry}; declared wide as {@link GenericLoaderRegistry} for shared APIs). */
   GenericLoaderRegistry<Loadable> LOADER = new DefaultingLoaderRegistry<>("AOE Iterator", EMPTY, false);
 
   /** Registers a loader with both tool modules and area of effect (latter used for fallback loader) */

@@ -39,7 +39,7 @@ public class BiomeTagProvider extends BiomeTagsProvider {
     this.tag(TinkerTags.Biomes.BLOOD_ISLANDS).addTags(IS_NETHER);
     this.tag(TinkerTags.Biomes.ENDERSLIME_ISLANDS).add(END_HIGHLANDS, END_MIDLANDS, SMALL_END_ISLANDS, END_BARRENS);
 
-    // filling common tag as Forge doesn't provide it. TODO 1.21: can switch to Neo tag
+    // Filling fallback common tag directly for compatibility across loaders.
     this.tag(TinkerTags.Biomes.NO_DEFAULT_MONSTERS).add(Biomes.MUSHROOM_FIELDS, Biomes.DEEP_DARK);
   }
 

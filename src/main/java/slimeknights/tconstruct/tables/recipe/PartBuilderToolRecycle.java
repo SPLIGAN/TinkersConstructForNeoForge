@@ -53,10 +53,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-/**
- * Recipe to break a tool into tool parts.
- * TODO 1.21: move to {@link slimeknights.tconstruct.library.recipe.partbuilder.recycle}.
- */
+/** Part builder recipe that breaks a multipart tool back into parts. Builder utilities: {@link slimeknights.tconstruct.library.recipe.partbuilder.recycle.PartBuilderToolRecycleBuilder}. */
 @SuppressWarnings("deprecation")  // Forge is dumb
 @RequiredArgsConstructor
 public class PartBuilderToolRecycle implements IPartBuilderRecipe, IMultiRecipe<DisplayPartRecipe> {

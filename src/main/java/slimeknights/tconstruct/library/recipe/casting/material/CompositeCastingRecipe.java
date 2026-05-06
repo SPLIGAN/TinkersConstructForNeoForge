@@ -9,9 +9,10 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.field.ContextKey;
+import slimeknights.mantle.data.loadable.field.LoadableField;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
@@ -31,11 +32,12 @@ import java.util.List;
  * Casting recipe taking a part of a material and a fluid and outputting the part with a new material
  */
 public class CompositeCastingRecipe extends MaterialCastingRecipe {
-  public static final RecordLoadable<CompositeCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
-    LoadableRecipeSerializer.RECIPE_GROUP, ITEM_COST_FIELD, RESULT_FIELD, MATERIALS_FIELD,
+  private static final LoadableField<String, CompositeCastingRecipe> GROUP_FIELD = StringLoadable.DEFAULT.defaultField("group", "", CompositeCastingRecipe::getGroup);
+  public static final RecordLoadable<CompositeCastingRecipe> LOADER = RecordLoadable.withLoader(
+    ContextKey.ID.requiredField(),
+    GROUP_FIELD, ITEM_COST_FIELD, RESULT_FIELD, MATERIALS_FIELD,
     MaterialStatsId.PARSER.nullableField("casting_stat_conflict", r -> r.castingStatConflict),
-    CompositeCastingRecipe::new);
+    (id, group, itemCost, result, materials, castingStatConflict, loader) -> new CompositeCastingRecipe((TypeAwareRecipeSerializer<?>) loader, id, group, itemCost, result, materials, castingStatConflict));
 
   @Nullable
   private final MaterialStatsId castingStatConflict;

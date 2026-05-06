@@ -56,7 +56,7 @@ public class TinkerItemProperties {
       if (anim == UseAnim.BLOCK) {
         return ModifierUtil.checkPersistentPresent(stack, ModifiableLauncherItem.KEY_DRAWBACK_AMMO) ? 2.5f : 2;
       }
-      // TODO 1.21: space this out a bit more
+      // Keep spear charge value between block (2.0/2.5) and generic ranged use (1.0/1.5) for backward-compatible property buckets.
       if (anim == UseAnim.SPEAR) {
         // shouldn't need to worry about arrows on spearing, everything supporting arrows uses just bow or block
         return 1.75f;

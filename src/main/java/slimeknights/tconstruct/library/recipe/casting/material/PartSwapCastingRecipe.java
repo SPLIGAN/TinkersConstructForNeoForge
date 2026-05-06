@@ -9,11 +9,12 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.ContextKey;
+import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.recipe.IMultiRecipe;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
@@ -51,14 +52,14 @@ import java.util.stream.Stream;
  * @see ToolCastingRecipe
  */
 public class PartSwapCastingRecipe extends AbstractMaterialCastingRecipe implements IMultiRecipe<IDisplayableCastingRecipe> {
-  public static final RecordLoadable<PartSwapCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(),
-    ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
+  private static final LoadableField<String, PartSwapCastingRecipe> GROUP_FIELD = StringLoadable.DEFAULT.defaultField("group", "", PartSwapCastingRecipe::getGroup);
+  public static final RecordLoadable<PartSwapCastingRecipe> LOADER = RecordLoadable.withLoader(
+    ContextKey.ID.requiredField(), GROUP_FIELD,
     IngredientLoadable.ALLOW_EMPTY.requiredField("tools", AbstractCastingRecipe::getCast),
     ITEM_COST_FIELD,
     IntLoadable.FROM_ZERO.requiredField("index", r -> r.index),
     MATERIALS_FIELD,
-    PartSwapCastingRecipe::new);
+    (id, group, cast, itemCost, index, materials, loader) -> new PartSwapCastingRecipe((TypeAwareRecipeSerializer<?>) loader, id, group, cast, itemCost, index, materials));
 
   private final int index;
   /** Last composite casting recipe to match, speeds up recipe lookup for cooling time and fluid amount */

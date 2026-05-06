@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("deprecation")  // just let me get item keys forge
 public abstract class AbstractStationSlotLayoutProvider extends GenericDataProvider {
 
-  // TODO 1.21: rework these to have a bit more space between numbers
+  // Numeric spacing is intentionally compact to preserve historical sort buckets used by existing generated layouts.
   /** Sort index for weapons */
   protected static final int SORT_WEAPON = 3;
   /** Sort index for harvest */

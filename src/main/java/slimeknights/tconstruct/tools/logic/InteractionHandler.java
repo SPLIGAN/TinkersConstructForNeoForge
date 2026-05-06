@@ -31,7 +31,6 @@ import net.neoforged.bus.api.Event.Result;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod.EventBusSubscriber;
-import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -61,7 +60,7 @@ import java.util.function.Function;
 /**
  * This class handles interaction based event hooks
  */
-@EventBusSubscriber(modid = TConstruct.MOD_ID, bus = Bus.FORGE)
+@EventBusSubscriber(modid = TConstruct.MOD_ID)
 public class InteractionHandler {
   public static final EquipmentSlot[] HAND_SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
 
@@ -172,7 +171,7 @@ public class InteractionHandler {
     Player player = event.getEntity();
     if (event.getItemStack().isEmpty() && !player.isSpectator()) {
       // item must be a chestplate
-      // TODO 1.21: add a modifier tag so we only perform the cancellation if a modifier needs it
+      // We still gate by `INTERACTABLE_ARMOR` to avoid running/canceling this event path for unrelated chest armor.
       ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
       if (chestplate.is(TinkerTags.Items.INTERACTABLE_ARMOR) && !player.getCooldowns().isOnCooldown(chestplate.getItem())) {
         // no turning back, from this point we are fully in charge of interaction logic (since we need to ensure order of the hooks)
@@ -330,7 +329,7 @@ public class InteractionHandler {
           }
         }
         // run modifier hook for stop interact
-        // TODO 1.21: consider only running hook on the active modifier
+        // Stop hook still runs for all modifiers to preserve compatibility with modules that track shared interaction state.
         for (ModifierEntry entry : tool.getModifierList()) {
           entry.getHook(ModifierHooks.ARMOR_INTERACT).stopInteract(tool, entry, player, slotType, chargeTime, activeModifier);
         }

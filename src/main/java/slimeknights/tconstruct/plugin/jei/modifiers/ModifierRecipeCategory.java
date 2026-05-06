@@ -73,7 +73,7 @@ public class ModifierRecipeCategory implements IRecipeCategory<IDisplayModifierR
     }
     this.requirements = helper.createDrawable(BACKGROUND_LOC, 128, 17, 16, 16);
     this.incremental = helper.createDrawable(BACKGROUND_LOC, 128, 33, 16, 16);
-    clearSlimeskullCache();
+    clearLookupCache();
   }
 
   @Override
@@ -254,9 +254,15 @@ public class ModifierRecipeCategory implements IRecipeCategory<IDisplayModifierR
     return LOOKUP_CACHE.computeIfAbsent(modifiable, LOOKUP_GETTER);
   }
 
-  /** TODO 1.21: rename to be more appropiate */
+  @Internal
+  public static void clearLookupCache() {
+    LOOKUP_CACHE.clear();
+  }
+
+  /** @deprecated use {@link #clearLookupCache()} */
+  @Deprecated(forRemoval = true)
   @Internal
   public static void clearSlimeskullCache() {
-    LOOKUP_CACHE.clear();
+    clearLookupCache();
   }
 }

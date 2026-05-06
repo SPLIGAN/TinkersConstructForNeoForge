@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
 import lombok.Getter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.field.LoadableField;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.helper.ItemOutput;
@@ -26,11 +28,12 @@ public class ItemCastingRecipe extends AbstractCastingRecipe implements IDisplay
   protected static final LoadableField<FluidIngredient,ItemCastingRecipe> FLUID_FIELD = FluidIngredient.LOADABLE.requiredField("fluid", ItemCastingRecipe::getFluid);
   protected static final LoadableField<ItemOutput,ItemCastingRecipe> RESULT_FIELD = ItemOutput.Loadable.REQUIRED_ITEM.requiredField("result", r -> r.result);
   protected static final LoadableField<Integer,ItemCastingRecipe> COOLING_TIME_FIELD = IntLoadable.FROM_ONE.requiredField("cooling_time", ItemCastingRecipe::getCoolingTime);
+  protected static final LoadableField<String,ItemCastingRecipe> GROUP_FIELD = StringLoadable.DEFAULT.defaultField("group", "", ItemCastingRecipe::getGroup);
   /** Loader instance */
-  public static final RecordLoadable<ItemCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
-    LoadableRecipeSerializer.RECIPE_GROUP, CAST_FIELD, FLUID_FIELD, RESULT_FIELD, COOLING_TIME_FIELD, CAST_CONSUMED_FIELD, SWITCH_SLOTS_FIELD,
-    ItemCastingRecipe::new);
+  public static final RecordLoadable<ItemCastingRecipe> LOADER = RecordLoadable.withLoader(
+    ContextKey.ID.requiredField(),
+    GROUP_FIELD, CAST_FIELD, FLUID_FIELD, RESULT_FIELD, COOLING_TIME_FIELD, CAST_CONSUMED_FIELD, SWITCH_SLOTS_FIELD,
+    (id, group, cast, fluid, result, coolingTime, consumed, switchSlots, loader) -> new ItemCastingRecipe((TypeAwareRecipeSerializer<?>) loader, id, group, cast, fluid, result, coolingTime, consumed, switchSlots));
 
   private final TypeAwareRecipeSerializer<?> serializer;
   protected final FluidIngredient fluid;
@@ -56,6 +59,12 @@ public class ItemCastingRecipe extends AbstractCastingRecipe implements IDisplay
   }
 
   @Override
+  public ItemStack getResultItem(HolderLookup.Provider access) {
+    return this.result.get();
+  }
+
+  /** @deprecated kept for older call sites */
+  @Deprecated
   public ItemStack getResultItem(RegistryAccess access) {
     return this.result.get();
   }

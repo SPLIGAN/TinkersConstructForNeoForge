@@ -49,7 +49,7 @@ public class MaterialTooltipCache {
   private static final Function<MaterialVariantId,MutableComponent> DISPLAY_NAME_GETTER = id -> {
     if (id.hasVariant()) {
       String variantKey = getKey(id);
-      // TODO 1.21: ditch can translate and assume variants must always translate
+      // Keep the {@code canTranslate} guard so older packs without variant keys still fall back to the base material name.
       if (Util.canTranslate(variantKey)) {
         return Component.translatable(variantKey);
       }

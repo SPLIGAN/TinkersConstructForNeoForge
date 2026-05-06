@@ -1,4 +1,4 @@
-/** TODO 1.21: merge with to {@link slimeknights.tconstruct.tools.data.client} */
+/** Tool part sprite generation for datagen ({@link slimeknights.tconstruct.tools.data.client} holds broader client datagen). */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 package slimeknights.tconstruct.tools.data.sprite;

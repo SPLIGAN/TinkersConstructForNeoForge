@@ -3,8 +3,10 @@ package slimeknights.tconstruct.fluids.item;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,6 +22,7 @@ import slimeknights.tconstruct.TConstruct;
  * @deprecated use {@link slimeknights.mantle.fluid.transfer.EmptyPotionTransfer}
  */
 @Deprecated(forRemoval = true)
+@SuppressWarnings("null")
 public class EmptyPotionTransfer extends EmptyFluidWithNBTTransfer {
   public static final ResourceLocation ID = TConstruct.getResource("empty_potion");
   public EmptyPotionTransfer(Ingredient input, ItemOutput filled, FluidOutput fluid) {
@@ -28,10 +31,12 @@ public class EmptyPotionTransfer extends EmptyFluidWithNBTTransfer {
 
   @Override
   protected FluidStack getFluid(ItemStack stack) {
-    if (PotionUtils.getPotion(stack) == Potions.WATER) {
+    if (PotionUtils.getPotion(stack) == Potions.WATER.value()) {
       return new FluidStack(Fluids.WATER, fluid.getAmount());
     }
-    return new FluidStack(fluid.get().getFluid(), fluid.getAmount(), stack.getTag());
+    FluidStack result = new FluidStack(fluid.get().getFluid(), fluid.getAmount());
+    result.set(DataComponents.POTION_CONTENTS, stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY));
+    return result;
   }
 
   @Override

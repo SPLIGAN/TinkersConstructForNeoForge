@@ -10,7 +10,7 @@ import java.util.Collection;
 
 /**
  * Hook called before a tool harvests any blocks and after it finishes AOE.
- * TODO 1.21: rename to distinguish from {@link slimeknights.tconstruct.library.modifiers.hook.special.PlantHarvestModifierHook}
+ * Distinct from {@link slimeknights.tconstruct.library.modifiers.hook.special.PlantHarvestModifierHook}, which is specific to plant harvesting.
  * <br>
  * Alternatives:
  * <ul>

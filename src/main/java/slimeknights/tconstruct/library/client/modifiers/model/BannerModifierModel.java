@@ -80,8 +80,7 @@ public record BannerModifierModel(@Nullable ResourceLocation smallPrefix, @Nulla
           Holder<BannerPattern> pattern = BannerPattern.byHash(tag.getString(BannerModule.KEY_PATTERN));
           int color = tag.getInt(BannerModule.KEY_COLOR);
           if (pattern != null) {
-            // why must holders be such a pain?
-            // TODO 1.21: will need to switch from using the ID to using the asset root for the texture
+            // patterns currently resolve their texture suffix from the registry ID; we can switch to an explicit asset root if Mojang adds one later.
             pattern.unwrapKey().ifPresent(id -> {
               TextureAtlasSprite sprite = spriteGetter.apply(ModifierModel.blockAtlas(prefix.withSuffix(MaterialRenderInfo.getSuffix(id.location()))));
               // skip if sprite is missing - deals with modded patterns that we haven't made textures for

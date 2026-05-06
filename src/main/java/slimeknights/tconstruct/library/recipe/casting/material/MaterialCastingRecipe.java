@@ -9,10 +9,10 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.field.LoadableField;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.recipe.IMultiRecipe;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
@@ -34,11 +34,11 @@ import java.util.stream.Collectors;
  */
 public class MaterialCastingRecipe extends AbstractMaterialCastingRecipe implements IMultiRecipe<IDisplayableCastingRecipe> {
   protected static final LoadableField<IMaterialItem,MaterialCastingRecipe> RESULT_FIELD = TinkerLoadables.MATERIAL_ITEM.requiredField("result", r -> r.result);
-  public static final RecordLoadable<MaterialCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(),
-    ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP, CAST_FIELD,
+  protected static final LoadableField<String,MaterialCastingRecipe> GROUP_FIELD = StringLoadable.DEFAULT.defaultField("group", "", MaterialCastingRecipe::getGroup);
+  public static final RecordLoadable<MaterialCastingRecipe> LOADER = RecordLoadable.withLoader(
+    ContextKey.ID.requiredField(), GROUP_FIELD, CAST_FIELD,
     ITEM_COST_FIELD, RESULT_FIELD, MATERIALS_FIELD, CAST_CONSUMED_FIELD, SWITCH_SLOTS_FIELD,
-    MaterialCastingRecipe::new);
+    (id, group, cast, itemCost, result, materials, consumed, switchSlots, loader) -> new MaterialCastingRecipe((TypeAwareRecipeSerializer<?>) loader, id, group, cast, itemCost, result, materials, consumed, switchSlots));
 
   protected final IMaterialItem result;
 

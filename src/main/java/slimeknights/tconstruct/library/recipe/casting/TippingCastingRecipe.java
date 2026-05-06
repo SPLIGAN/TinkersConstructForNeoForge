@@ -16,6 +16,7 @@ import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.field.LoadableField;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
@@ -33,11 +34,12 @@ import java.util.List;
 /** Casting recipe applying a potion to a tool */
 public class TippingCastingRecipe extends PotionCastingRecipe {
   protected static final LoadableField<Ingredient, PotionCastingRecipe> TOOL_FIELD = IngredientLoadable.DISALLOW_EMPTY.requiredField("tools", r -> r.bottle);
-  public static final RecordLoadable<TippingCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
+  protected static final LoadableField<String, TippingCastingRecipe> GROUP_FIELD = StringLoadable.DEFAULT.defaultField("group", "", r -> r.group);
+  public static final RecordLoadable<TippingCastingRecipe> LOADER = RecordLoadable.withLoader(
+    ContextKey.ID.requiredField(), GROUP_FIELD,
     TOOL_FIELD, FLUID_FIELD, COOLING_TIME_FIELD,
     ModifierId.PARSER.requiredField("modifier", r -> r.modifier),
-    TippingCastingRecipe::new);
+    (id, group, tool, fluid, coolingTime, modifier, loader) -> new TippingCastingRecipe((TypeAwareRecipeSerializer<?>) loader, id, group, tool, fluid, coolingTime, modifier));
 
   private final ModifierId modifier;
   public TippingCastingRecipe(TypeAwareRecipeSerializer<?> serializer, ResourceLocation id, String group, Ingredient tool, FluidIngredient fluid, int coolingTime, ModifierId modifier) {
@@ -54,7 +56,7 @@ public class TippingCastingRecipe extends PotionCastingRecipe {
       // but it can't match what is already on the stack
       CompoundTag fluidTag = inv.getFluidTag();
       return fluidTag != null && fluidTag.contains(PotionUtils.TAG_POTION, Tag.TAG_STRING)
-        && !ModifierUtil.getPersistentString(stack, modifier).equals(fluidTag.getString(PotionUtils.TAG_POTION));
+        && !ModifierUtil.getPersistentString(stack, modifier.getLocation()).equals(fluidTag.getString(PotionUtils.TAG_POTION));
     }
     return false;
   }
@@ -64,7 +66,7 @@ public class TippingCastingRecipe extends PotionCastingRecipe {
     ItemStack result = inv.getStack().copy();
     CompoundTag tag = inv.getFluidTag();
     if (tag != null) {
-      ToolStack.from(result).getPersistentData().putString(modifier, tag.getString(PotionUtils.TAG_POTION));
+      ToolStack.from(result).getPersistentData().putString(modifier.getLocation(), tag.getString(PotionUtils.TAG_POTION));
     }
     return result;
   }
@@ -80,13 +82,13 @@ public class TippingCastingRecipe extends PotionCastingRecipe {
         .map(stack -> IDisplayModifierRecipe.withModifiers(IModifiableDisplay.getDisplayStack(stack), List.of(new ModifierEntry(modifier, 1))))
         .toList();
       displayRecipes = BuiltInRegistries.POTION.stream()
-        .filter(potion -> potion != Potions.EMPTY)
+        .filter(potion -> potion != Potions.WATER.value())
         .map(potion -> {
           // add the potion to the tool list
           String id = Loadables.POTION.getString(potion);
           List<ItemStack> results = tools.stream().map(stack -> {
             ToolStack tool = ToolStack.copyFrom(stack);
-            tool.getPersistentData().putString(modifier, id);
+            tool.getPersistentData().putString(modifier.getLocation(), id);
             return tool.copyStack(stack);
           }).toList();
           // add the potion to the fluid
@@ -94,7 +96,7 @@ public class TippingCastingRecipe extends PotionCastingRecipe {
           fluidNBT.putString(PotionUtils.TAG_POTION, id);
           // create the recipe
           return new DisplayCastingRecipe(getId(), getType(), tools, fluid.getFluids().stream()
-            .map(fluid -> new FluidStack(fluid.getFluid(), fluid.getAmount(), fluidNBT))
+            .map(fluid -> new FluidStack(fluid.getFluid(), fluid.getAmount()))
             .toList(),
             results, coolingTime, true);
         }).toList();

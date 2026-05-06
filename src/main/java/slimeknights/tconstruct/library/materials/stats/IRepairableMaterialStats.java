@@ -18,7 +18,7 @@ public interface IRepairableMaterialStats extends IMaterialStats {
    */
   int durability();
 
-  /** Helper for implementing the scaled version of localized info, until we migrate to make that default. TODO 1.21: remove. */
+  /** Optional extension for stats that expose localized info at an arbitrary UI scale (default delegates to scale {@code 1}). */
   interface ScaledTooltip extends IRepairableMaterialStats {
     @Override
     List<Component> getLocalizedInfo(float scale);

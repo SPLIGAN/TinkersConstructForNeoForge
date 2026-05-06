@@ -75,7 +75,7 @@ public interface ProjectileLaunchModifierHook extends ProjectileShootModifierHoo
 
   /**
    * Interface to ease migration to {@link ProjectileShootModifierHook} when shooter is unused or optional.
-   * TODO 1.21: make the original projectile launch parameter nullable for simplicity.
+   * The parent hook still keeps a non-null shooter parameter, so this adapter provides the nullable-friendly bridge.
    */
   interface NoShooter extends ProjectileLaunchModifierHook {
     @Override

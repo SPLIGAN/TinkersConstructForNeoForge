@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Module for a modifier to have a nested modifier as a trait.
- * TODO 1.21: level range does not actually function when this module is applied across multiple sources, remove it.
+ * `fixedLevel` is retained for compatibility even when multiple sources make exact trait-level provenance ambiguous.
  */
 public record ModifierTraitModule(ModifierEntry modifier, boolean fixedLevel, ModifierCondition<IToolContext> condition) implements ModifierTraitHook, ModifierModule, ConditionalModule<IToolContext> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<ModifierTraitModule>defaultHooks(ModifierHooks.MODIFIER_TRAITS);

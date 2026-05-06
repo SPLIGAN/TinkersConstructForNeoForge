@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Temporary 1.21 compatibility shim for legacy PotionUtils usages. */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "null"})
 public final class PotionUtils {
   public static final String TAG_POTION = "Potion";
 
@@ -40,7 +40,7 @@ public final class PotionUtils {
   }
 
   public static ItemStack setPotion(ItemStack stack, Potion potion) {
-    return setPotion(stack, potion.builtInRegistryHolder());
+    return setPotion(stack, BuiltInRegistries.POTION.wrapAsHolder(potion));
   }
 
   public static List<MobEffectInstance> getMobEffects(ItemStack stack) {

@@ -26,11 +26,12 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import java.util.List;
 
 /**
- * Module to add knockback to a melee attack
+ * Module to add knockback to a melee attack.
+ * {@link ModifierFormula} bindings are {@code level} and {@code knockback} ({@link FormulaLoadable}); additional melee variables would require loader updates.
+ *
  * @param entity     Filter on entities to receive knockback
  * @param formula    Formula to compute the knockback amount
  */
-// TODO 1.21: support formulas, maybe with melee variable?
 public record KnockbackModule(IJsonPredicate<LivingEntity> entity, ModifierFormula formula, ProjectilePredicate projectile, ModifierCondition<IToolStackView> condition) implements MeleeHitModifierHook, ModifierModule, ConditionalModule<IToolStackView> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<KnockbackModule>defaultHooks(ModifierHooks.MELEE_HIT);
   /** Setup for the formula */

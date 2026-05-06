@@ -23,10 +23,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Modifier model that copies dye from a key.
- * TODO 1.21: move to {@link slimeknights.tconstruct.library.modifiers.modules}
- */
+/** Client modifier model that applies dye tint from modifier/tool data (see {@link SimpleModifierModel}). */
 @Getter
 @Accessors(fluent = true)
 @RequiredArgsConstructor

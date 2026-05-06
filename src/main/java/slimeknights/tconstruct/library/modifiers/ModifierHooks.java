@@ -230,7 +230,7 @@ public class ModifierHooks {
 
   /**
    * Hook called to give a modifier a chance to clean up data while on the tool and to reject the current tool state.
-   * TOD0 1.21: rename to disambiguate from {@link #VALIDATE_UPGRADE}.
+   * For upgrade-only validation use {@link #VALIDATE_UPGRADE}; hook keys stay {@code validate} / {@code validate_upgrade} for module JSON compatibility.
    */
   public static final ModuleHook<ValidateModifierHook> VALIDATE;
   /** Same as {@link #VALIDATE}, but only called on modifiers in {@link slimeknights.tconstruct.library.tools.nbt.ToolStack#getUpgrades()}. */
@@ -338,9 +338,9 @@ public class ModifierHooks {
     PROJECTILE_SHOT = register("projectile_shot", ProjectileShootModifierHook.class, merger, defaultInstance);
     PROJECTILE_THROWN = register("projectile_thrown", ProjectileShootModifierHook.class, merger, defaultInstance);
   }
-  /** Hook called when an arrow hits an entity or block on the serverside. TODO 1.21: run this hook on the client too. */
+  /** Hook called when an arrow hits an entity or block on the server side. */
   public static final ModuleHook<ProjectileHitModifierHook> PROJECTILE_HIT;
-  /** Hook called when an arrow hits an entity or block on the clientside. Separate from {@link #PROJECTILE_HIT} to prevent a breaking change. TODO 1.21: merge into {@link #PROJECTILE_LAUNCH} */
+  /** Hook called when an arrow hits an entity or block on the client side. Kept separate from {@link #PROJECTILE_HIT} for compatibility. */
   public static final ModuleHook<ProjectileHitModifierHook> PROJECTILE_HIT_CLIENT;
   static {
     ProjectileHitModifierHook defaultInstance = new ProjectileHitModifierHook() {};

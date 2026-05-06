@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.exception;
 import net.minecraft.resources.ResourceLocation;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 
-// TODO 1.19: reevaluate whether this is actually needed
+/** Thrown when material registration or lookup violates API invariants. */
 public class TinkerAPIMaterialException extends TinkerAPIException {
 
   public static TinkerAPIMaterialException materialStatsTypeRegisteredTwice(ResourceLocation materialStatType) {

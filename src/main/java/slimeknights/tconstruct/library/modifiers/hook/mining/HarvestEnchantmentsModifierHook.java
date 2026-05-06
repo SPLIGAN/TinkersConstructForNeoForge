@@ -66,7 +66,7 @@ public interface HarvestEnchantmentsModifierHook {
       ListTag originalEnchants = null;
       Map<Enchantment,Integer> enchantments = null;
       // run on all slots except main hand, to prevent double applying luck
-      // TODO 1.21: take advantage of the enchantment slot filter to avoid that instead; not like armor can be in the main hand when this runs
+      // Slot iteration intentionally excludes main hand to avoid double-applying harvest enchantments from the active tool.
       for (EquipmentSlot slot : APPLICABLE_SLOTS) {
         // tool must be modifiable and must be in an appropriate slot, or we don't care
         // we also disallow harvest tools, this means no pickaxe in the offhand granting you pickaxe stuff in the main hand, but something like a shield fine

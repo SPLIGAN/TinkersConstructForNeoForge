@@ -96,7 +96,7 @@ public final class TinkerStructures extends TinkerModule {
   public static final DeferredHolder<?, StructureType<IslandStructure>> island = STRUCTURE_TYPE.register("island", () -> () -> IslandStructure.CODEC);
 
 
-  // island structures - TODO 1.21: rename to better match placement?
+  // island structures
   public static final ResourceKey<Structure> earthSlimeIsland = key(Registries.STRUCTURE, "earth_slime_island");
   public static final ResourceKey<Structure> skySlimeIsland = key(Registries.STRUCTURE, "sky_slime_island");
   public static final ResourceKey<Structure> oceanSkyslimeIsland = key(Registries.STRUCTURE, "ocean_skyslime_island");

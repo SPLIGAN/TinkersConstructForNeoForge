@@ -7,10 +7,7 @@ import slimeknights.tconstruct.common.TinkerEffect;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Effect that cannot be cured with milk
- * TODO 1.21: move to {@link slimeknights.tconstruct.shared.effect}
- */
+/** Mob effect base that reports no {@linkplain #getCurativeItems() curative items} (milk cannot remove it). */
 public class NoMilkEffect extends TinkerEffect {
   public NoMilkEffect(MobEffectCategory typeIn, int color, boolean show) {
     super(typeIn, color, show);

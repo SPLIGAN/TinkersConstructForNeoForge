@@ -1649,7 +1649,6 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
       .addModule(new SwappableToolTraitsModule(null, "", ToolHooks.TRIM_TRAIT));
 
 
-    // TODO 1.21: remove these redirects
     // iron now gives magnetic. Steel is also just has better than irons old trait
     addRedirect(id("sturdy"), redirect(ModifierIds.ductile));
     // merged armor modifiers into standard ones

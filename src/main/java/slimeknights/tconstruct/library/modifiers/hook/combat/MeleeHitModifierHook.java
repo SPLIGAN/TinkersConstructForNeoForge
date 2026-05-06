@@ -14,7 +14,7 @@ public interface MeleeHitModifierHook {
   /**
    * Called right before an entity is hit, used to modify knockback applied or to apply special effects that need to run before damage. Damage is final damage including critical damage.
    * Note there is still a chance this attack won't deal damage, if that happens {@link #failedMeleeHit(IToolStackView, ModifierEntry, ToolAttackContext, float)} will run.
-   * TODO 1.19: Separate before entity hit from knockback?
+   * Knockback and pre-hit side effects share this hook to avoid a breaking split of the modifier pipeline.
    * <br>
    * Alternatives:
    * <ul>

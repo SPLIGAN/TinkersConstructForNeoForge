@@ -84,7 +84,6 @@ public class ToolContainerMenu extends AbstractContainerMenu {
     this(TinkerTools.toolContainer.get(), id, playerInventory, stack, itemHandler, slotIndex);
   }
 
-  // TODO 1.21: probably ditch this constructor
   protected ToolContainerMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory, ItemStack stack, IItemHandler handler, int slotIndex) {
     this(type, id, playerInventory, stack, handler, slotIndex, CraftingType.fromStack(stack), ModifierUtil.checkVolatileFlag(stack, ToolInventoryCapability.INCLUDE_OFFHAND));
   }

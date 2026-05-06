@@ -41,7 +41,7 @@ public class BlockEntityTypeTagProvider extends IntrinsicHolderTagsProvider<Bloc
     sideInventories.add(
       BlockEntityType.CHEST, BlockEntityType.TRAPPED_CHEST, BlockEntityType.BARREL, BlockEntityType.SHULKER_BOX,
       BlockEntityType.DISPENSER, BlockEntityType.DROPPER, BlockEntityType.HOPPER);
-    // TODO 1.21: verify if BlockEntityType.CHISELED_BOOKSHELF has fixed the bug where setItem(ItemStack.EMPTY) doesn't work so it can be whitelisted.
+    // Chiseled bookshelf is intentionally excluded until its empty-setItem behavior is verified to work for sided automation.
     sideInventories.addOptional(new ResourceLocation("immersiveengineering", "woodencrate"));
     ironchest(sideInventories, "iron");
     ironchest(sideInventories, "gold");

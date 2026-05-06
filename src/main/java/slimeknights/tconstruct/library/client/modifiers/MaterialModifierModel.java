@@ -27,10 +27,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Model for a modifier that has variants based on a material
- * TODO 1.21: move to {@link slimeknights.tconstruct.library.modifiers.modules}
- */
+/** Client modifier model with textures keyed by {@linkplain slimeknights.tconstruct.library.materials.definition.MaterialVariantId material variant}. Serialized modifier modules implement {@link slimeknights.tconstruct.library.modifiers.modules.ModifierModule}. */
 @Getter
 @Accessors(fluent = true)
 @RequiredArgsConstructor

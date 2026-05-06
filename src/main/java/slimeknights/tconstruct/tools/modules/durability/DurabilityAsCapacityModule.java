@@ -14,8 +14,8 @@ import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import java.util.List;
 
 /**
- * Module connecting normal tool durability to {@link CapacityBarHook}. Meant to be used on the specific modifier rather than an internal modifier.
- * TODO 1.21: Move to {@link slimeknights.tconstruct.library.modifiers.modules.capacity}.
+ * Connects normal tool durability to {@link CapacityBarHook}; intended for explicit modifiers rather than hidden internals.
+ * Shared capacity helpers include {@link slimeknights.tconstruct.library.modifiers.modules.capacity.CapacityBarModule} and related types in that package.
  */
 public enum DurabilityAsCapacityModule implements ModifierModule, CapacityBarHook {
   INSTANCE;

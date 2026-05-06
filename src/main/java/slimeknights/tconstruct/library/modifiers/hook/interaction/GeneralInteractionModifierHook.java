@@ -23,7 +23,6 @@ import java.util.Collection;
  * Hooks for standard interaction logic post block/entity interaction, notably including using a modifier by holding right click.
  * See {@link BlockInteractionModifierHook} for block interaction and {@link EntityInteractionModifierHook} for entities.
  * See {@link UsingToolModifierHook} for a hook that triggers when another modifier stops using.
- * TODO 1.21: split using hooks out to a {@code UsingActiveModifierHook}.
  */
 public interface GeneralInteractionModifierHook {
   /**

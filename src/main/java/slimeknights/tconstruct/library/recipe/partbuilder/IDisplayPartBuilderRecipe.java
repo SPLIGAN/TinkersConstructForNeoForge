@@ -13,12 +13,12 @@ import java.util.List;
 
 /**
  * Part builder recipes that can show in JEI.
- * TODO 1.21: make this no longer extend {@link IPartBuilderRecipe}; copy the needed methods for JEI to this interface.
+ * This still extends {@link IPartBuilderRecipe} so display code can reuse the core recipe contract.
  */
 public interface IDisplayPartBuilderRecipe extends IPartBuilderRecipe {
   /**
    * Gets the material variant required to craft this recipe.
-   * TODO 1.21: make this return {@link slimeknights.tconstruct.library.materials.definition.MaterialVariantId}
+   * Uses {@link MaterialVariant} because display recipes may still need the resolved variant payload, not just the ID.
    */
   MaterialVariant getMaterial();
 

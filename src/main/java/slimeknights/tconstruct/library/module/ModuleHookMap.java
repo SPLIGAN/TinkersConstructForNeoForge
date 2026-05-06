@@ -137,7 +137,7 @@ public class ModuleHookMap {
     /** Adds a module to the builder that implements multiple hooks */
     @SafeVarargs
     public final <T> Builder addHook(T object, ModuleHook<? super T>... hooks) {
-      // TODO 1.20: change signature to addHook(Object, ModuleHook, ModuleHook...) and ditch this error
+      // Empty hook lists are logged for now; a stricter varargs-only API would reject this at compile time.
       if (hooks.length == 0) {
         TConstruct.LOG.error("Module {} added with no hooks, this is a bug in the mod adding it as it does nothing, and will not be allowed in the future.", object, new IllegalArgumentException("Empty hooks list passed to hook map builder"));
       }

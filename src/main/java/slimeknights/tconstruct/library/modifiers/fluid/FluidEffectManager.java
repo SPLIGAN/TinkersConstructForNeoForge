@@ -3,15 +3,19 @@ package slimeknights.tconstruct.library.modifiers.fluid;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.JsonOps;
 import lombok.Getter;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.crafting.CraftingHelper;
+import net.neoforged.neoforge.common.conditions.ConditionalOps;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.ICondition.IContext;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -84,7 +88,7 @@ public class FluidEffectManager extends SimpleJsonResourceReloadListener {
         JsonObject json = GsonHelper.convertToJsonObject(entry.getValue(), "fluid_effect");
 
         // want to parse condition without parsing effects, as the effect serializer may be missing
-        if (!CraftingHelper.processConditions(json, "conditions", conditionContext)) {
+        if (!ICondition.conditionsMatched(new ConditionalOps<>(RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.EMPTY), conditionContext), json)) {
           continue;
         }
         fluids.add(new FluidEffects.Entry(key, FluidEffects.LOADABLE.deserialize(json, contextBuilder(key).put(ContextKey.CONDITION_CONTEXT, conditionContext).build())));

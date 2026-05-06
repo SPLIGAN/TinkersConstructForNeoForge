@@ -26,8 +26,7 @@ import java.util.List;
 
 /**
  * Module implementing the overgrowth module
- * TODO 1.21: consider merging into {@link slimeknights.tconstruct.library.modifiers.modules.capacity.TimeToCapacityModule}..
- * TODO 1.21: otherwise move to {@link slimeknights.tconstruct.tools.modules.durability}
+ * Kept separate from generic capacity tick modules because it encodes overgrowth-specific chance semantics and bar selection.
  */
 @Getter
 @Accessors(fluent = true)

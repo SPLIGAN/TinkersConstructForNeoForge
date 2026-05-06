@@ -4,7 +4,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import slimeknights.tconstruct.common.TinkerEffect;
 
-/** TODO 1.21: move to {@link slimeknights.tconstruct.shared.effect} */
+/** Repulsive push status effect used by tool modifiers. */
 public class RepulsiveEffect extends TinkerEffect {
   public RepulsiveEffect() {
     super(MobEffectCategory.BENEFICIAL, 0x727272, false);

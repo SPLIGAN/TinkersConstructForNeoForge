@@ -15,7 +15,7 @@ import slimeknights.tconstruct.library.utils.TeleportHelper;
 /** Fluid effect that randomly teleports the target. */
 public record RandomTeleportFluidEffect(LevelingInt diameter, LevelingInt chances) implements FluidEffect<FluidEffectContext.Entity> {
   private static final LevelingInt DEFAULT = LevelingInt.flat(16);
-  // TODO 1.21: remove defaults
+  // Defaults are kept so older JSON without explicit diameter/chances still deserialize with prior behavior.
   public static final RecordLoadable<RandomTeleportFluidEffect> LOADER = RecordLoadable.create(
     LevelingInt.LOADABLE.defaultField("diameter", DEFAULT, true, RandomTeleportFluidEffect::diameter),
     LevelingInt.LOADABLE.defaultField("chances", DEFAULT, true, RandomTeleportFluidEffect::chances),

@@ -2,10 +2,7 @@ package slimeknights.tconstruct.library.materials.definition;
 
 import slimeknights.tconstruct.TConstruct;
 
-/**
- * Base interface for all materials.
- * TODO 1.21: Make {@link slimeknights.mantle.registration.object.IdAwareObject}
- */
+/** Base interface for all materials ({@link Comparable} by identifier). Extending Mantle {@link slimeknights.mantle.registration.object.IdAwareObject} would be a breaking API shift. */
 public interface IMaterial extends Comparable<IMaterial> {
   /** ID of fallback material */
   MaterialId UNKNOWN_ID = new MaterialId(TConstruct.MOD_ID, "unknown");
@@ -27,7 +24,7 @@ public interface IMaterial extends Comparable<IMaterial> {
 
   /**
    * If the material can be crafted into items in the part builder.
-   * TODO 1.21: move to material tags.
+   * Tag-driven classification could supersede this flag in a major revision.
    *
    * @return Return false if the material can only be cast or is not craftable at all.
    */
@@ -35,7 +32,7 @@ public interface IMaterial extends Comparable<IMaterial> {
 
   /**
    * If true, this material is hidden from display, such as in JEI and the books.
-   * TODO 1.21: move to material tags.
+   * Tag-driven classification could supersede this flag in a major revision.
    */
   boolean isHidden();
 

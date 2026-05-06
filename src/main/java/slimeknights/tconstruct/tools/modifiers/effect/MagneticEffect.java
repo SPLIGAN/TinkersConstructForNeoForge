@@ -11,7 +11,7 @@ import slimeknights.tconstruct.common.TinkerEffect;
 
 import java.util.List;
 
-/** TODO 1.21: move to {@link slimeknights.tconstruct.shared.effect} */
+/** Magnetic pull status effect used by tool modifiers. */
 public class MagneticEffect extends TinkerEffect {
   public MagneticEffect() {
     super(MobEffectCategory.BENEFICIAL, 0x720000, false);

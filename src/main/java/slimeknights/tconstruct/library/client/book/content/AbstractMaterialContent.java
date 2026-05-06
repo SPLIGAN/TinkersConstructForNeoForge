@@ -486,7 +486,7 @@ public abstract class AbstractMaterialContent extends PageContent {
     return page;
   }
 
-  /** Adds the elements for all material stats for this content. TODO 1.21: make abstract. */
+  /** Adds the elements for all material stats for this content. Default is empty for page types that do not render stat blocks. */
   protected HtmlSerializable makeStatsHtml(BookData data) {
     return HtmlSerializable.EMPTY;
   }

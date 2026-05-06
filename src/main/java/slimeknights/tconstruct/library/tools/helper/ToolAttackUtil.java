@@ -446,8 +446,7 @@ public class ToolAttackUtil {
   }
 
   /**
-   * Damages an entity, bypassing invulnerability timers and optionally disabling knockback.
-   * TODO 1.21: rename or remove, not sure we need this {@link #disableKnockback(LivingEntity)} is so easy to use now.
+   * Damages an entity while bypassing invulnerability timers and optionally disabling knockback.
    * @param source       Damage source
    * @param damage       Damage amount
    * @param target       Target entity
@@ -457,7 +456,7 @@ public class ToolAttackUtil {
    * @see #hurtNoInvulnerableTime(Entity, LivingEntity, DamageSource, float)
    */
   @SuppressWarnings("UnusedReturnValue")
-  public static boolean attackEntitySecondary(DamageSource source, float damage, Entity target, @Nullable LivingEntity living, boolean noKnockback) {
+  public static boolean hurtSecondary(DamageSource source, float damage, Entity target, @Nullable LivingEntity living, boolean noKnockback) {
     AttributeInstance knockbackResistance = null;
     // prevent knockback in secondary attacks, if requested
     if (noKnockback) {
@@ -473,6 +472,15 @@ public class ToolAttackUtil {
     }
 
     return hit;
+  }
+
+  /**
+   * @deprecated use {@link #hurtSecondary(DamageSource, float, Entity, LivingEntity, boolean)}
+   */
+  @Deprecated(forRemoval = true)
+  @SuppressWarnings("UnusedReturnValue")
+  public static boolean attackEntitySecondary(DamageSource source, float damage, Entity target, @Nullable LivingEntity living, boolean noKnockback) {
+    return hurtSecondary(source, damage, target, living, noKnockback);
   }
 
 
@@ -519,7 +527,7 @@ public class ToolAttackUtil {
     if (holder.level().isClientSide) {
       return (float) holder.getAttributeValue(Attributes.ATTACK_DAMAGE);
     }
-    // TODO 1.21: consider inlining this method as its only used once
+    // Kept as a compatibility bridge for callers still using this deprecated helper.
     return getSlotAttribute(tool, holder, slotType, Attributes.ATTACK_DAMAGE, tool.getStats().get(ToolStats.ATTACK_DAMAGE));
   }
 

@@ -33,8 +33,8 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.common.brewing.BrewingRecipe;
-import net.neoforged.neoforge.common.brewing.BrewingRecipeRegistry;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -108,9 +108,9 @@ public final class TinkerFluids extends TinkerModule {
   public static final FluidObject<UnplaceableFluid> powderedSnow = FLUIDS.register("powdered_snow").bucket(() -> Items.POWDER_SNOW_BUCKET).type(powder("powdered_snow").temperature(270)).commonTag().unplacable();
 
   // slime -  note second name parameter is forge tag name
-  public static final FlowingFluidObject<SlimeFluid> earthSlime = FLUIDS.registerSlime("earth_slime").type(slime("earth_slime").temperature(350)).bucket().block(createEffect(MapColor.GRASS, 0, () -> new MobEffectInstance(TinkerEffects.bouncy.get(), 5*20))).commonTag("slime").flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
-  public static final FlowingFluidObject<SlimeFluid> skySlime   = FLUIDS.registerSlime("sky_slime"  ).type(slime("sky_slime"  ).temperature(310)).bucket().block(createEffect(MapColor.DIAMOND, 0, () -> new MobEffectInstance(TinkerEffects.ricochet.get(), 5*20))).flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
-  public static final FlowingFluidObject<SlimeFluid> enderSlime = FLUIDS.registerSlime("ender_slime").type(slime("ender_slime").temperature(370)).bucket().block(createEffect(MapColor.COLOR_PURPLE, 0, () -> new MobEffectInstance(TinkerEffects.enderference.get(), 5 * 20))).flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
+  public static final FlowingFluidObject<SlimeFluid> earthSlime = FLUIDS.registerSlime("earth_slime").type(slime("earth_slime").temperature(350)).bucket().block(createEffect(MapColor.GRASS, 0, () -> new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(TinkerEffects.bouncy.get()), 5*20, 0))).commonTag("slime").flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
+  public static final FlowingFluidObject<SlimeFluid> skySlime   = FLUIDS.registerSlime("sky_slime"  ).type(slime("sky_slime"  ).temperature(310)).bucket().block(createEffect(MapColor.DIAMOND, 0, () -> new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(TinkerEffects.ricochet.get()), 5*20, 0))).flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
+  public static final FlowingFluidObject<SlimeFluid> enderSlime = FLUIDS.registerSlime("ender_slime").type(slime("ender_slime").temperature(370)).bucket().block(createEffect(MapColor.COLOR_PURPLE, 0, () -> new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(TinkerEffects.enderference.get()), 5 * 20, 0))).flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
   public static final FlowingFluidObject<SlimeFluid> magma      = FLUIDS.registerSlime("magma").type(slime("magma").temperature(600).lightLevel(3)).bucket().commonTag().block(createBurning(MapColor.NETHER, 3, 8, 3f)).flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
   public static final FlowingFluidObject<InvertedFluid> ichor   = FLUIDS.registerSlime("ichor").invertedType(slime("ichor").temperature(1000).density(-1600)).bucket().block(MapColor.COLOR_ORANGE, 0).invertedFlowing();
   public static final EnumObject<SlimeType, Fluid> slime = new EnumObject.Builder<SlimeType, Fluid>(SlimeType.class).put(SlimeType.EARTH, earthSlime).put(SlimeType.SKY, skySlime).put(SlimeType.ENDER, enderSlime).put(SlimeType.ICHOR, ichor).build();
@@ -142,7 +142,7 @@ public final class TinkerFluids extends TinkerModule {
   public static final FlowingFluidObject<BaseFlowingFluid> moltenPorcelain = FLUIDS.registerStone("molten_porcelain").type(hot("molten_porcelain").temperature(1000).lightLevel(2)).block(createBurning(MapColor.QUARTZ, 2, 5, 2f)).bucket().flowing();
   // fancy molten fluids
   public static final FlowingFluidObject<BaseFlowingFluid> moltenObsidian = FLUIDS.registerStone("molten_obsidian").type(hot("molten_obsidian").temperature(1300).lightLevel(3)).block(createBurning(MapColor.COLOR_BLACK, 3, 12, 4f)).bucket().flowing();
-  public static final FlowingFluidObject<BaseFlowingFluid> moltenEnder    = FLUIDS.registerStone("molten_ender").type(hot("molten_ender").temperature(777).lightLevel(5)).block(createEffect(MapColor.PLANT, 5, () -> new MobEffectInstance(TinkerEffects.enderference.get(), 5 * 20))).bucket().commonTag("ender").flowing();
+  public static final FlowingFluidObject<BaseFlowingFluid> moltenEnder    = FLUIDS.registerStone("molten_ender").type(hot("molten_ender").temperature(777).lightLevel(5)).block(createEffect(MapColor.PLANT, 5, () -> new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(TinkerEffects.enderference.get()), 5 * 20, 0))).bucket().commonTag("ender").flowing();
   public static final FlowingFluidObject<BaseFlowingFluid> blazingBlood   = FLUIDS.register("blazing_blood").type(hot("blazing_blood").temperature(1800).lightLevel(15).density(3500)).block(createBurning(MapColor.COLOR_ORANGE, 15, 15, 5f)).bucket().flowing();
 
   // ores
@@ -271,18 +271,6 @@ public final class TinkerFluids extends TinkerModule {
 
   @SubscribeEvent
   void commonSetup(final FMLCommonSetupEvent event) {
-    event.enqueueWork(() -> {
-      CauldronInteraction.WATER.put(splashBottle.get(), new FillBottle(Items.SPLASH_POTION));
-      CauldronInteraction.WATER.put(lingeringBottle.get(), new FillBottle(Items.LINGERING_POTION));
-      CauldronInteraction.WATER.put(Items.SPLASH_POTION,    new EmptyBottleIntoWater(splashBottle,    CauldronInteraction.WATER.get(Items.SPLASH_POTION)));
-      CauldronInteraction.WATER.put(Items.LINGERING_POTION, new EmptyBottleIntoWater(lingeringBottle, CauldronInteraction.WATER.get(Items.LINGERING_POTION)));
-      CauldronInteraction.EMPTY.put(Items.SPLASH_POTION,    new EmptyBottleIntoEmpty(splashBottle,    CauldronInteraction.EMPTY.get(Items.SPLASH_POTION)));
-      CauldronInteraction.EMPTY.put(Items.LINGERING_POTION, new EmptyBottleIntoEmpty(lingeringBottle, CauldronInteraction.EMPTY.get(Items.LINGERING_POTION)));
-      // brew bottles into each other, bit weird but feels better than shapeless
-      BrewingRecipeRegistry.addRecipe(new BottleBrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Items.POTION, Items.SPLASH_POTION, new ItemStack(splashBottle)));
-      BrewingRecipeRegistry.addRecipe(new BottleBrewingRecipe(Ingredient.of(TinkerTags.Items.SPLASH_BOTTLE), Items.SPLASH_POTION, Items.LINGERING_POTION, new ItemStack(lingeringBottle)));
-    });
-
     // dispense buckets
     DispenseItemBehavior dispenseBucket = new DefaultDispenseItemBehavior() {
       private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
@@ -290,8 +278,8 @@ public final class TinkerFluids extends TinkerModule {
       @Override
       public ItemStack execute(BlockSource source, ItemStack stack) {
         DispensibleContainerItem container = (DispensibleContainerItem)stack.getItem();
-        BlockPos blockpos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
-        Level level = source.getLevel();
+        BlockPos blockpos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+        Level level = source.level();
         if (container.emptyContents(null, level, blockpos, null, stack)) {
           container.checkExtraContent(null, level, stack, blockpos);
           return new ItemStack(Items.BUCKET);
@@ -377,13 +365,41 @@ public final class TinkerFluids extends TinkerModule {
       DispenserBlock.registerBehavior(moltenBendalloy, dispenseBucket);
       DispenserBlock.registerBehavior(moltenSteeleaf, dispenseBucket);
       DispenserBlock.registerBehavior(fieryLiquid, dispenseBucket);
-
-      // brew congealed slime into bottles to get slime bottles, easy melting
-      for (SlimeType slime : SlimeType.values()) {
-        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Ingredient.of(TinkerWorld.congealedSlime.get(slime)), new ItemStack(TinkerFluids.slimeBottle.get(slime))));
-      }
-      BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Ingredient.of(Blocks.MAGMA_BLOCK), new ItemStack(TinkerFluids.magmaBottle)));
     });
+  }
+
+  @SubscribeEvent
+  void registerBrewingRecipes(final RegisterBrewingRecipesEvent event) {
+    Object builder = event.getBuilder();
+    registerBrewingRecipe(builder, new BottleBrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Items.POTION, Items.SPLASH_POTION, new ItemStack(splashBottle)));
+    registerBrewingRecipe(builder, new BottleBrewingRecipe(Ingredient.of(TinkerTags.Items.SPLASH_BOTTLE), Items.SPLASH_POTION, Items.LINGERING_POTION, new ItemStack(lingeringBottle)));
+    // brew congealed slime into bottles to get slime bottles, easy melting
+    for (SlimeType slime : SlimeType.values()) {
+      registerBrewingRecipe(builder, new BrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Ingredient.of(TinkerWorld.congealedSlime.get(slime)), new ItemStack(TinkerFluids.slimeBottle.get(slime))));
+    }
+    registerBrewingRecipe(builder, new BrewingRecipe(Ingredient.of(Items.GLASS_BOTTLE), Ingredient.of(Blocks.MAGMA_BLOCK), new ItemStack(TinkerFluids.magmaBottle)));
+  }
+
+  /** Registers a brewing recipe on the new builder API using reflection for cross-version resilience. */
+  private static void registerBrewingRecipe(Object builder, Object recipe) {
+    Class<?> builderClass = builder.getClass();
+    for (java.lang.reflect.Method method : builderClass.getMethods()) {
+      if (!"addRecipe".equals(method.getName()) || method.getParameterCount() != 1) {
+        continue;
+      }
+      Class<?> parameter = method.getParameterTypes()[0];
+      if (!parameter.isInstance(recipe)) {
+        continue;
+      }
+      try {
+        method.invoke(builder, recipe);
+        return;
+      } catch (ReflectiveOperationException e) {
+        TConstruct.LOG.warn("Failed invoking brewing recipe registration method {} on {}", method, builderClass.getName(), e);
+        return;
+      }
+    }
+    TConstruct.LOG.warn("Could not find a compatible addRecipe method on brewing builder {}", builderClass.getName());
   }
 
   /** Adds all relevant items to the creative tab, called by smeltery */
@@ -483,8 +499,8 @@ public final class TinkerFluids extends TinkerModule {
     acceptCompat(output, moltenSteeleaf, MaterialIds.steeleaf);
     acceptCompat(output, fieryLiquid, "fiery", MaterialIds.fiery);
     BuiltInRegistries.POTION.holders().filter(holder -> {
-      Potion potion = holder.get();
-      return potion != Potions.EMPTY && potion != Potions.WATER;
+      Potion potion = holder.value();
+      return potion != Potions.WATER.value();
     }).forEachOrdered(holder ->
       output.accept(PotionFluidType.potionBucket(holder.key())));
 

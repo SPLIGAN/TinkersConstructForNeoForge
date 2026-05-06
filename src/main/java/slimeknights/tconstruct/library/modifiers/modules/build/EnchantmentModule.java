@@ -226,7 +226,7 @@ public interface EnchantmentModule extends ModifierModule, LevelingIntModule, Co
 
   /**
    * Enchantment module that can condition on the block mined or the entity mining.
-   * Exists as {@link HarvestEnchantmentsModifierHook} does not currently run on the main hand. TODO 1.21: update it to run on mainhand.
+   * Kept separate because {@link HarvestEnchantmentsModifierHook} is not invoked for main-hand harvests.
    */
   record MainHandHarvest(Enchantment enchantment, LevelingInt level, ModifierCondition<IToolStackView> condition, ResourceLocation conditionFlag, IJsonPredicate<BlockState> block, IJsonPredicate<LivingEntity> holder) implements EnchantmentModule, EnchantmentModifierHook, BlockHarvestModifierHook {
     private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<MainHandHarvest>defaultHooks(ModifierHooks.ENCHANTMENTS, ModifierHooks.BLOCK_HARVEST);
@@ -283,7 +283,7 @@ public interface EnchantmentModule extends ModifierModule, LevelingIntModule, Co
 
   /**
    * Enchantment module that can condition on the block mined or the entity mining on armor. Requires the harvesting be done with a tinker tool.
-   * TODO 1.21: rename to conditional harvest. The slot filter lets us avoid double applying to a constant enchantment harvest tool.
+   * Slot filtering avoids double-applying alongside constant harvest enchantment modules.
    */
   record ArmorHarvest(Enchantment enchantment, LevelingInt level, ModifierCondition<IToolStackView> condition, Set<EquipmentSlot> slots, IJsonPredicate<BlockState> block, IJsonPredicate<LivingEntity> holder) implements EnchantmentModule, HarvestEnchantmentsModifierHook {
     private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<ArmorHarvest>defaultHooks(ModifierHooks.HARVEST_ENCHANTMENTS);

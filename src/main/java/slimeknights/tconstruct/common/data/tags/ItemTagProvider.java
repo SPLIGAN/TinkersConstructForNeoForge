@@ -427,8 +427,8 @@ public class ItemTagProvider extends ItemTagsProvider {
     this.tag(RANGED_POWER).addTags(LONGBOWS, STAFFS, FISHING_RODS);
     this.tag(RANGED_QUICK_CHARGE).addTags(CROSSBOWS, STAFFS, FISHING_RODS);
     this.tag(RANGED_BOUNCE).addTags(LONGBOWS, STAFFS);
-    // TODO 1.21: consider dropping unsalvagable from this tag
-    this.tag(UNRECYCLABLE).addTags(UNSALVAGABLE, ANCIENT_TOOLS); // ancient tools lack tool parts, but may have special override recipes to salvage
+    // Keep UNSALVAGABLE in UNRECYCLABLE so legacy datapacks that rely on both behaviors continue to work; ancient tools may still get special overrides.
+    this.tag(UNRECYCLABLE).addTags(UNSALVAGABLE, ANCIENT_TOOLS);
     // headlight support
     this.tag(ItemTags.create(new ResourceLocation("headlight", "headlight_helmets"))).addTag(HELMETS);
 

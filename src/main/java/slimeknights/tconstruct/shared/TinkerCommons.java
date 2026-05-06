@@ -189,7 +189,6 @@ public final class TinkerCommons extends TinkerModule {
       CraftingHelper.register(BlockTagIngredient.Serializer.ID, BlockTagIngredient.Serializer.INSTANCE);
       CriteriaTriggers.register(CONTAINER_OPENED_TRIGGER);
 
-      // TODO 1.21: legacy custom condition serializers removed; use mantle conditions directly.
       // mantle
       DamageSourcePredicate.LOADER.register(getResource("direct"), TinkerPredicate.DIRECT_DAMAGE.getLoader());
       // entity

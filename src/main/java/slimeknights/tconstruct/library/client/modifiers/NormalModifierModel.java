@@ -23,10 +23,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Default modifier model loader, loads a single texture from the standard path.
- * TODO 1.21: move to {@link slimeknights.tconstruct.library.modifiers.modules}
- */
+/** Default modifier model: single standard-path texture plus optional color and luminosity. Pairs with JSON-loaded {@link slimeknights.tconstruct.library.modifiers.modules.ModifierModule} implementations. */
 @Getter
 @Accessors(fluent = true)
 @RequiredArgsConstructor

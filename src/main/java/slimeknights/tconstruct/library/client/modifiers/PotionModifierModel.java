@@ -10,6 +10,8 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
@@ -27,10 +29,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Modifier model that renders the textured tinted based on the active potion color.
- * TODO 1.21: move to {@link slimeknights.tconstruct.library.modifiers.modules}
- */
+/** Client modifier model that tints layers using the equipped potion color. Serialized modifier modules implement {@link slimeknights.tconstruct.library.modifiers.modules.ModifierModule}. */
 @Getter
 @Accessors(fluent = true)
 @RequiredArgsConstructor
@@ -62,21 +61,22 @@ public class PotionModifierModel implements SimpleModifierModel {
   @Override
   public Object getCacheKey(IToolStackView tool, ModifierEntry entry) {
     ModifierId modifier = entry.getId();
-    return new CacheKey(modifier, tool.getPersistentData().getString(modifier));
+    return new CacheKey(modifier, tool.getPersistentData().getString(modifier.getLocation()));
   }
 
   @Override
   public void addQuads(IToolStackView tool, ModifierEntry modifier, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, Consumer<Collection<BakedQuad>> quadConsumer, @Nullable ItemLayerPixels pixels) {
     Material texture = isLarge ? large : small;
     if (texture != null) {
-      ResourceLocation key = modifier.getId();
+      ResourceLocation key = modifier.getId().getLocation();
       IModDataView toolData = tool.getPersistentData();
       if (toolData.contains(key, Tag.TAG_STRING)) {
         ResourceLocation id = ResourceLocation.tryParse(toolData.getString(key));
         if (id != null) {
           Potion potion = BuiltInRegistries.POTION.get(id);
-          if (potion != Potions.EMPTY) {
-            quadConsumer.accept(MantleItemLayerModel.getQuadsForSprite(0xFF000000 | PotionUtils.getColor(potion), -1, spriteGetter.apply(texture), transforms, 0, pixels));
+          if (potion != Potions.WATER.value()) {
+            ItemStack potionStack = PotionUtils.setPotion(new ItemStack(Items.POTION), potion);
+            quadConsumer.accept(MantleItemLayerModel.getQuadsForSprite(0xFF000000 | PotionUtils.getColor(potionStack), -1, spriteGetter.apply(texture), transforms, 0, pixels));
           }
         }
       }

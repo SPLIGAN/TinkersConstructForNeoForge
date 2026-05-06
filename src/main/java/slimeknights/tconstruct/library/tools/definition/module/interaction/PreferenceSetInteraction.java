@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Interaction that makes only a limited set work in the preferred hand, the rest working in the other hand.
- * TODO 1.21: rework fields to be more like {@link ToggleableSetInteraction}
+ * Uses an explicit preferred source plus modifier predicate, unlike {@link ToggleableSetInteraction}'s boolean-style toggles.
  */
 public record PreferenceSetInteraction(InteractionSource preferredSource, IJsonPredicate<ModifierId> preferenceModifiers) implements InteractionToolModule, ToolModule {
   public static final RecordLoadable<PreferenceSetInteraction> LOADER = RecordLoadable.create(

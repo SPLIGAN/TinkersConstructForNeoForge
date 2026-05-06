@@ -130,7 +130,7 @@ public class ToolHooks {
 
 
   /* Display */
-  /** Hook for setting the display name on a tool */ // TODO 1.21: make the default show no materials?
+  /** Hook for setting the display name on a tool. The default keeps repair-capable materials in the composed name. */
   public static final ModuleHook<ToolNameHook> DISPLAY_NAME = register("display_name", ToolNameHook.class, ToolNameHook.ComposeMerger::new, (MaterialToolName) (index, statType, material) -> MaterialRegistry.getInstance().canRepair(statType));
 
 

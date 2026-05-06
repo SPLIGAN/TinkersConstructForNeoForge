@@ -3,8 +3,11 @@ package slimeknights.tconstruct.library.json.loot.equipment;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.tags.TagKey;
@@ -13,7 +16,8 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.crafting.CraftingHelper;
+import net.neoforged.neoforge.common.conditions.ConditionalOps;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.ICondition.IContext;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
@@ -71,7 +75,7 @@ public class MobEquipmentManager extends SimpleJsonResourceReloadListener {
       try {
         JsonObject json = GsonHelper.convertToJsonObject(entry.getValue(), key.toString());
         // skip if conditions fail
-        if (!CraftingHelper.processConditions(json, "conditions", context)) {
+        if (!ICondition.conditionsMatched(new ConditionalOps<>(RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.EMPTY), context), json)) {
           continue;
         }
         // parse the object
@@ -87,7 +91,7 @@ public class MobEquipmentManager extends SimpleJsonResourceReloadListener {
             // need to use the condition context to fetch tag values as they are not yet in the mananger
             TagKey<EntityType<?>> tag = Loadables.ENTITY_TYPE_TAG.parseString(type.substring(1), "entity");
             for (Holder<EntityType<?>> holder : context.getTag(tag)) {
-              parsed.computeIfAbsent(holder.get(), ifAbsent).addAll(equipment);
+              parsed.computeIfAbsent(holder.value(), ifAbsent).addAll(equipment);
             }
           } else {
             parsed.computeIfAbsent(Loadables.ENTITY_TYPE.parseString(type, "entity"), ifAbsent).addAll(equipment);

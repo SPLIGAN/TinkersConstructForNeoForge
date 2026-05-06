@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Module implementing overslime and overslime helpers.
- * TODO 1.21: register as a singleton loader and migrate OverslimeModifier to JSON.
+ * Kept as a dedicated helper class because overslime behavior is shared by code paths beyond JSON-defined modifier modules.
  */
 public class OverslimeModule extends CapacityBarHook.PersistentDataCapacityBar {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<OverslimeModule>defaultHooks(ModifierHooks.CAPACITY_BAR);

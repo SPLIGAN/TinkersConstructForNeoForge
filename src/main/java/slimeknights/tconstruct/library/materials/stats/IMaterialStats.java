@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Basic interface for all material stats.
- * TODO 1.21: Make {@link slimeknights.mantle.registration.object.IdAwareObject}
+ * Exposing Mantle's {@link slimeknights.mantle.registration.object.IdAwareObject} here would be a wider API change, so this interface keeps `getIdentifier()`.
  */
 public interface IMaterialStats {
   /**
@@ -52,7 +52,7 @@ public interface IMaterialStats {
    * @param scale  Scales the stats in the same way as {@link #apply(ModifierStatsBuilder, float)}
    */
   default List<Component> getLocalizedInfo(float scale) {
-    // TODO 1.21: make this the abstract method
+    // Legacy implementations override only the unscaled variant, so the default keeps delegating there.
     return getLocalizedInfo();
   }
 

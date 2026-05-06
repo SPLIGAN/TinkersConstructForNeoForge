@@ -19,7 +19,7 @@ import java.util.Map;
 
 /** Variable context for {@link ConditionalMeleeDamageModule} */
 public record ProtectionFormula(ModifierFormula formula, List<ProtectionVariable> variables, String[] variableNames, boolean percent) implements VariableFormula<ProtectionVariable> {
-  /** Variables for the modifier formula. TODO 1.21: replace "protection" with "value". */
+  /** Formula variable names exposed to datapacks; {@code protection} is kept for backward-compatible expressions. */
   public static final String[] VARIABLES = { "level", "protection" };
   /** Loader instance for protection */
   public static final RecordLoadable<ProtectionFormula> LOADER = new VariableFormulaLoadable<>(ProtectionVariable.LOADER, VARIABLES, FallbackFormula.ADD, (formula, variables, percent) -> new ProtectionFormula(formula, variables, EMPTY_STRINGS));

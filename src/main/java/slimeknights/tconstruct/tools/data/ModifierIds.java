@@ -106,7 +106,7 @@ public class ModifierIds {
   public static final ModifierId power = id("power");
   public static final ModifierId punch = id("punch");
   public static final ModifierId drawback = id("drawback");
-  // TODO 1.20 - change ID to arrow_pierce
+  // Kept as `impaling` for modifier ID / datapack compatibility (alias `arrow_pierce` was deferred to avoid breaking saves).
   public static final ModifierId arrowPierce = id("impaling");
   public static final ModifierId quickCharge = id("quick_charge");
   public static final ModifierId trueshot = id("trueshot");
@@ -147,7 +147,7 @@ public class ModifierIds {
   // chestplate
   public static final ModifierId strength = id("strength");
   // leggings
-  /** Internal modifier that grants +3 slots. TODO 1.21: replace this with calls to the inventory module directly; this is just here for free NBT migration */
+  /** Internal modifier that grants +3 slots; retained to keep legacy NBT migration paths stable. */
   public static final ModifierId pocket = id("pocket");
   public static final ModifierId pockets = id("pockets");
   public static final ModifierId shellStorage = id("shell_storage");

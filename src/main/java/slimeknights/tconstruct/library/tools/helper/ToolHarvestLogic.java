@@ -49,7 +49,7 @@ public class ToolHarvestLogic {
 
   /**
    * Gets the amount of damage this tool should take for the given block state.
-   * TODO 1.21: remove in favor of {@link #getDamage(IToolStackView, Level, BlockPos, BlockState)}
+   * Legacy overload kept for callers still passing {@link ToolStack}; delegates to the {@link IToolStackView} implementation.
    * @param tool   Tool to check
    * @param state  State to check
    * @return  Damage to deal
@@ -179,7 +179,7 @@ public class ToolHarvestLogic {
 
   /**
    * Breaks a secondary block.
-   * TODO 1.21: remove this header in favor of {@link #breakExtraBlock(IToolStackView, ItemStack, ToolHarvestContext)}
+   * Legacy overload kept for callers passing {@link ToolStack}; delegates to {@link #breakExtraBlock(IToolStackView, ItemStack, ToolHarvestContext)}.
    * @param tool      Tool instance
    * @param stack     Stack instance for vanilla functions
    * @param context   Tool harvest context

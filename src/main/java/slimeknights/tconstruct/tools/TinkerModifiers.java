@@ -847,7 +847,7 @@ public final class TinkerModifiers extends TinkerModule {
       // behavior
       ModifierModule.LOADER.register(getResource("attribute"), AttributeModule.LOADER);
       ModifierModule.LOADER.register(getResource("reduce_tool_damage"), ReduceToolDamageModule.LOADER);
-      // TODO 1.21: rename to repair_factor?
+      // Kept as "repair" for JSON/module key compatibility.
       ModifierModule.LOADER.register(getResource("repair"), RepairModule.LOADER);
       ModifierModule.LOADER.register(getResource("material_repair"), MaterialRepairModule.LOADER);
       ModifierModule.LOADER.register(getResource("show_offhand"), ShowOffhandModule.LOADER);

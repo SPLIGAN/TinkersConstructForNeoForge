@@ -2,12 +2,8 @@ package slimeknights.tconstruct.smeltery.item;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.capabilities.Capability;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
@@ -20,8 +16,7 @@ import javax.annotation.Nullable;
  * Handler that works with a tank item to adjust its tank in NBT
  */
 @RequiredArgsConstructor
-public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvider {
-  private final LazyOptional<IFluidHandlerItem> holder = LazyOptional.of(() -> this);
+public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvider<ItemStack, Void, IFluidHandlerItem> {
   private final TankItem tankItem;
   @Getter
   private final ItemStack container;
@@ -36,12 +31,6 @@ public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvi
   /** Updates the container from the given tank */
   private void updateContainer(FluidTank tank) {
     TankItem.setTank(container, tank);
-  }
-
-  @Nonnull
-  @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-    return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, holder);
   }
 
   @Override
@@ -95,5 +84,11 @@ public class TankItemFluidHandler implements IFluidHandlerItem, ICapabilityProvi
       updateContainer(tank);
     }
     return didDrain;
+  }
+
+  @Nullable
+  @Override
+  public IFluidHandlerItem getCapability(ItemStack object, Void context) {
+    return this;
   }
 }

@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Class serving as a lookup to get part costs for any material item.
- * TODO 1.21: consider merging with {@link MaterialRecipeCache}.
+ * Lookup for casting/composite fluid costs per {@link IMaterialItem}.
+ * {@link MaterialRecipeCache} covers broader material recipe indexing; merging would need a unified invalidation story.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MaterialCastingLookup {

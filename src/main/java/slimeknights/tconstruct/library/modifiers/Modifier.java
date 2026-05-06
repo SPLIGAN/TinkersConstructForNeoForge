@@ -79,7 +79,7 @@ public class Modifier implements IdAwareObject {
   /**
    * Registers a hook to the modifier.
    * Note that this is run in the constructor, so you are unable to use any instance fields in this method unless initialized in this method.
-   * TODO 1.19: consider making abstract as everyone is going to need it in the future.
+   * Default no-op so simple modifiers need not override; hookless modifiers remain valid.
    */
   protected void registerHooks(ModuleHookMap.Builder hookBuilder) {}
 

@@ -72,7 +72,7 @@ public class EntityTypeTagProvider extends EntityTypeTagsProvider {
     this.tag(TinkerTags.EntityTypes.MELTING_SHOW).add(EntityType.IRON_GOLEM, EntityType.SNOW_GOLEM, EntityType.VILLAGER, EntityType.PLAYER);
     this.tag(TinkerTags.EntityTypes.MELTING_HIDE).add(EntityType.GIANT);
 
-    // collecting - TODO 1.21: remove legacy tags
+    // collecting (includes legacy common tags for compatibility)
     this.tag(COLLECTABLES).add(
         EntityType.ITEM, TinkerTools.indestructibleItem.get(),
         EntityType.EXPERIENCE_ORB
@@ -81,7 +81,7 @@ public class EntityTypeTagProvider extends EntityTypeTagsProvider {
     this.tag(DISCARDABLE_COLLECTABLES).add(EntityType.ARROW, EntityType.SPECTRAL_ARROW, TinkerTools.materialArrow.get())
       .addOptionalTag(commonResource(DISCARDABLE_COLLECTABLES.location().getPath()));
 
-    // reflecting - TODO 1.21: remove legacy tags
+    // reflecting (includes legacy common tags for compatibility)
     this.tag(REFLECTING_BLACKLIST).addOptionalTag(commonResource(REFLECTING_BLACKLIST.location().getPath()));
     this.tag(REFLECTING_PRESERVE_OWNER).add(EntityType.FISHING_BOBBER, TinkerTools.fishingHook.get())
       .addOptionalTag(commonResource(REFLECTING_PRESERVE_OWNER.location().getPath()));

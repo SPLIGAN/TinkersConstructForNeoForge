@@ -28,10 +28,7 @@ import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Module implementing the overburn modifier.
- * TODO 1.21: move to {@link slimeknights.tconstruct.tools.modules.durability}
- */
+/** Overburn: consumes tank fluid as melting fuel during inventory ticks. Related durability modules include {@link slimeknights.tconstruct.tools.modules.durability.ShareDurabilityModule}. */
 public enum OverburnModule implements ModifierModule, InventoryTickModifierHook, ModifierRemovalHook {
   INSTANCE;
 
