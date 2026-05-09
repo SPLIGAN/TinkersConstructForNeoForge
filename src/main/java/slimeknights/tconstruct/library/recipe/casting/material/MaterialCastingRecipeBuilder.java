@@ -50,7 +50,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder basinRecipe(IMaterialItem result) {
-    return castingRecipe(result, null, TinkerSmeltery.basinMaterialSerializer.get());
+    return castingRecipe(result, null, (TypeAwareRecipeSerializer<? extends AbstractMaterialCastingRecipe>) TinkerSmeltery.basinMaterialSerializer.get());
   }
 
   /**
@@ -59,7 +59,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder tableRecipe(IMaterialItem result) {
-    return castingRecipe(result, null, TinkerSmeltery.tableMaterialSerializer.get());
+    return castingRecipe(result, null, (TypeAwareRecipeSerializer<? extends AbstractMaterialCastingRecipe>) TinkerSmeltery.tableMaterialSerializer.get());
   }
 
   /**
@@ -68,7 +68,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder basinRecipe(IModifiable result) {
-    return castingRecipe(null, result, TinkerSmeltery.basinToolSerializer.get());
+    return castingRecipe(null, result, (TypeAwareRecipeSerializer<? extends AbstractMaterialCastingRecipe>) TinkerSmeltery.basinToolSerializer.get());
   }
 
   /**
@@ -77,7 +77,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder tableRecipe(IModifiable result) {
-    return castingRecipe(null, result, TinkerSmeltery.tableToolSerializer.get());
+    return castingRecipe(null, result, (TypeAwareRecipeSerializer<? extends AbstractMaterialCastingRecipe>) TinkerSmeltery.tableToolSerializer.get());
   }
 
   /**
@@ -158,11 +158,11 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
     if (this.itemCost <= 0) {
       throw new IllegalStateException("Material casting recipes require a positive amount of fluid");
     }
-    ResourceLocation advancementId = this.buildOptionalAdvancement(id, "casting");
+    var advancementHolder = this.buildOptionalAdvancementHolder(consumer, id, "casting");
     if (result != null) {
-      consumer.accept(new LoadableFinishedRecipe<>(new MaterialCastingRecipe(recipeSerializer, id, group, cast, itemCost, result, allowedMaterials, castPurpose != CastPurpose.CATALYST, switchSlots), MaterialCastingRecipe.LOADER, advancementId));
+      consumer.accept(id, new MaterialCastingRecipe(recipeSerializer, id, group, cast, itemCost, result, allowedMaterials, castPurpose != CastPurpose.CATALYST, switchSlots), advancementHolder);
     } else if (resultTool != null) {
-      consumer.accept(new LoadableFinishedRecipe<>(new ToolCastingRecipe(recipeSerializer, id, group, cast, itemCost, castPurpose, resultTool, allowedMaterials, extraMaterials), ToolCastingRecipe.LOADER, advancementId));
+      consumer.accept(id, new ToolCastingRecipe(recipeSerializer, id, group, cast, itemCost, castPurpose, resultTool, allowedMaterials, extraMaterials), advancementHolder);
     } else {
       throw new IllegalArgumentException("Must have either result or result tool");
     }

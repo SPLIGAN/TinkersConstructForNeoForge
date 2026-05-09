@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
@@ -63,7 +62,7 @@ public interface MaterialToolName extends ToolNameHook.FromDefault {
       // mix of materials get hyphenated
       Set<Component> names = new LinkedHashSet<>(displayMaterials.size());
       for (MaterialVariantId id : displayMaterials) {
-        names.add(MaterialTooltipCache.getDisplayName(id));
+        names.add(Component.literal(id.toString()));
       }
       MutableComponent builder = Component.literal("");
       Iterator<Component> iter = names.iterator();
@@ -79,11 +78,11 @@ public interface MaterialToolName extends ToolNameHook.FromDefault {
   /** Gets the tool name for the given material */
   static Component nameForMaterial(MaterialVariantId material, Component itemName) {
     // use material format if requested
-    String format = MaterialTooltipCache.getKey(material) + ".format";
+    String format = material.toString().replace(':', '.') + ".format";
     if (Util.canTranslate(format)) {
       return Component.translatable(format, itemName);
     }
     // fallback to standard format with default material name
-    return Component.translatable(TooltipUtil.KEY_FORMAT, MaterialTooltipCache.getDisplayName(material), itemName);
+    return Component.translatable(TooltipUtil.KEY_FORMAT, Component.literal(material.toString()), itemName);
   }
 }

@@ -19,7 +19,7 @@ import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatType;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
-import slimeknights.tconstruct.tools.data.sprite.TinkerPartSpriteProvider;
+import slimeknights.tconstruct.tools.compat.TinkerPartSpriteCompat;
 import slimeknights.tconstruct.tools.stats.GripMaterialStats;
 import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
@@ -213,21 +213,21 @@ public abstract class AbstractMaterialSpriteProvider {
     /** Adds stat types for maille */
     public MaterialSpriteInfoBuilder maille() {
       statType(StatlessMaterialStats.MAILLE.getIdentifier());
-      statType(TinkerPartSpriteProvider.ARMOR_MAILLE);
+      statType(TinkerPartSpriteCompat.ARMOR_MAILLE);
       return this;
     }
 
     /** Adds stat types for maille */
     public MaterialSpriteInfoBuilder cuirass() {
       statType(StatlessMaterialStats.CUIRASS.getIdentifier());
-      statType(TinkerPartSpriteProvider.ARMOR_CUIRASS);
+      statType(TinkerPartSpriteCompat.ARMOR_CUIRASS);
       repairKit(); // used by traveler's gear
       return this;
     }
 
     /** Adds all plating stat types */
     public MaterialSpriteInfoBuilder plating() {
-      statType(TinkerPartSpriteProvider.ARMOR_PLATING);
+      statType(TinkerPartSpriteCompat.ARMOR_PLATING);
       for (MaterialStatType<?> type : PlatingMaterialStats.TYPES) {
         statType(type.getId());
       }
@@ -244,7 +244,7 @@ public abstract class AbstractMaterialSpriteProvider {
 
     /** Adds slime textures for the given material. */
     public MaterialSpriteInfoBuilder slime() {
-      return statType(SlimeStats.ID, TinkerPartSpriteProvider.SLIMESUIT);
+      return statType(SlimeStats.ID, TinkerPartSpriteCompat.SLIMESUIT);
     }
 
     /** Makes this work as the wood part for a shield */

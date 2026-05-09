@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.tools.modifiers.traits.skull;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlot.Type;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,10 +28,8 @@ import slimeknights.tconstruct.library.utils.Util;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
-
 public class GoldGuardModifier extends NoLevelsModifier implements EquipmentChangeModifierHook, TooltipModifierHook {
-  private static final UUID GOLD_GUARD_UUID = UUID.fromString("fbae11f1-b547-47e8-ae0c-f2cf24a46d93");
+  private static final ResourceLocation GOLD_GUARD_UUID = ResourceLocation.fromNamespaceAndPath("tconstruct", "gold_guard_health");
   private static final ComputableDataKey<GoldGuardGold> TOTAL_GOLD = TConstruct.createKey("gold_guard", GoldGuardGold::new);
 
   @Override
@@ -72,7 +71,7 @@ public class GoldGuardModifier extends NoLevelsModifier implements EquipmentChan
   public void onEquipmentChange(IToolStackView tool, ModifierEntry modifier, EquipmentChangeContext context, EquipmentSlot slotType) {
     // adding a helmet? activate bonus
     EquipmentSlot changed = context.getChangedSlot();
-    if (slotType == EquipmentSlot.HEAD && changed.getType() == Type.ARMOR) {
+    if (slotType == EquipmentSlot.HEAD && changed.getType() == Type.HUMANOID_ARMOR) {
       LivingEntity living = context.getEntity();
       boolean hasGold = ChrysophiliteModifier.hasGold(context, changed);
       context.getTinkerData().computeIfAbsent(TOTAL_GOLD).setGold(changed, hasGold, living);
@@ -86,7 +85,7 @@ public class GoldGuardModifier extends NoLevelsModifier implements EquipmentChan
       if (instance != null) {
         AttributeModifier modifier = instance.getModifier(GOLD_GUARD_UUID);
         if (modifier != null) {
-          tooltip.add(applyStyle(Component.literal(Util.BONUS_FORMAT.format(modifier.getAmount()) + " ")
+          tooltip.add(applyStyle(Component.literal(Util.BONUS_FORMAT.format(modifier.amount()) + " ")
                                    .append(Component.translatable(getTranslationKey() + "." + "health"))));
         }
       }
@@ -104,7 +103,7 @@ public class GoldGuardModifier extends NoLevelsModifier implements EquipmentChan
           instance.removeModifier(GOLD_GUARD_UUID);
         }
         // +2 hearts per level, and a bonus of 2 for having the modifier
-        instance.addTransientModifier(new AttributeModifier(GOLD_GUARD_UUID, "tconstruct.gold_guard", getTotalGold() * 4, Operation.ADDITION));
+        instance.addTransientModifier(new AttributeModifier(GOLD_GUARD_UUID, getTotalGold() * 4, Operation.ADD_VALUE));
       }
     }
 

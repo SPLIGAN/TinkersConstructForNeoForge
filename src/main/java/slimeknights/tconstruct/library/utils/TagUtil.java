@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 
 import javax.annotation.Nullable;
@@ -24,9 +23,20 @@ public final class TagUtil {
   @Nullable
   public static BlockPos readOptionalPos(CompoundTag parent, String key, BlockPos offset) {
     if (parent.contains(key, Tag.TAG_COMPOUND)) {
-      return NbtUtils.readBlockPos(parent.getCompound(key)).offset(offset);
+      CompoundTag posTag = parent.getCompound(key);
+      return new BlockPos(posTag.getInt("X"), posTag.getInt("Y"), posTag.getInt("Z")).offset(offset);
     }
     return null;
+  }
+
+  /** Writes a block position as an XYZ compound (relative to {@code origin}). */
+  public static void writeRelativeBlockPos(CompoundTag parent, String key, BlockPos absolute, BlockPos origin) {
+    BlockPos rel = absolute.subtract(origin);
+    CompoundTag posTag = new CompoundTag();
+    posTag.putInt("X", rel.getX());
+    posTag.putInt("Y", rel.getY());
+    posTag.putInt("Z", rel.getZ());
+    parent.put(key, posTag);
   }
 
   /**

@@ -14,9 +14,9 @@ import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.mantle.data.loadable.primitive.FloatLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
-import slimeknights.mantle.recipe.container.IEmptyContainer;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.ingredient.EntityIngredient;
+import slimeknights.tconstruct.library.recipe.IEmptyRecipeInput;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
@@ -24,7 +24,7 @@ import slimeknights.tconstruct.tools.TinkerModifiers;
  * Recipe to convert an entity into a head or other item for the severing modifier
  */
 @RequiredArgsConstructor
-public class SeveringRecipe implements ICustomOutputRecipe<IEmptyContainer> {
+public class SeveringRecipe implements ICustomOutputRecipe<IEmptyRecipeInput> {
   protected static LoadableField<EntityIngredient,SeveringRecipe> ENTITY_FIELD = EntityIngredient.LOADABLE.requiredField("entity", r -> r.ingredient);
   protected static LoadableField<Float,SeveringRecipe> BASE_CHANCE_FIELD = FloatLoadable.PERCENT.defaultField("per_level_chance", 0.05f, true, r -> r.baseChance);
   protected static LoadableField<Float,SeveringRecipe> LOOTING_BONUS_FIELD = FloatLoadable.PERCENT.defaultField("looting_bonus", 0.01f, true, r -> r.lootingBonus);
@@ -93,7 +93,7 @@ public class SeveringRecipe implements ICustomOutputRecipe<IEmptyContainer> {
   /** @deprecated use {@link #matches(EntityType)}*/
   @Deprecated
   @Override
-  public boolean matches(IEmptyContainer inv, Level worldIn) {
+  public boolean matches(IEmptyRecipeInput inv, Level worldIn) {
     return false;
   }
 }

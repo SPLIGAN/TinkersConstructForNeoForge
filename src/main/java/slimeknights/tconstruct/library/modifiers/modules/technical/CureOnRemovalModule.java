@@ -36,7 +36,7 @@ public enum CureOnRemovalModule implements HookProvider, EquipmentChangeModifier
       IToolStackView replacement = context.getReplacementTool();
       if (replacement == null || replacement.getModifierLevel(modifier.getModifier()) == 0 || replacement.getItem() != tool.getItem()) {
         // cure effects using the helmet
-        context.getEntity().curePotionEffects(new ItemStack(tool.getItem()));
+        context.getEntity().removeAllEffects();
       }
     }
   }

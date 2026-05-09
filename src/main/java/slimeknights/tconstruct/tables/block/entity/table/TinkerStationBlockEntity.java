@@ -2,9 +2,12 @@ package slimeknights.tconstruct.tables.block.entity.table;
 
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,12 +15,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.event.ForgeEventFactory;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.apache.commons.lang3.StringUtils;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -57,6 +59,8 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
   /** Last crafted crafting recipe */
   @Nullable @Getter
   private ITinkerStationRecipe lastRecipe;
+  @Nullable
+  private ResourceLocation lastRecipeId;
   /** Result inventory, lazy loads results */
   @Getter
   private final LazyResultContainer craftingResult;
@@ -86,7 +90,6 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
   public TinkerStationBlockEntity(BlockPos pos, BlockState state, int slots) {
     super(TinkerTables.tinkerStationTile.get(), pos, state, NAME, slots);
     this.itemHandler = new ConfigurableInvWrapperCapability(this, false, false);
-    this.itemHandlerCap = LazyOptional.of(() -> this.itemHandler);
     this.inventoryWrapper = new TinkerStationContainerWrapper(this);
     this.craftingResult = new LazyResultContainer(this);
   }
@@ -158,9 +161,14 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
 
       // first, try the cached recipe
       ITinkerStationRecipe recipe = lastRecipe;
+      ResourceLocation recipeId = this.lastRecipeId;
       // if it does not match, find a new recipe
       if (recipe == null || !recipe.matches(this.inventoryWrapper, this.level)) {
-        recipe = manager.getRecipeFor(TinkerRecipeTypes.TINKER_STATION.get(), this.inventoryWrapper, this.level).orElse(null);
+        @SuppressWarnings("unchecked")
+        RecipeType<ITinkerStationRecipe> stationType = (RecipeType<ITinkerStationRecipe>) (RecipeType<?>) TinkerRecipeTypes.TINKER_STATION.get();
+        var found = manager.getRecipeFor(stationType, this.inventoryWrapper, this.level);
+        recipe = found.map(RecipeHolder::value).orElse(null);
+        recipeId = found.map(RecipeHolder::id).orElse(null);
       }
 
       // if we have a recipe, fetch its result
@@ -169,6 +177,7 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
         // sync if the recipe is different
         if (lastRecipe != recipe) {
           this.lastRecipe = recipe;
+          this.lastRecipeId = recipeId;
           this.syncToRelevantPlayers(this::syncRecipe);
           needsSync = false;
         }
@@ -236,7 +245,7 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
       if (tinkerable.getCount() <= shrinkToolSlot) {
         this.setItem(TINKER_SLOT, ItemStack.EMPTY);
       } else {
-        this.setItem(TINKER_SLOT, ItemHandlerHelper.copyStackWithSize(tinkerable, tinkerable.getCount() - shrinkToolSlot));
+        this.setItem(TINKER_SLOT, tinkerable.copyWithCount(tinkerable.getCount() - shrinkToolSlot));
       }
     }
     this.itemName = "";
@@ -293,8 +302,8 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
    */
   public void syncRecipe(Player player) {
     // must have a last recipe and a server level
-    if (this.lastRecipe != null && this.level != null && !this.level.isClientSide && player instanceof ServerPlayer server) {
-      TinkerNetwork.getInstance().sendTo(new UpdateTinkerStationRecipePacket(this.worldPosition, this.lastRecipe), server);
+    if (this.lastRecipe != null && this.lastRecipeId != null && this.level != null && !this.level.isClientSide && player instanceof ServerPlayer server) {
+      TinkerNetwork.getInstance().sendTo(new UpdateTinkerStationRecipePacket(this.worldPosition, this.lastRecipeId), server);
     }
   }
 
@@ -304,6 +313,7 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
    */
   public void updateRecipe(ITinkerStationRecipe recipe) {
     this.lastRecipe = recipe;
+    this.lastRecipeId = null;
     this.craftingResult.clearContent();
   }
 
@@ -339,16 +349,16 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
   }
 
   @Override
-  public void saveSynced(CompoundTag tags) {
-    super.saveSynced(tags);
+  public void saveSynced(CompoundTag tags, HolderLookup.Provider provider) {
+    super.saveSynced(tags, provider);
     if (material != IMaterial.UNKNOWN_ID) {
       tags.putString(MATERIAL_TAG, material.toString());
     }
   }
 
   @Override
-  public void load(CompoundTag tags) {
-    super.load(tags);
+  public void loadAdditional(CompoundTag tags, HolderLookup.Provider provider) {
+    super.loadAdditional(tags, provider);
     if (tags.contains(MATERIAL_TAG, Tag.TAG_STRING)) {
       material = Objects.requireNonNullElse(MaterialVariantId.tryParse(tags.getString(MATERIAL_TAG)), IMaterial.UNKNOWN_ID);
       RetexturedHelper.onTextureUpdated(this);

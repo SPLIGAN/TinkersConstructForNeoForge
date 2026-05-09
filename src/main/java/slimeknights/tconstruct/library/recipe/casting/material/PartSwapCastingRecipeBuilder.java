@@ -34,7 +34,7 @@ public class PartSwapCastingRecipeBuilder extends AbstractRecipeBuilder<PartSwap
    * @return  Builder instance
    */
   public static PartSwapCastingRecipeBuilder basinRecipe(Ingredient tools, int itemCost) {
-    return castingRecipe(tools, itemCost, TinkerSmeltery.basinPartSwappingSerializer.get());
+    return castingRecipe(tools, itemCost, (TypeAwareRecipeSerializer<PartSwapCastingRecipe>) TinkerSmeltery.basinPartSwappingSerializer.get());
   }
 
   /**
@@ -43,7 +43,7 @@ public class PartSwapCastingRecipeBuilder extends AbstractRecipeBuilder<PartSwap
    * @return  Builder instance
    */
   public static PartSwapCastingRecipeBuilder tableRecipe(Ingredient tools, int itemCost) {
-    return castingRecipe(tools, itemCost, TinkerSmeltery.tablePartSwappingSerializer.get());
+    return castingRecipe(tools, itemCost, (TypeAwareRecipeSerializer<PartSwapCastingRecipe>) TinkerSmeltery.tablePartSwappingSerializer.get());
   }
 
   @SuppressWarnings("deprecation")
@@ -54,6 +54,6 @@ public class PartSwapCastingRecipeBuilder extends AbstractRecipeBuilder<PartSwap
 
   @Override
   public void save(RecipeOutput consumer, ResourceLocation id) {
-    consumer.accept(new LoadableFinishedRecipe<>(new PartSwapCastingRecipe(recipeSerializer, id, group, tools, itemCost, index, allowedMaterials), PartSwapCastingRecipe.LOADER, this.buildOptionalAdvancement(id, "materials")));
+    consumer.accept(id, new PartSwapCastingRecipe(recipeSerializer, id, group, tools, itemCost, index, allowedMaterials), this.buildOptionalAdvancementHolder(consumer, id, "materials"));
   }
 }

@@ -62,6 +62,7 @@ import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
+import net.minecraft.core.registries.BuiltInRegistries;
 import slimeknights.tconstruct.tools.modules.armor.CounterModule;
 
 import javax.annotation.Nullable;
@@ -232,11 +233,7 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
       }
       float duration = this.time.computeValue(scaledLevel);
       if (duration > 0) {
-        MobEffectInstance instance = new MobEffectInstance(effect, (int)duration, level);
-        if (curativeItems != null) {
-          instance.setCurativeItems(curativeItems.stream().map(ItemStack::new).collect(Collectors.toList()));
-        }
-        target.addEffect(new MobEffectInstance(effect, (int)duration, level), cause);
+        target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), (int)duration, level), cause);
       }
     }
 

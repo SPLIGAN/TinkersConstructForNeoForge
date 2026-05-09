@@ -8,7 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.CommonHooks;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
@@ -186,11 +185,14 @@ public interface BowAmmoModifierHook {
         if (!ammo.isEmpty()) {
           // if creative, we are done, just return the ammo with the given size
           if (creative) {
-            return ItemHandlerHelper.copyStackWithSize(ammo, projectilesDesired);
+            ItemStack copy = ammo.copy();
+            copy.setCount(projectilesDesired);
+            return copy;
           }
 
           // not creative, split out the desired amount. We may have to do more work if it is too small
-          resultStack = ItemHandlerHelper.copyStackWithSize(ammo, Math.min(projectilesDesired, ammo.getCount()));
+          resultStack = ammo.copy();
+          resultStack.setCount(Math.min(projectilesDesired, ammo.getCount()));
           hook.shrinkAmmo(tool, entry, living, ammo, resultStack.getCount());
           break;
         }
@@ -205,7 +207,9 @@ public interface BowAmmoModifierHook {
       }
       // with standard ammo, in creative we can just return that
       if (creative) {
-        return ItemHandlerHelper.copyStackWithSize(standardAmmo, projectilesDesired);
+        ItemStack copy = standardAmmo.copy();
+        copy.setCount(projectilesDesired);
+        return copy;
       }
       // make a copy of the result, up to the desired size
       resultStack = standardAmmo.split(projectilesDesired);
@@ -223,7 +227,7 @@ public interface BowAmmoModifierHook {
 
     // not enough? keep searching until we fill the stack
     ItemStack match = resultStack;
-    predicate = stack -> ItemStack.isSameItemSameTags(stack, match);
+    predicate = stack -> ItemStack.isSameItemSameComponents(stack, match);
     hasEnough:
     do {
       // if standard ammo is empty, try finding a matching stack again

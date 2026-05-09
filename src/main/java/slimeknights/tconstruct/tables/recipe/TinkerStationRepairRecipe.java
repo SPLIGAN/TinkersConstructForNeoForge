@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tables.recipe;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +39,10 @@ public class TinkerStationRepairRecipe implements ITinkerStationRecipe {
 
   @Getter
   private final ResourceLocation id;
+
+  public TinkerStationRepairRecipe() {
+    this(ResourceLocation.fromNamespaceAndPath(TConstruct.MOD_ID, "tinker_station_repair"));
+  }
 
   /**
    * Gets the material for the given slot
@@ -220,5 +225,10 @@ public class TinkerStationRepairRecipe implements ITinkerStationRecipe {
   @Override
   public RecipeSerializer<?> getSerializer() {
     return TinkerTables.tinkerStationRepairSerializer.get();
+  }
+
+  @Override
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
   }
 }

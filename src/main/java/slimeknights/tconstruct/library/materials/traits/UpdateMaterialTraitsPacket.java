@@ -30,7 +30,7 @@ public class UpdateMaterialTraitsPacket implements IThreadsafePacket {
   public void encode(FriendlyByteBuf buffer) {
     buffer.writeInt(materialToTraits.size());
     materialToTraits.forEach((materialId, traits) -> {
-      buffer.writeResourceLocation(materialId);
+      buffer.writeResourceLocation(materialId.getLocation());
       traits.write(buffer);
     });
   }

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -12,11 +13,12 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.ContextKey;
+import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.IMultiRecipe;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.json.field.MergingField;
 import slimeknights.tconstruct.library.json.field.MergingField.MissingMode;
@@ -39,9 +41,10 @@ import java.util.stream.Stream;
  */
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class PartRecipe implements IPartBuilderRecipe, IMultiRecipe<IDisplayPartBuilderRecipe> {
+  private static final LoadableField<String, PartRecipe> GROUP_FIELD = StringLoadable.DEFAULT.defaultField("group", "", r -> r.group);
   public static final RecordLoadable<PartRecipe> LOADER = RecordLoadable.create(
     ContextKey.ID.requiredField(),
-    LoadableRecipeSerializer.RECIPE_GROUP,
+    GROUP_FIELD,
     Pattern.PARSER.requiredField("pattern", PartRecipe::getPattern),
     IngredientLoadable.DISALLOW_EMPTY.defaultField("pattern_item", DEFAULT_PATTERNS, r -> r.patternItem),
     IntLoadable.FROM_ONE.requiredField("cost", PartRecipe::getCost),
@@ -126,7 +129,7 @@ public class PartRecipe implements IPartBuilderRecipe, IMultiRecipe<IDisplayPart
   /** @deprecated use {@link #getRecipeOutput(MaterialVariantId)} */
   @Deprecated
   @Override
-  public ItemStack getResultItem(RegistryAccess access) {
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
     return new ItemStack(output);
   }
 
@@ -148,7 +151,6 @@ public class PartRecipe implements IPartBuilderRecipe, IMultiRecipe<IDisplayPart
     return getRecipeOutput(material, outputCount);
   }
 
-  @Override
   public ItemStack assemble(IPartBuilderContainer inv, RegistryAccess access) {
     MaterialVariant material = MaterialVariant.UNKNOWN;
     int count = outputCount;

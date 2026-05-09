@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.HolderLookup;
 import org.jetbrains.annotations.ApiStatus.NonExtendable;
 import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.LoadableField;
@@ -121,6 +122,11 @@ public abstract class AbstractModifierRecipe implements ITinkerStationRecipe, ID
     return getId();
   }
 
+  @Override
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
+  }
+
   /** Gets or builds the list of tool inputs */
   protected List<ItemStack> getToolInputs() {
     if (toolInputs == null) {
@@ -178,7 +184,7 @@ public abstract class AbstractModifierRecipe implements ITinkerStationRecipe, ID
     // add variant info for the sake of rebalanced
     ModDataNBT persistentData = new ModDataNBT();
     if (!variant.isEmpty()) {
-      persistentData.putString(result.getId(), variant);
+      persistentData.putString(result.getId().getLocation(), variant);
     }
     // build volatile data, will read that for slot info
     ToolDataNBT volatileData = new ToolDataNBT();

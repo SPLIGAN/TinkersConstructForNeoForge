@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.worktable;
 
 import lombok.Getter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -9,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
@@ -142,6 +144,11 @@ public class ModifierSetWorktableRecipe extends AbstractWorktableRecipe {
   @Override
   public RecipeSerializer<?> getSerializer() {
     return TinkerModifiers.modifierSetWorktableSerializer.get();
+  }
+
+  @Override
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
   }
 
   /** Gets the set of modifiers in persistent data at the given key */

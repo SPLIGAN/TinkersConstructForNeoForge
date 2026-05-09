@@ -1,9 +1,10 @@
 package slimeknights.tconstruct.tools;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -18,20 +19,17 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.SimpleRecipeSerializer;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerEffect;
 import slimeknights.tconstruct.common.TinkerModule;
-import slimeknights.tconstruct.common.data.tags.ModifierTagProvider;
 import slimeknights.tconstruct.library.json.predicate.modifier.ModifierPredicate;
 import slimeknights.tconstruct.library.json.predicate.modifier.SingleModifierPredicate;
 import slimeknights.tconstruct.library.json.predicate.modifier.SlotTypeModifierPredicate;
@@ -191,10 +189,6 @@ import slimeknights.tconstruct.library.tools.capability.inventory.InventoryModul
 import slimeknights.tconstruct.library.tools.capability.inventory.InventorySlotMenuModule;
 import slimeknights.tconstruct.shared.TinkerEffects;
 import slimeknights.tconstruct.tables.TinkerTables;
-import slimeknights.tconstruct.tools.data.EnchantmentToModifierProvider;
-import slimeknights.tconstruct.tools.data.FluidEffectProvider;
-import slimeknights.tconstruct.tools.data.ModifierProvider;
-import slimeknights.tconstruct.tools.data.ModifierRecipeProvider;
 import slimeknights.tconstruct.tools.entity.CustomFireball;
 import slimeknights.tconstruct.tools.entity.FluidEffectProjectile;
 import slimeknights.tconstruct.tools.item.CreativeSlotItem;
@@ -214,10 +208,6 @@ import slimeknights.tconstruct.tools.modifiers.effect.HelmetChargingEffect;
 import slimeknights.tconstruct.tools.modifiers.effect.MagneticEffect;
 import slimeknights.tconstruct.tools.modifiers.effect.NoMilkEffect;
 import slimeknights.tconstruct.tools.modifiers.effect.RepulsiveEffect;
-import slimeknights.tconstruct.tools.modifiers.loot.ChrysophiliteBonusFunction;
-import slimeknights.tconstruct.tools.modifiers.loot.ChrysophiliteLootCondition;
-import slimeknights.tconstruct.tools.modifiers.loot.HasModifierLootCondition;
-import slimeknights.tconstruct.tools.modifiers.loot.ModifierBonusLootFunction;
 import slimeknights.tconstruct.tools.modifiers.slotless.CreativeSlotModifier;
 import slimeknights.tconstruct.tools.modifiers.slotless.OverslimeModifier;
 import slimeknights.tconstruct.tools.modifiers.slotless.StatOverrideModifier;
@@ -260,12 +250,9 @@ import slimeknights.tconstruct.tools.modules.armor.FireWalkerModule;
 import slimeknights.tconstruct.tools.modules.armor.FlameBarrierModule;
 import slimeknights.tconstruct.tools.modules.armor.FreezingCounterModule;
 import slimeknights.tconstruct.tools.modules.armor.GlowWalkerModule;
-import slimeknights.tconstruct.tools.modules.armor.KineticModule;
-import slimeknights.tconstruct.tools.modules.armor.KnockbackCounterModule;
 import slimeknights.tconstruct.tools.modules.armor.LightspeedAttributeModule;
 import slimeknights.tconstruct.tools.modules.armor.MinimapModule;
 import slimeknights.tconstruct.tools.modules.armor.OvershieldModule;
-import slimeknights.tconstruct.tools.modules.armor.RecurrentProtectionModule;
 import slimeknights.tconstruct.tools.modules.armor.RestoreLostHealthModule;
 import slimeknights.tconstruct.tools.modules.armor.ShieldStrapModule;
 import slimeknights.tconstruct.tools.modules.armor.SleevesModule;
@@ -291,7 +278,6 @@ import slimeknights.tconstruct.tools.modules.cosmetic.TrimModule;
 import slimeknights.tconstruct.tools.modules.durability.DurabilityAsCapacityModule;
 import slimeknights.tconstruct.tools.modules.durability.ShareDurabilityModule;
 import slimeknights.tconstruct.tools.modules.durability.ToolDamageRangeModule;
-import slimeknights.tconstruct.tools.modules.interaction.BrushModule;
 import slimeknights.tconstruct.tools.modules.interaction.BucketModule;
 import slimeknights.tconstruct.tools.modules.interaction.ExtinguishCampfireModule;
 import slimeknights.tconstruct.tools.modules.interaction.FireballModule;
@@ -299,7 +285,6 @@ import slimeknights.tconstruct.tools.modules.interaction.FishingModule;
 import slimeknights.tconstruct.tools.modules.interaction.HarvestModule;
 import slimeknights.tconstruct.tools.modules.interaction.PlaceFireModule;
 import slimeknights.tconstruct.tools.modules.interaction.PlaceGlowModule;
-import slimeknights.tconstruct.tools.modules.interaction.ShearsModule;
 import slimeknights.tconstruct.tools.modules.interaction.SlurpingModule;
 import slimeknights.tconstruct.tools.modules.interaction.SpittingModule;
 import slimeknights.tconstruct.tools.modules.interaction.SplashingModule;
@@ -329,8 +314,8 @@ import slimeknights.tconstruct.tools.recipe.EnchantmentConvertingRecipe;
 import slimeknights.tconstruct.tools.recipe.ExtractModifierRecipe;
 import slimeknights.tconstruct.tools.recipe.ModifierRemovalRecipe;
 import slimeknights.tconstruct.tools.recipe.ModifierSortingRecipe;
-import slimeknights.tconstruct.tools.recipe.TippedToolTransformRecipe;
 import slimeknights.tconstruct.tools.recipe.ToggleInteractionWorktableRecipe;
+import slimeknights.tconstruct.tools.recipe.TippedToolTransformRecipe;
 import slimeknights.tconstruct.tools.recipe.severing.MooshroomDemushroomingRecipe;
 import slimeknights.tconstruct.tools.recipe.severing.PlayerBeheadingRecipe;
 import slimeknights.tconstruct.tools.recipe.severing.SheepShearingRecipe;
@@ -346,11 +331,11 @@ import static slimeknights.tconstruct.TConstruct.getResource;
 public final class TinkerModifiers extends TinkerModule {
   private static final ModifierDeferredRegister MODIFIERS = ModifierDeferredRegister.create(TConstruct.MOD_ID);
 
-  public TinkerModifiers() {
-    ModifierManager.INSTANCE.init();
+  public TinkerModifiers(IEventBus bus) {
+    ModifierManager.INSTANCE.init(bus);
     DynamicModifier.init();
     FluidEffectManager.INSTANCE.init();
-    MODIFIERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+    MODIFIERS.register(bus);
     TinkerDataKeys.init();
   }
 
@@ -373,9 +358,9 @@ public final class TinkerModifiers extends TinkerModule {
   public static final ItemObject<CreativeSlotItem> creativeSlotItem = ITEMS.register("creative_slot", () -> new CreativeSlotItem(ITEM_PROPS));
 
   // entity
-  public static final DeferredHolder<?, EntityType<FluidEffectProjectile>> fluidSpitEntity = ENTITIES.register("fluid_spit", () ->
+  public static final DeferredHolder<EntityType<?>, EntityType<FluidEffectProjectile>> fluidSpitEntity = ENTITIES.register("fluid_spit", () ->
     EntityType.Builder.<FluidEffectProjectile>of(FluidEffectProjectile::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).setShouldReceiveVelocityUpdates(false));
-  public static final DeferredHolder<?, EntityType<CustomFireball>> fireball = ENTITIES.register("fireball", () -> EntityType.Builder.<CustomFireball>of(CustomFireball::new, MobCategory.MISC).sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10));
+  public static final DeferredHolder<EntityType<?>, EntityType<CustomFireball>> fireball = ENTITIES.register("fireball", () -> EntityType.Builder.<CustomFireball>of(CustomFireball::new, MobCategory.MISC).sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10));
 
   /*
    * Modifiers
@@ -684,38 +669,38 @@ public final class TinkerModifiers extends TinkerModule {
    */
   /** @deprecated use {@link TinkerEffects#bleeding} */
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, BleedingEffect> bleeding = TinkerEffects.bleeding;
+  public static final DeferredHolder<MobEffect, BleedingEffect> bleeding = TinkerEffects.bleeding;
   /** @deprecated use {@link TinkerEffects#magnetic} */
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, MagneticEffect> magneticEffect = TinkerEffects.magnetic;
+  public static final DeferredHolder<MobEffect, MagneticEffect> magneticEffect = TinkerEffects.magnetic;
   /** @deprecated use {@link TinkerEffects#repulsive} */
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, RepulsiveEffect> repulsiveEffect = TinkerEffects.repulsive;
+  public static final DeferredHolder<MobEffect, RepulsiveEffect> repulsiveEffect = TinkerEffects.repulsive;
   /** @deprecated use {@link TinkerEffects#enderference} */
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, TinkerEffect> enderferenceEffect = TinkerEffects.enderference;
+  public static final DeferredHolder<MobEffect, TinkerEffect> enderferenceEffect = TinkerEffects.enderference;
   /** @deprecated use {@link TinkerEffects#selfDestructing} */
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, TinkerEffect> selfDestructiveEffect = TinkerEffects.selfDestructing;
+  public static final DeferredHolder<MobEffect, TinkerEffect> selfDestructiveEffect = TinkerEffects.selfDestructing;
   /** @deprecated use {@link TinkerEffects#pierce} */
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, TinkerEffect> pierceEffect = TinkerEffects.pierce;
+  public static final DeferredHolder<MobEffect, TinkerEffect> pierceEffect = TinkerEffects.pierce;
 
   /** Effect for rendering the helmet charging icon in the GUI */
-  public static final DeferredHolder<?, HelmetChargingEffect> helmetCharging = MOB_EFFECTS.register("helmet_charging", HelmetChargingEffect::new);
+  public static final DeferredHolder<net.minecraft.world.effect.MobEffect, HelmetChargingEffect> helmetCharging = MOB_EFFECTS.register("helmet_charging", HelmetChargingEffect::new);
   // cooldown
   /** @deprecated use {@link TinkerEffects#enderference} */
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, TinkerEffect> teleportCooldownEffect = MOB_EFFECTS.register("teleport_cooldown", () -> new NoMilkEffect(MobEffectCategory.HARMFUL, 0xCC00FA, true));
-  public static final DeferredHolder<?, TinkerEffect> fireballCooldownEffect = MOB_EFFECTS.register("fireball_cooldown", () -> new NoMilkEffect(MobEffectCategory.HARMFUL, 0xFC9600, true));
+  public static final DeferredHolder<MobEffect, TinkerEffect> teleportCooldownEffect = MOB_EFFECTS.register("teleport_cooldown", () -> new NoMilkEffect(MobEffectCategory.HARMFUL, 0xCC00FA, true));
+  public static final DeferredHolder<net.minecraft.world.effect.MobEffect, TinkerEffect> fireballCooldownEffect = MOB_EFFECTS.register("fireball_cooldown", () -> new NoMilkEffect(MobEffectCategory.HARMFUL, 0xFC9600, true));
   // internal
-  public static final DeferredHolder<?, TinkerEffect> calcifiedEffect = MOB_EFFECTS.register("calcified", () -> new NoMilkEffect(MobEffectCategory.BENEFICIAL, -1, true));
+  public static final DeferredHolder<net.minecraft.world.effect.MobEffect, TinkerEffect> calcifiedEffect = MOB_EFFECTS.register("calcified", () -> new NoMilkEffect(MobEffectCategory.BENEFICIAL, -1, true));
   // markers
   public static final EnumObject<ToolType,TinkerEffect> momentumEffect = MOB_EFFECTS.registerEnum("momentum", ToolType.NO_MELEE, type -> new NoMilkEffect(MobEffectCategory.BENEFICIAL, 0x60496b, true));
   public static final EnumObject<ToolType,TinkerEffect> insatiableEffect = MOB_EFFECTS.registerEnum("insatiable", new ToolType[] {ToolType.MELEE, ToolType.RANGED, ToolType.ARMOR}, type -> {
     TinkerEffect effect = new NoMilkEffect(MobEffectCategory.BENEFICIAL, 0x9261cc, true);
     if (type == ToolType.ARMOR) {
-      effect.addAttributeModifier(Attributes.ATTACK_DAMAGE, "cc6904f7-674a-4e6a-b992-4f3cb8edfef4", 1, AttributeModifier.Operation.ADDITION);
+      effect.addAttributeModifier(Attributes.ATTACK_DAMAGE, ResourceLocation.withDefaultNamespace("tconstruct/bleeding_attack_damage_dummy"), 1, AttributeModifier.Operation.ADD_VALUE);
     }
     return effect;
   });
@@ -723,54 +708,51 @@ public final class TinkerModifiers extends TinkerModule {
   /*
    * Recipes
    */
-  public static final DeferredHolder<?, RecipeSerializer<ModifierRecipe>> modifierSerializer = RECIPE_SERIALIZERS.register("modifier", () -> LoadableRecipeSerializer.of(ModifierRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<IncrementalModifierRecipe>> incrementalModifierSerializer = RECIPE_SERIALIZERS.register("incremental_modifier", () -> LoadableRecipeSerializer.of(IncrementalModifierRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<SwappableModifierRecipe>> swappableModifierSerializer = RECIPE_SERIALIZERS.register("swappable_modifier", () -> LoadableRecipeSerializer.of(SwappableModifierRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<MultilevelModifierRecipe>> multilevelModifierSerializer = RECIPE_SERIALIZERS.register("multilevel_modifier", () -> LoadableRecipeSerializer.of(MultilevelModifierRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<MultilevelIncrementalModifierRecipe>> multilevelIncrementalModifierSerializer = RECIPE_SERIALIZERS.register("multilevel_incremental_modifier", () -> LoadableRecipeSerializer.of(MultilevelIncrementalModifierRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<OverslimeModifierRecipe>> overslimeSerializer = RECIPE_SERIALIZERS.register("overslime_modifier", () -> LoadableRecipeSerializer.of(OverslimeModifierRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<OverslimeCraftingTableRecipe>> craftingOverslimeSerializer = RECIPE_SERIALIZERS.register("crafting_overslime_modifier", () -> LoadableRecipeSerializer.of(OverslimeCraftingTableRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<ModifierSalvage>> modifierSalvageSerializer = RECIPE_SERIALIZERS.register("modifier_salvage", () -> LoadableRecipeSerializer.of(ModifierSalvage.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<ArmorDyeingRecipe>> armorDyeingSerializer = RECIPE_SERIALIZERS.register("armor_dyeing_modifier", () -> new SimpleRecipeSerializer<>(ArmorDyeingRecipe::new));
-  public static final DeferredHolder<?, RecipeSerializer<BannerModifierRecipe>> bannerModifierSerializer = RECIPE_SERIALIZERS.register("banner_modifier", () -> new SimpleRecipeSerializer<>(BannerModifierRecipe::new));
-  public static final DeferredHolder<?, RecipeSerializer<ArmorTrimRecipe>> armorTrimSerializer = RECIPE_SERIALIZERS.register("armor_trim_modifier", () -> new SimpleRecipeSerializer<>(ArmorTrimRecipe::new));
-  public static final DeferredHolder<?, RecipeSerializer<TippedToolTransformRecipe>> tippedToolTransformRecipeSerializer = RECIPE_SERIALIZERS.register("tipped_tool_transform", () -> LoadableRecipeSerializer.of(TippedToolTransformRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierRecipe>> modifierSerializer = RECIPE_SERIALIZERS.register("modifier", () -> LoadableRecipeSerializer.of(ModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<IncrementalModifierRecipe>> incrementalModifierSerializer = RECIPE_SERIALIZERS.register("incremental_modifier", () -> LoadableRecipeSerializer.of(IncrementalModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SwappableModifierRecipe>> swappableModifierSerializer = RECIPE_SERIALIZERS.register("swappable_modifier", () -> LoadableRecipeSerializer.of(SwappableModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MultilevelModifierRecipe>> multilevelModifierSerializer = RECIPE_SERIALIZERS.register("multilevel_modifier", () -> LoadableRecipeSerializer.of(MultilevelModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MultilevelIncrementalModifierRecipe>> multilevelIncrementalModifierSerializer = RECIPE_SERIALIZERS.register("multilevel_incremental_modifier", () -> LoadableRecipeSerializer.of(MultilevelIncrementalModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<OverslimeModifierRecipe>> overslimeSerializer = RECIPE_SERIALIZERS.register("overslime_modifier", () -> LoadableRecipeSerializer.of(OverslimeModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<OverslimeCraftingTableRecipe>> craftingOverslimeSerializer = RECIPE_SERIALIZERS.register("crafting_overslime_modifier", () -> LoadableRecipeSerializer.of(OverslimeCraftingTableRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierSalvage>> modifierSalvageSerializer = RECIPE_SERIALIZERS.register("modifier_salvage", () -> LoadableRecipeSerializer.of(ModifierSalvage.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ArmorDyeingRecipe>> armorDyeingSerializer = RECIPE_SERIALIZERS.register("armor_dyeing_modifier", () -> LoadableRecipeSerializer.of(ArmorDyeingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<BannerModifierRecipe>> bannerModifierSerializer = RECIPE_SERIALIZERS.register("banner_modifier", () -> LoadableRecipeSerializer.of(BannerModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ArmorTrimRecipe>> armorTrimSerializer = RECIPE_SERIALIZERS.register("armor_trim_modifier", () -> LoadableRecipeSerializer.of(ArmorTrimRecipe.LOADER));
   // modifiers
-  public static final DeferredHolder<?, RecipeSerializer<ModifierRepairTinkerStationRecipe>> modifierRepair = RECIPE_SERIALIZERS.register("modifier_repair", () -> LoadableRecipeSerializer.of(ModifierRepairTinkerStationRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<ModifierRepairCraftingRecipe>> craftingModifierRepair = RECIPE_SERIALIZERS.register("crafting_modifier_repair", () -> LoadableRecipeSerializer.of(ModifierRepairCraftingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierRepairTinkerStationRecipe>> modifierRepair = RECIPE_SERIALIZERS.register("modifier_repair", () -> LoadableRecipeSerializer.of(ModifierRepairTinkerStationRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierRepairCraftingRecipe>> craftingModifierRepair = RECIPE_SERIALIZERS.register("crafting_modifier_repair", () -> LoadableRecipeSerializer.of(ModifierRepairCraftingRecipe.LOADER));
   /** @deprecated use {@link MaterialRepairModule} */
   @SuppressWarnings("removal")
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, RecipeSerializer<ModifierMaterialRepairRecipe>> modifierMaterialRepair = RECIPE_SERIALIZERS.register("modifier_material_repair", () -> LoadableRecipeSerializer.deprecated(ModifierMaterialRepairRecipe.LOADER, "use the tconstruct:material_repair modifier module instead"));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierMaterialRepairRecipe>> modifierMaterialRepair = RECIPE_SERIALIZERS.register("modifier_material_repair", () -> LoadableRecipeSerializer.deprecated(ModifierMaterialRepairRecipe.LOADER, "use the tconstruct:material_repair modifier module instead"));
   /** @deprecated use {@link MaterialRepairModule} */
   @SuppressWarnings("removal")
   @Deprecated(forRemoval = true)
-  public static final DeferredHolder<?, RecipeSerializer<ModifierMaterialRepairKitRecipe>> craftingModifierMaterialRepair = RECIPE_SERIALIZERS.register("crafting_modifier_material_repair", () -> LoadableRecipeSerializer.deprecated(ModifierMaterialRepairKitRecipe.LOADER, "use the tconstruct:material_repair modifier module instead"));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierMaterialRepairKitRecipe>> craftingModifierMaterialRepair = RECIPE_SERIALIZERS.register("crafting_modifier_material_repair", () -> LoadableRecipeSerializer.deprecated(ModifierMaterialRepairKitRecipe.LOADER, "use the tconstruct:material_repair modifier module instead"));
   // worktable
-  public static final DeferredHolder<?, RecipeSerializer<ModifierRemovalRecipe>> removeModifierSerializer = RECIPE_SERIALIZERS.register("remove_modifier", () -> LoadableRecipeSerializer.of(ModifierRemovalRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<ExtractModifierRecipe>> extractModifierSerializer = RECIPE_SERIALIZERS.register("extract_modifier", () -> LoadableRecipeSerializer.of(ExtractModifierRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<ModifierSortingRecipe>> modifierSortingSerializer = RECIPE_SERIALIZERS.register("modifier_sorting", () -> LoadableRecipeSerializer.of(ModifierSortingRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<ModifierSetWorktableRecipe>> modifierSetWorktableSerializer = RECIPE_SERIALIZERS.register("modifier_set_worktable", () -> LoadableRecipeSerializer.of(ModifierSetWorktableRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<EnchantmentConvertingRecipe>> enchantmentConvertingSerializer = RECIPE_SERIALIZERS.register("enchantment_converting", () -> LoadableRecipeSerializer.of(EnchantmentConvertingRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<ToggleInteractionWorktableRecipe>> toggleInteractionSerializer = RECIPE_SERIALIZERS.register("toggle_interaction", () -> LoadableRecipeSerializer.of(ToggleInteractionWorktableRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierRemovalRecipe>> removeModifierSerializer = RECIPE_SERIALIZERS.register("remove_modifier", () -> LoadableRecipeSerializer.of(ModifierRemovalRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ExtractModifierRecipe>> extractModifierSerializer = RECIPE_SERIALIZERS.register("extract_modifier", () -> LoadableRecipeSerializer.of(ExtractModifierRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierSortingRecipe>> modifierSortingSerializer = RECIPE_SERIALIZERS.register("modifier_sorting", () -> LoadableRecipeSerializer.of(ModifierSortingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ModifierSetWorktableRecipe>> modifierSetWorktableSerializer = RECIPE_SERIALIZERS.register("modifier_set_worktable", () -> LoadableRecipeSerializer.of(ModifierSetWorktableRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<EnchantmentConvertingRecipe>> enchantmentConvertingSerializer = RECIPE_SERIALIZERS.register("enchantment_converting", () -> LoadableRecipeSerializer.of(EnchantmentConvertingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ToggleInteractionWorktableRecipe>> toggleInteractionSerializer = RECIPE_SERIALIZERS.register("toggle_interaction", () -> LoadableRecipeSerializer.of(ToggleInteractionWorktableRecipe.LOADER));
 
   // severing
-  public static final DeferredHolder<?, RecipeSerializer<SeveringRecipe>> severingSerializer = RECIPE_SERIALIZERS.register("severing", () -> LoadableRecipeSerializer.of(SeveringRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<AgeableSeveringRecipe>> ageableSeveringSerializer = RECIPE_SERIALIZERS.register("ageable_severing", () -> LoadableRecipeSerializer.of(AgeableSeveringRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SeveringRecipe>> severingSerializer = RECIPE_SERIALIZERS.register("severing", () -> LoadableRecipeSerializer.of(SeveringRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<AgeableSeveringRecipe>> ageableSeveringSerializer = RECIPE_SERIALIZERS.register("ageable_severing", () -> LoadableRecipeSerializer.of(AgeableSeveringRecipe.LOADER));
   // special severing
-  public static final DeferredHolder<?, RecipeSerializer<PlayerBeheadingRecipe>> playerBeheadingSerializer = RECIPE_SERIALIZERS.register("player_beheading", () -> LoadableRecipeSerializer.of(PlayerBeheadingRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<SnowGolemBeheadingRecipe>> snowGolemBeheadingSerializer = RECIPE_SERIALIZERS.register("snow_golem_beheading", () -> LoadableRecipeSerializer.of(SnowGolemBeheadingRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<MooshroomDemushroomingRecipe>> mooshroomDemushroomingSerializer = RECIPE_SERIALIZERS.register("mooshroom_demushrooming", () -> LoadableRecipeSerializer.of(MooshroomDemushroomingRecipe.LOADER));
-  public static final DeferredHolder<?, RecipeSerializer<SheepShearingRecipe>> sheepShearing = RECIPE_SERIALIZERS.register("sheep_shearing", () -> LoadableRecipeSerializer.of(SheepShearingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<PlayerBeheadingRecipe>> playerBeheadingSerializer = RECIPE_SERIALIZERS.register("player_beheading", () -> LoadableRecipeSerializer.of(PlayerBeheadingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SnowGolemBeheadingRecipe>> snowGolemBeheadingSerializer = RECIPE_SERIALIZERS.register("snow_golem_beheading", () -> LoadableRecipeSerializer.of(SnowGolemBeheadingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MooshroomDemushroomingRecipe>> mooshroomDemushroomingSerializer = RECIPE_SERIALIZERS.register("mooshroom_demushrooming", () -> LoadableRecipeSerializer.of(MooshroomDemushroomingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<SheepShearingRecipe>> sheepShearing = RECIPE_SERIALIZERS.register("sheep_shearing", () -> LoadableRecipeSerializer.of(SheepShearingRecipe.LOADER));
+  public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<TippedToolTransformRecipe>> tippedToolTransformRecipeSerializer = RECIPE_SERIALIZERS.register("tipped_tool_transform", () -> LoadableRecipeSerializer.of(TippedToolTransformRecipe.LOADER));
 
   /**
    * Loot
    */
-  public static final DeferredHolder<?, Codec<ModifierLootModifier>> modifierLootModifier = GLOBAL_LOOT_MODIFIERS.register("modifier_hook", () -> ModifierLootModifier.CODEC);
-  public static final DeferredHolder<?, LootItemConditionType> hasModifierLootCondition = LOOT_CONDITIONS.register("has_modifier", () -> new LootItemConditionType(new HasModifierLootCondition.ConditionSerializer()));
-  public static final DeferredHolder<?, LootItemFunctionType> modifierBonusFunction = LOOT_FUNCTIONS.register("modifier_bonus", () -> new LootItemFunctionType(new ModifierBonusLootFunction.Serializer()));
-  public static final DeferredHolder<?, LootItemConditionType> chrysophiliteLootCondition = LOOT_CONDITIONS.register("has_chrysophilite", () -> new LootItemConditionType(ChrysophiliteLootCondition.SERIALIZER));
-  public static final DeferredHolder<?, LootItemFunctionType> chrysophiliteBonusFunction = LOOT_FUNCTIONS.register("chrysophilite_bonus", () -> new LootItemFunctionType(ChrysophiliteBonusFunction.SERIALIZER));
+  public static final DeferredHolder<MapCodec<? extends net.neoforged.neoforge.common.loot.IGlobalLootModifier>, MapCodec<ModifierLootModifier>> modifierLootModifier = GLOBAL_LOOT_MODIFIERS.register("modifier_hook", () -> ModifierLootModifier.CODEC);
+  // Legacy loot serializers are temporarily disabled in this compatibility build.
 
   /*
    * Events
@@ -936,7 +918,6 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("block_item_provider"), BlockItemProviderModule.LOADER);
       ModifierModule.LOADER.register(getResource("tool_damage_range"), ToolDamageRangeModule.LOADER);
       // interaction
-      ModifierModule.LOADER.register(getResource("brush"), BrushModule.LOADER);
       ModifierModule.LOADER.register(getResource("campfire_extinguish"), ExtinguishCampfireModule.LOADER);
       ModifierModule.LOADER.register(getResource("fishing"), FishingModule.LOADER);
       ModifierModule.LOADER.register(getResource("harvest"), HarvestModule.LOADER);
@@ -945,7 +926,6 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("bucket"), BucketModule.LOADER);
       ModifierModule.LOADER.register(getResource("tank_interaction"), TankInteractionModule.LOADER);
       ModifierModule.LOADER.register(getResource("projectile_place_glow"), ProjectilePlaceGlowModule.LOADER);
-      ModifierModule.LOADER.register(getResource("shears"), ShearsModule.LOADER);
       ModifierModule.LOADER.register(getResource("throwing"), ThrowingModule.LOADER);
       ModifierModule.LOADER.register(getResource("spitting"), SpittingModule.LOADER);
       ModifierModule.LOADER.register(getResource("splashing"), SplashingModule.LOADER);
@@ -974,8 +954,6 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("enderclearance"), EnderclearanceModule.LOADER);
       ModifierModule.LOADER.register(getResource("depth_protection"), DepthProtectionModule.LOADER);
       ModifierModule.LOADER.register(getResource("flame_barrier"), FlameBarrierModule.LOADER);
-      ModifierModule.LOADER.register(getResource("kinetic"), KineticModule.LOADER);
-      ModifierModule.LOADER.register(getResource("recurrent_protection"), RecurrentProtectionModule.LOADER);
       ModifierModule.LOADER.register(getResource("shield_strap"), ShieldStrapModule.LOADER);
       ModifierModule.LOADER.register(getResource("tool_belt"), ToolBeltModule.LOADER);
       ModifierModule.LOADER.register(getResource("minimap"), MinimapModule.LOADER);
@@ -988,7 +966,6 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("thorns"), ThornsModule.LOADER);
       ModifierModule.LOADER.register(getResource("fiery_counter"), FieryCounterModule.LOADER);
       ModifierModule.LOADER.register(getResource("freezing_counter"), FreezingCounterModule.LOADER);
-      ModifierModule.LOADER.register(getResource("knockback_counter"), KnockbackCounterModule.LOADER);
       // ranged
       ModifierModule.LOADER.register(getResource("restrict_projectile_angle"), RestrictAngleModule.LOADER);
       ModifierModule.LOADER.register(getResource("bulk_quiver"), BulkQuiverModule.LOADER);
@@ -1079,17 +1056,7 @@ public final class TinkerModifiers extends TinkerModule {
     EntityModifierCapability.registerEntityPredicate(entity -> entity instanceof Projectile);
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    PackOutput packOutput = generator.getPackOutput();
-    boolean server = event.includeServer();
-    generator.addProvider(server, new ModifierProvider(packOutput));
-    generator.addProvider(server, new ModifierRecipeProvider(packOutput));
-    generator.addProvider(server, new FluidEffectProvider(packOutput));
-    generator.addProvider(server, new ModifierTagProvider(packOutput, event.getExistingFileHelper()));
-    generator.addProvider(server, new EnchantmentToModifierProvider(packOutput));
-  }
+  // Datagen is intentionally disabled in this server-focused Arclight compatibility build.
 
   /** Adds all relevant items to the creative tab, called by general */
   public static void addTabItems(ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {

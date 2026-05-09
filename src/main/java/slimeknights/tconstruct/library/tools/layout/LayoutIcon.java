@@ -9,14 +9,19 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.netty.handler.codec.DecoderException;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.crafting.CraftingHelper;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.Item;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 
@@ -66,7 +71,7 @@ public abstract class LayoutIcon {
     switch (type) {
       case EMPTY: return EMPTY;
       case ITEM: {
-        ItemStack stack = buffer.readItem();
+        ItemStack stack = ItemStack.STREAM_CODEC.decode(asRegistry(buffer));
         return new ItemStackIcon(stack);
       }
       case PATTERN: {
@@ -75,6 +80,10 @@ public abstract class LayoutIcon {
       }
     }
     throw new DecoderException("Invalid LayoutButtonIcon " + type);
+  }
+
+  private static RegistryFriendlyByteBuf asRegistry(FriendlyByteBuf buffer) {
+    return (RegistryFriendlyByteBuf) buffer;
   }
 
   /** Writes this to the packet buffer */
@@ -100,14 +109,14 @@ public abstract class LayoutIcon {
     @Override
     public void write(FriendlyByteBuf buffer) {
       buffer.writeEnum(Type.ITEM);
-      buffer.writeItem(stack);
+      ItemStack.STREAM_CODEC.encode(asRegistry(buffer), stack);
     }
 
     @Override
     public JsonObject toJson() {
       JsonObject json = new JsonObject();
       json.addProperty("item", BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
-      CompoundTag tag = stack.getTag();
+      CompoundTag tag = ItemStackTagCompat.getTag(stack);
       if (tag != null) {
         json.addProperty("nbt", tag.toString());
       }
@@ -132,7 +141,7 @@ public abstract class LayoutIcon {
     @Override
     public void write(FriendlyByteBuf buffer) {
       buffer.writeEnum(Type.PATTERN);
-      buffer.writeResourceLocation(pattern);
+      buffer.writeResourceLocation(pattern.getLocation());
     }
 
     @Override
@@ -141,6 +150,22 @@ public abstract class LayoutIcon {
       json.addProperty("pattern", pattern.toString());
       return json;
     }
+  }
+
+  /** Matches {@link ItemStackIcon#toJson()} legacy JSON shape. */
+  private static ItemStack readLegacyItemStack(JsonObject object) {
+    ResourceLocation id = JsonHelper.getResourceLocation(object, "item");
+    Item item = BuiltInRegistries.ITEM.get(id);
+    ItemStack stack = new ItemStack(item);
+    if (object.has("nbt")) {
+      try {
+        CompoundTag tag = TagParser.parseTag(GsonHelper.getAsString(object, "nbt"));
+        ItemStackTagCompat.setTag(stack, tag);
+      } catch (CommandSyntaxException e) {
+        throw new JsonSyntaxException("Invalid NBT for layout icon", e);
+      }
+    }
+    return stack;
   }
 
   /** enum of icon types for serialization */
@@ -160,7 +185,7 @@ public abstract class LayoutIcon {
         return new PatternIcon(pattern);
       }
       if (object.has("item")) {
-        ItemStack stack = CraftingHelper.getItemStack(object, true);
+        ItemStack stack = readLegacyItemStack(object);
         return new ItemStackIcon(stack);
       }
       // not sure why this would be needed, but might as well

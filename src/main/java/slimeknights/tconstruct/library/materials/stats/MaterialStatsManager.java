@@ -12,7 +12,6 @@ import net.minecraft.util.GsonHelper;
 import org.apache.logging.log4j.Level;
 import slimeknights.mantle.data.listener.MergingJsonDataLoader;
 import slimeknights.mantle.data.loadable.field.ContextKey;
-import slimeknights.mantle.data.registry.IdAwareComponentRegistry;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.typed.TypedMapBuilder;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -26,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -54,7 +54,7 @@ public class MaterialStatsManager extends MergingJsonDataLoader<Map<ResourceLoca
    * It is not cleared on reload, since it does not represent loaded data. Think of it as a GSON type adapter.
    */
   @Getter
-  private final IdAwareComponentRegistry<MaterialStatType<?>> statTypes = new IdAwareComponentRegistry<>("Unknown Material Stat Type");
+  private final Map<MaterialStatsId, MaterialStatType<?>> statTypes = new HashMap<>();
 
   /** Final map of material ID to material stat ID to material stats */
   private Map<MaterialId, Map<MaterialStatsId, IMaterialStats>> materialToStatsPerType = Collections.emptyMap();
@@ -69,12 +69,14 @@ public class MaterialStatsManager extends MergingJsonDataLoader<Map<ResourceLoca
    * @param type   Type object
    */
   public <T extends IMaterialStats> void registerStatType(MaterialStatType<T> type) {
-    statTypes.register(type);
+    if (statTypes.putIfAbsent(type.getId(), type) != null) {
+      throw new IllegalArgumentException("Duplicate material stat type: " + type.getId());
+    }
   }
 
   /** Gets a lit of all material stat IDs */
   public Collection<ResourceLocation> getAllStatTypeIds() {
-    return statTypes.getKeys();
+    return statTypes.keySet().stream().map(MaterialStatsId::getLocation).toList();
   }
 
   /**
@@ -85,7 +87,7 @@ public class MaterialStatsManager extends MergingJsonDataLoader<Map<ResourceLoca
   @SuppressWarnings("unchecked")
   @Nullable
   public <T extends IMaterialStats> MaterialStatType<T> getStatType(MaterialStatsId id) {
-    return (MaterialStatType<T>) statTypes.getValue(id);
+    return (MaterialStatType<T>) statTypes.get(id);
   }
 
   /**
@@ -191,7 +193,7 @@ public class MaterialStatsManager extends MergingJsonDataLoader<Map<ResourceLoca
 
     log.debug("Loaded stats for materials:{}",
               Util.toIndentedStringList(materialToStatsPerType.entrySet().stream()
-                .sorted(Entry.comparingByKey())
+                .sorted(Entry.comparingByKey(Comparator.comparing(MaterialId::toString)))
                 .map(entry -> String.format("%s - [%s]", entry.getKey(), entry.getValue().keySet().stream().sorted().map(Object::toString).collect(Collectors.joining(", "))))
                 .collect(Collectors.toList())));
     onLoaded.run();

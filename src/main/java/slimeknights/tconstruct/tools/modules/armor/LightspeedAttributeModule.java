@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.tools.modules.armor;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -37,10 +39,9 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 /** Module implementing the movement speed side of lightspeed */
-public record LightspeedAttributeModule(String unique, UUID uuid, Attribute attribute, Operation operation, @Nullable LightLayer lightLayer, int minLight, float amount, float damageChance) implements ModifierModule, ArmorWalkModifierHook, EquipmentChangeModifierHook, TooltipModifierHook {
+public record LightspeedAttributeModule(String unique, ResourceLocation uuid, Attribute attribute, Operation operation, @Nullable LightLayer lightLayer, int minLight, float amount, float damageChance) implements ModifierModule, ArmorWalkModifierHook, EquipmentChangeModifierHook, TooltipModifierHook {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<LightspeedAttributeModule>defaultHooks(ModifierHooks.BOOT_WALK, ModifierHooks.EQUIPMENT_CHANGE, ModifierHooks.TOOLTIP);
   public static final RecordLoadable<LightspeedAttributeModule> LOADER = RecordLoadable.create(
     new AttributeUniqueField<>(LightspeedAttributeModule::unique),
@@ -53,7 +54,7 @@ public record LightspeedAttributeModule(String unique, UUID uuid, Attribute attr
     LightspeedAttributeModule::new);
 
   public LightspeedAttributeModule(String unique, Attribute attribute, Operation operation, LightLayer lightLayer, int minLight, float amount, float damageChance) {
-    this(unique, UUID.nameUUIDFromBytes(unique.getBytes()), attribute, operation, lightLayer, minLight, amount, damageChance);
+    this(unique, ResourceLocation.fromNamespaceAndPath("tconstruct", unique.replace('.', '_')), attribute, operation, lightLayer, minLight, amount, damageChance);
   }
 
   @Override
@@ -79,7 +80,7 @@ public record LightspeedAttributeModule(String unique, UUID uuid, Attribute attr
       return;
     }
     // must have speed
-    AttributeInstance attribute = living.getAttribute(this.attribute);
+    AttributeInstance attribute = living.getAttribute(Holder.direct(this.attribute));
     if (attribute == null) {
       return;
     }
@@ -94,7 +95,7 @@ public record LightspeedAttributeModule(String unique, UUID uuid, Attribute attr
     int light = getLight(level, pos);
     if (light > minLight) {
       int scaledLight = light - minLight;
-      attribute.addTransientModifier(new AttributeModifier(uuid, unique, scaledLight * amount * modifier.getEffectiveLevel(), operation));
+      attribute.addTransientModifier(new AttributeModifier(uuid, scaledLight * amount * modifier.getEffectiveLevel(), operation));
 
       // damage boots
       if (level.random.nextFloat() < (damageChance * scaledLight)) {
@@ -111,7 +112,7 @@ public record LightspeedAttributeModule(String unique, UUID uuid, Attribute attr
       IToolStackView newTool = context.getReplacementTool();
       // damaging the tool will trigger this hook, so ensure the new tool has the same level
       if (newTool == null || newTool.isBroken() || newTool.getModifier(modifier.getId()).getEffectiveLevel() != modifier.getEffectiveLevel()) {
-        AttributeInstance attribute = livingEntity.getAttribute(this.attribute);
+        AttributeInstance attribute = livingEntity.getAttribute(Holder.direct(this.attribute));
         if (attribute != null && attribute.getModifier(uuid) != null) {
           attribute.removeModifier(uuid);
         }
@@ -130,7 +131,7 @@ public record LightspeedAttributeModule(String unique, UUID uuid, Attribute attr
     }
     float boost = amount * (light - minLight) * entry.getEffectiveLevel();
     if (boost > 0) {
-      if (operation == Operation.ADDITION) {
+      if (operation == Operation.ADD_VALUE) {
         // multiplies addition boost by 10 and displays as a percent as the players base movement speed is 0.1 and is in unknown units
         // percentages make sense
         boost *= 10;

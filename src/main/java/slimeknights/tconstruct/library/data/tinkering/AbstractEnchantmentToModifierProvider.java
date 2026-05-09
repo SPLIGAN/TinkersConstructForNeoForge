@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.library.data.tinkering;
 
 import com.google.gson.JsonObject;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
@@ -12,6 +11,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.utils.BuiltinRegistryAccess;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -49,7 +49,7 @@ public abstract class AbstractEnchantmentToModifierProvider extends GenericDataP
 
   /** Adds the given enchantment, allowing making the modifier optional */
   protected void add(Enchantment enchantment, ModifierId modifierId, boolean optionalModifier) {
-    String key = Objects.requireNonNull(BuiltInRegistries.ENCHANTMENT.getKey(enchantment)).toString();
+    String key = Objects.requireNonNull(BuiltinRegistryAccess.get(Registries.ENCHANTMENT).getKey(enchantment)).toString();
     if (enchantmentMap.has(key) || enchantmentMap.has(key + '?')) {
       throw new IllegalArgumentException("Duplicate enchantment " + key);
     }

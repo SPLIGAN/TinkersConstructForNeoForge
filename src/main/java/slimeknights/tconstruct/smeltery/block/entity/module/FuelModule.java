@@ -10,6 +10,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.util.LazyOptional;
+import java.util.function.Consumer;
+
 import net.neoforged.neoforge.common.util.NonNullConsumer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -30,7 +32,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public abstract class FuelModule implements ContainerData {
   /** Listener to attach to stored capability */
-  protected final NonNullConsumer<LazyOptional<IFluidHandler>> fluidListener = new WeakConsumerWrapper<>(this, FuelModule::resetHandler);
+  @SuppressWarnings("unchecked")
+  protected final NonNullConsumer<LazyOptional<IFluidHandler>> fluidListener = (NonNullConsumer<LazyOptional<IFluidHandler>>) (Consumer<LazyOptional<IFluidHandler>>) new WeakConsumerWrapper<FuelModule, LazyOptional<IFluidHandler>>(this, (self, cap) -> self.resetHandler(cap));
 
   /** Parent TE */
   protected final MantleBlockEntity parent;
@@ -130,7 +133,7 @@ public abstract class FuelModule implements ContainerData {
       int amount = recipe.getAmount(fluid.getFluid());
       if (fluid.getAmount() >= amount) {
         if (consume) {
-          FluidStack drained = handler.drain(new FluidStack(fluid, amount), FluidAction.EXECUTE);
+          FluidStack drained = handler.drain(fluid.copyWithAmount(amount), FluidAction.EXECUTE);
           if (drained.getAmount() != amount) {
             TConstruct.LOG.error("Invalid amount of fuel drained from tank");
           }

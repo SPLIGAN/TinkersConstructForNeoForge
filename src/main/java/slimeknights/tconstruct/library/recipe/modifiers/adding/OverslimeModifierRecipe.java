@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.modifiers.adding;
 
 import lombok.Getter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -117,6 +118,11 @@ public class OverslimeModifierRecipe implements ITinkerStationRecipe, IDisplayMo
   @Override
   public RecipeSerializer<?> getSerializer() {
     return TinkerModifiers.overslimeSerializer.get();
+  }
+
+  @Override
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
   }
 
   /* JEI display */

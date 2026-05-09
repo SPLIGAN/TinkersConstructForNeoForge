@@ -5,7 +5,6 @@ import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
-import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.module.HookProvider;
@@ -53,21 +52,21 @@ public record CustomMaterialName(int index, String suffix) implements ToolNameHo
     Component component;
     find: {
       // first, try the material directly
-      String materialKey = MaterialTooltipCache.getKey(material) + '.' + suffix;
+      String materialKey = material.toString().replace(':', '.') + '.' + suffix;
       if (Util.canTranslate(materialKey)) {
         component = Component.translatable(materialKey);
         break find;
       }
       // if that did not work, do base material
       if (material.hasVariant()) {
-        materialKey = MaterialTooltipCache.getKey(material.getId()) + '.' + suffix;
+        materialKey = material.getId().toString().replace(':', '.') + '.' + suffix;
         if (Util.canTranslate(materialKey)) {
           component = Component.translatable(materialKey);
           break find;
         }
       }
       // if both failed, use the regular key
-      component = MaterialTooltipCache.getDisplayName(material);
+      component = Component.literal(material.toString());
     }
     return Component.translatable(TooltipUtil.KEY_FORMAT, component, itemName);
   }

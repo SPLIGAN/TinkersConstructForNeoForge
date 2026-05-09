@@ -15,7 +15,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,6 +26,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import slimeknights.tconstruct.world.block.SlimeTallGrassBlock;
 import slimeknights.tconstruct.world.TinkerStructures;
 import slimeknights.tconstruct.world.block.SlimeVineBlock;
 
@@ -104,7 +104,7 @@ public class IslandPiece extends TemplateStructurePiece {
           if (plant.isPresent()) {
             Block block = plant.get();
             BlockState state = block.defaultBlockState();
-            if (block instanceof BushBlock bush && bush.canSurvive(state, level, pos)) {
+            if (block instanceof SlimeTallGrassBlock tallGrass && tallGrass.canSurviveForWorldgen(state, level, pos)) {
               level.setBlock(pos, state, 2);
             }
           }

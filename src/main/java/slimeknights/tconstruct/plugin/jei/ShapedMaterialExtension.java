@@ -43,7 +43,9 @@ public class ShapedMaterialExtension implements ICraftingCategoryExtension {
       this.result = List.of(plainResult);
     }
     List<Ingredient> inputs = recipe.getIngredients();
-    this.materialSlots = IntStream.range(0, inputs.size()).filter(i -> inputs.get(i) instanceof MaterialValueIngredient).toArray();
+    this.materialSlots = IntStream.range(0, inputs.size())
+        .filter(i -> MaterialValueIngredient.unwrap(inputs.get(i)) != null)
+        .toArray();
   }
 
   @Override

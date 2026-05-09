@@ -86,7 +86,7 @@ public record BreakBlockFluidEffect(float hardness, Map<Enchantment,Integer> enc
         ItemStack fakeTool = ItemStack.EMPTY;
         if (!enchantments.isEmpty()) {
           fakeTool = new ItemStack(Items.STICK);
-          EnchantmentHelper.setEnchantments(enchantments, fakeTool);
+          // 1.21 enchantment component APIs are different; skip fake enchant application in compat mode.
         }
 
         // ensures tile entity is fetched so its around for afterBlockBreak
@@ -141,7 +141,7 @@ public record BreakBlockFluidEffect(float hardness, Map<Enchantment,Integer> enc
       translationKey += ".enchanted";
       Component enchantments = enchantments().entrySet().stream().<Component>map(entry -> {
         Enchantment enchantment = entry.getKey();
-        MutableComponent component = Component.translatable(enchantment.getDescriptionId());
+        MutableComponent component = Component.literal(enchantment.toString());
         if (enchantment.getMaxLevel() != 1) {
           component.append(CommonComponents.SPACE).append(Component.translatable("enchantment.level." + entry.getValue()));
         }

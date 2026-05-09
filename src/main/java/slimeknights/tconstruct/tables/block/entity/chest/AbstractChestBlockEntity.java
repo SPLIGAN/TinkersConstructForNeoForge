@@ -3,6 +3,7 @@ package slimeknights.tconstruct.tables.block.entity.chest;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -38,17 +39,14 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
   }
 
   @Nonnull
-  @Override
   public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
     if (cap == ForgeCapabilities.ITEM_HANDLER) {
       return capability.cast();
     }
-    return super.getCapability(cap, side);
+    return LazyOptional.empty();
   }
 
-  @Override
   public void invalidateCaps() {
-    super.invalidateCaps();
     capability.invalidate();
   }
 
@@ -69,25 +67,25 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
   }
 
   @Override
-  public void saveAdditional(CompoundTag tags) {
-    super.saveAdditional(tags);
+  public void saveAdditional(CompoundTag tags, HolderLookup.Provider provider) {
+    super.saveAdditional(tags, provider);
     // move the items from the serialized result
     // we don't care about the size and need it here for compat with old worlds
-    CompoundTag handlerNBT = itemHandler.serializeNBT();
+    CompoundTag handlerNBT = itemHandler.serializeNBT(provider);
     tags.put(KEY_ITEMS, handlerNBT.getList(KEY_ITEMS, Tag.TAG_COMPOUND));
   }
 
   /** Reads the inventory from NBT */
-  public void readInventory(CompoundTag tags) {
+  public void readInventory(CompoundTag tags, HolderLookup.Provider provider) {
     // copy in just the items key for deserializing, don't want to change the size
     CompoundTag handlerNBT = new CompoundTag();
     handlerNBT.put(KEY_ITEMS, tags.getList(KEY_ITEMS, Tag.TAG_COMPOUND));
-    itemHandler.deserializeNBT(handlerNBT);
+    itemHandler.deserializeNBT(provider, handlerNBT);
   }
 
   @Override
-  public void load(CompoundTag tags) {
-    super.load(tags);
-    readInventory(tags);
+  public void loadAdditional(CompoundTag tags, HolderLookup.Provider provider) {
+    super.loadAdditional(tags, provider);
+    readInventory(tags, provider);
   }
 }

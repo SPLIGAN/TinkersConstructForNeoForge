@@ -1,19 +1,20 @@
 package slimeknights.tconstruct.tools.recipe;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.ContextKey;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildingRecipe;
 import slimeknights.tconstruct.library.recipe.RecipeResult;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildingRecipe;
@@ -32,7 +33,9 @@ public class TippedToolTransformRecipe extends ToolBuildingRecipe {
   /** Loader instance */
   public static final RecordLoadable<TippedToolTransformRecipe> LOADER = RecordLoadable.create(
     ContextKey.ID.requiredField(),
-    LoadableRecipeSerializer.RECIPE_GROUP, RESULT_FIELD, LAYOUT_FIELD,
+    StringLoadable.DEFAULT.defaultField("group", "", TippedToolTransformRecipe::getGroup),
+    ToolBuildingRecipe.RESULT_FIELD,
+    ToolBuildingRecipe.LAYOUT_FIELD,
     IngredientLoadable.DISALLOW_EMPTY.requiredField("input", r -> r.ingredients.get(0)),
     MaterialVariantId.LOADABLE.list(0).defaultField("materials", List.of(), false, r -> r.materials),
     ModifierId.PARSER.requiredField("modifier", r -> r.modifier),
@@ -66,14 +69,21 @@ public class TippedToolTransformRecipe extends ToolBuildingRecipe {
         }
         // if we found one, set its NBT into the result tool
         if (!stack.isEmpty()) {
-          CompoundTag tag = stack.getTag();
-          if (tag != null && tag.contains(PotionUtils.TAG_POTION, Tag.TAG_STRING)) {
-            tool.getPersistentData().putString(modifier, tag.getString(PotionUtils.TAG_POTION));
-          }
+          copyPotionDataToTool(tool, stack);
         }
       }
     }
     return result;
+  }
+
+  private void copyPotionDataToTool(IToolStackView tool, ItemStack stack) {
+    PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+    if (contents != null && contents.potion().isPresent()) {
+      ResourceLocation potionKey = BuiltInRegistries.POTION.getKey(contents.potion().get().value());
+      if (potionKey != null) {
+        tool.getPersistentData().putString(modifier.getLocation(), potionKey.toString());
+      }
+    }
   }
 
   @Override
@@ -82,11 +92,14 @@ public class TippedToolTransformRecipe extends ToolBuildingRecipe {
       ItemStack result = super.getDisplayOutput().get(0);
       displayOutput = Arrays.stream(ingredients.get(0).getItems())
         .map(stack -> {
-          CompoundTag tag = stack.getTag();
-          if (tag != null) {
-            ItemStack copy = result.copy();
-            ToolStack.from(copy).getPersistentData().putString(modifier, tag.getString(PotionUtils.TAG_POTION));
-            return copy;
+          PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+          if (contents != null && contents.potion().isPresent()) {
+            ResourceLocation potionKey = BuiltInRegistries.POTION.getKey(contents.potion().get().value());
+            if (potionKey != null) {
+              ItemStack copy = result.copy();
+              ToolStack.from(copy).getPersistentData().putString(modifier.getLocation(), potionKey.toString());
+              return copy;
+            }
           }
           return result;
         }).toList();

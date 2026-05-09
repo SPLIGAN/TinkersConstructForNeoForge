@@ -24,7 +24,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.crafting.CraftingHelper;
+import slimeknights.tconstruct.library.recipe.ingredient.TConstructConditionJson;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.ICondition.IContext;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -124,6 +124,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     staticModifiers.put(EMPTY, defaultValue);
   }
 
+
   /** For internal use only */
   public void init(IEventBus modBus) {
     modBus.addListener(EventPriority.NORMAL, false, FMLCommonSetupEvent.class, e -> e.enqueueWork(this::fireRegistryEvent));
@@ -133,7 +134,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
 
   /** Fires the modifier registry event */
   private void fireRegistryEvent() {
-    ModLoader.get().runEventGenerator(ModifierRegistrationEvent::new);
+    ModLoader.runEventGenerator(ModifierRegistrationEvent::new);
     modifiersRegistered = true;
   }
 
@@ -141,6 +142,11 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
   private void addDataPackListeners(final AddReloadListenerEvent event) {
     event.addListener(this);
     conditionContext = event.getConditionContext();
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Registry<Enchantment> enchantmentRegistry() {
+    return (Registry<Enchantment>) BuiltInRegistries.REGISTRY.get(Registries.ENCHANTMENT.location());
   }
 
   @SuppressWarnings("removal")
@@ -201,7 +207,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
       return Optional.of(modifier);
     }, TAG_FOLDER);
     this.tags = GenericTagUtil.mapLoaderResults(REGISTRY_KEY, tagLoader.loadAndBuild(pResourceManager));
-    this.reverseTags = GenericTagUtil.reverseTags(Modifier::getId, tags);
+    this.reverseTags = reverseModifierTags(tags);
     timeStep = System.nanoTime();
     log.info("Loaded {} modifier tags for {} modifiers in {} ms", tags.size(), this.reverseTags.size(), (timeStep - time) / 1000000f);
 
@@ -245,7 +251,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
               if (optional) {
                 key = key.substring(0, key.length() - 1);
               }
-              Enchantment enchantment = BuiltInRegistries.ENCHANTMENT.get(new ResourceLocation(key));
+              Enchantment enchantment = enchantmentRegistry().get(ResourceLocation.parse(key));
               if (enchantment == null) {
                 if (optional) {
                   TConstruct.LOG.debug("Skipping modifier " + modifierId + " due to unknown optional enchantment " + key);
@@ -297,7 +303,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
       }
 
       // conditions
-      if (json.has("condition") && !CraftingHelper.getCondition(GsonHelper.getAsJsonObject(json, "condition")).test(conditionContext)) {
+      if (json.has("condition") && !TConstructConditionJson.parse(json.get("condition")).test(conditionContext)) {
         return null;
       }
 
@@ -316,7 +322,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     this.dynamicModifiers = modifiers;
     this.dynamicModifiersLoaded = true;
     this.tags = tags;
-    this.reverseTags = GenericTagUtil.reverseTags(Modifier::getId, tags);
+    this.reverseTags = reverseModifierTags(tags);
     this.enchantmentMap = enchantmentMap;
     this.enchantmentTagMap = enchantmentTagMappings;
     NeoForge.EVENT_BUS.post(new ModifiersLoadedEvent());
@@ -365,7 +371,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     }
     // did not find, check the tags
     for (Entry<TagKey<Enchantment>,Modifier> mapping : enchantmentTagMap.entrySet()) {
-      if (RegistryHelper.contains(BuiltInRegistries.ENCHANTMENT, mapping.getKey(), enchantment)) {
+      if (RegistryHelper.contains(enchantmentRegistry(), mapping.getKey(), enchantment)) {
         return mapping.getValue();
       }
     }
@@ -383,8 +389,8 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     Predicate<Entry<?,Modifier>> predicate = entry -> modifiers.test(entry.getValue().getId());
     return Stream.concat(
       enchantmentMap.entrySet().stream().filter(predicate).map(Entry::getKey),
-      enchantmentTagMap.entrySet().stream().filter(predicate).flatMap(entry -> RegistryHelper.getTagValueStream(BuiltInRegistries.ENCHANTMENT, entry.getKey()))
-    ).distinct().sorted(Comparator.comparing(enchantment -> Objects.requireNonNull(BuiltInRegistries.ENCHANTMENT.getKey(enchantment))));
+      enchantmentTagMap.entrySet().stream().filter(predicate).flatMap(entry -> RegistryHelper.getTagValueStream(enchantmentRegistry(), entry.getKey()))
+    ).distinct().sorted(Comparator.comparing(enchantment -> Objects.requireNonNull(enchantmentRegistry().getKey(enchantment))));
   }
 
   /** Gets a list of all modifier IDs */
@@ -392,7 +398,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     // filter out redirects (redirects are any modifiers where the ID does not match the key
     return Stream.concat(staticModifiers.entrySet().stream(), dynamicModifiers.entrySet().stream())
                  .filter(entry -> entry.getKey().equals(entry.getValue().getId()))
-                 .map(Entry::getKey);
+                 .map(entry -> entry.getKey().getLocation());
   }
 
   /** Gets a stream of all modifier values */
@@ -453,6 +459,12 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
     return INSTANCE.tags.entrySet().stream();
   }
 
+  /** Converts reverse tag map keyed by {@link ResourceLocation} into {@link ModifierId}. */
+  private static Map<ModifierId,Set<TagKey<Modifier>>> reverseModifierTags(Map<TagKey<Modifier>,List<Modifier>> tags) {
+    return GenericTagUtil.reverseTags(modifier -> modifier.getId().getLocation(), tags).entrySet().stream()
+      .collect(Collectors.toMap(entry -> new ModifierId(entry.getKey()), Entry::getValue));
+  }
+
 
   /* Events */
 
@@ -478,7 +490,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
      * @param modifier  Modifier instance
      */
     public void registerStatic(ModifierId name, Modifier modifier) {
-      checkModNamespace(name);
+      checkModNamespace(name.getLocation());
 
       // should not include under both types
       if (expectedDynamicModifiers.contains(name)) {
@@ -498,7 +510,7 @@ public class ModifierManager extends SimpleJsonResourceReloadListener {
      * @param name  Modifier name
      */
     public void registerExpected(ModifierId name) {
-      checkModNamespace(name);
+      checkModNamespace(name.getLocation());
 
       // should not include under both types
       if (staticModifiers.containsKey(name)) {

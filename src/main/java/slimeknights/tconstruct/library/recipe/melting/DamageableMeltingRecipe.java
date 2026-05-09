@@ -11,7 +11,6 @@ import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.helper.FluidOutput;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.tconstruct.library.json.field.MergingField;
 import slimeknights.tconstruct.library.json.field.MergingField.MissingMode;
 import slimeknights.tconstruct.library.json.field.MergingListField;
@@ -24,7 +23,7 @@ import java.util.function.Function;
 public class DamageableMeltingRecipe extends MeltingRecipe {
   /** Loader instance */
   public static final RecordLoadable<DamageableMeltingRecipe> LOADER = RecordLoadable.create(
-    ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP, INPUT, OUTPUT, TEMPERATURE, TIME, BYPRODUCTS,
+    ContextKey.ID.requiredField(), GROUP, INPUT, OUTPUT, TEMPERATURE, TIME, BYPRODUCTS,
     new MergingField<>(IntLoadable.FROM_ONE.defaultField("unit_size", 1, r -> r.unitSize), "result", MissingMode.IGNORE),
     new MergingListField<>(IntLoadable.FROM_ONE.defaultField("unit_size", 1, Function.identity()), "byproducts", r -> r.byproductSizes),
     DamageableMeltingRecipe::new);
@@ -52,7 +51,9 @@ public class DamageableMeltingRecipe extends MeltingRecipe {
         amount -= remainder;
       }
     }
-    return new FluidStack(fluid, amount);
+    FluidStack scaled = fluid.copy();
+    scaled.setAmount(amount);
+    return scaled;
   }
 
   @Override

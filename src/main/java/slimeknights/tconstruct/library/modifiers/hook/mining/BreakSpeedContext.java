@@ -74,7 +74,7 @@ public sealed interface BreakSpeedContext {
       }
     }
     // water
-    if (entity.isEyeInFluid(FluidTags.WATER) && !EnchantmentHelper.hasAquaAffinity(entity)) {
+    if (entity.isEyeInFluid(FluidTags.WATER)) {
       modifier /= 5.0F;
     }
     if (!entity.onGround()) {

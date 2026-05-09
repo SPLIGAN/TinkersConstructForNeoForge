@@ -1,80 +1,60 @@
 package slimeknights.tconstruct;
 
-import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
-import slimeknights.tconstruct.common.data.AdvancementsProvider;
-import slimeknights.tconstruct.common.data.ConfigurationDataProvider;
-import slimeknights.tconstruct.common.data.DamageTypeProvider;
-import slimeknights.tconstruct.common.data.loot.GlobalLootModifiersProvider;
-import slimeknights.tconstruct.common.data.loot.LootTableInjectionProvider;
-import slimeknights.tconstruct.common.data.loot.TConstructLootTableProvider;
-import slimeknights.tconstruct.common.data.tags.BiomeTagProvider;
-import slimeknights.tconstruct.common.data.tags.BlockEntityTypeTagProvider;
-import slimeknights.tconstruct.common.data.tags.BlockTagProvider;
-import slimeknights.tconstruct.common.data.tags.DamageTypeTagProvider;
-import slimeknights.tconstruct.common.data.tags.EnchantmentTagProvider;
-import slimeknights.tconstruct.common.data.tags.EntityTypeTagProvider;
-import slimeknights.tconstruct.common.data.tags.FluidTagProvider;
-import slimeknights.tconstruct.common.data.tags.ItemTagProvider;
-import slimeknights.tconstruct.common.data.tags.MenuTypeTagProvider;
-import slimeknights.tconstruct.common.data.tags.PotionTagProvider;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.fluids.TinkerFluids;
-import slimeknights.tconstruct.gadgets.TinkerGadgets;
+import slimeknights.tconstruct.world.TinkerStructures;
+import slimeknights.tconstruct.world.TinkerWorld;
+import slimeknights.tconstruct.world.WorldEvents;
 import slimeknights.tconstruct.library.TinkerItemDisplays;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.ComputableDataKey;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
+import slimeknights.mantle.block.entity.InventoryBlockEntity;
 import slimeknights.tconstruct.library.utils.Util;
-import slimeknights.tconstruct.plugin.DietPlugin;
-import slimeknights.tconstruct.plugin.DummmmmmyPlugin;
-import slimeknights.tconstruct.plugin.ImmersiveEngineeringPlugin;
-import slimeknights.tconstruct.plugin.craftingtweaks.CraftingTweaksPlugin;
-import slimeknights.tconstruct.plugin.jsonthings.JsonThingsPlugin;
 import slimeknights.tconstruct.shared.TinkerAttributes;
-import slimeknights.tconstruct.shared.TinkerClient;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerEffects;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.smeltery.block.entity.CastingTankBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.FluidCannonBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.HeaterBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.ProxyTankBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.component.DrainBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.component.DuctBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryInputOutputBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.controller.AlloyerBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.controller.HeatingStructureBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.controller.MelterBlockEntity;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
-import slimeknights.tconstruct.tools.data.material.TrimMaterialProvider;
-import slimeknights.tconstruct.world.TinkerStructures;
-import slimeknights.tconstruct.world.TinkerWorld;
-import slimeknights.tconstruct.world.data.WorldgenProvider;
+import slimeknights.tconstruct.library.recipe.ingredient.TinkerIngredientTypes;
 
 import java.util.Locale;
 import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 /**
@@ -84,7 +64,6 @@ import java.util.function.Supplier;
  */
 
 @Mod(TConstruct.MOD_ID)
-@EventBusSubscriber(modid = TConstruct.MOD_ID, bus = Bus.MOD)
 public class TConstruct {
 
   public static final String MOD_ID = "tconstruct";
@@ -94,8 +73,17 @@ public class TConstruct {
   /* Instance of this mod, used for grabbing prototype fields */
   public static TConstruct instance;
 
+  /** Mod event bus from the mod constructor; safe for static init that runs after {@link TConstruct} is constructed. */
+  public static IEventBus MOD_EVENT_BUS;
+
   public TConstruct(IEventBus modBus) {
     instance = this;
+    MOD_EVENT_BUS = modBus;
+    modBus.addListener(TConstruct::commonSetup);
+    modBus.addListener(TConstruct::registerCapabilities);
+    modBus.addListener(TConstruct::gatherData);
+    modBus.register(Sounds.class);
+    NeoForge.EVENT_BUS.register(WorldEvents.class);
 
     Config.init();
     TinkerItemDisplays.init();
@@ -108,11 +96,9 @@ public class TConstruct {
     bus.register(new TinkerCommons());
     bus.register(new TinkerMaterials());
     bus.register(new TinkerEffects());
-    bus.register(new TinkerGadgets());
     bus.register(new TinkerAttributes());
-    // world
+    bus.register(new TinkerStructures(bus));
     bus.register(new TinkerWorld());
-    bus.register(new TinkerStructures());
     // tools
     bus.register(new TinkerTables());
     bus.register(new TinkerModifiers(bus));
@@ -123,31 +109,14 @@ public class TConstruct {
     bus.register(new TinkerFluids());
 
     // init deferred registers
+    TinkerIngredientTypes.init(bus);
     TinkerModule.initRegisters(bus);
     TinkerNetwork.setup(bus);
     TinkerTags.init();
     // init client logic
-    if (FMLEnvironment.dist == Dist.CLIENT) {
-      TinkerClient.onConstruct();
-    }
+    // Client-only bootstrap is excluded in minimal server-focused build.
 
-    // compat
-    ModList modList = ModList.get();
-    if (modList.isLoaded("immersiveengineering")) {
-      bus.register(new ImmersiveEngineeringPlugin());
-    }
-    if (modList.isLoaded("jsonthings")) {
-      JsonThingsPlugin.onConstruct();
-    }
-    if (modList.isLoaded("diet")) {
-      DietPlugin.onConstruct();
-    }
-    if (modList.isLoaded("craftingtweaks")) {
-      CraftingTweaksPlugin.onConstruct();
-    }
-    if (modList.isLoaded("dummmmmmy")) {
-      bus.register(new DummmmmmyPlugin());
-    }
+    // Optional mod compat (IE/JsonThings/Diet/CraftingTweaks/Dummmmmmy) is disabled in this minimal NeoForge+Arclight build.
   }
 
   @SubscribeEvent
@@ -159,44 +128,29 @@ public class TConstruct {
   @SubscribeEvent
   static void registerCapabilities(RegisterCapabilitiesEvent event) {
     TankBlockEntity.registerFluidCapability(event, TinkerSmeltery.tank.get());
-    TankBlockEntity.registerFluidCapability(event, TinkerSmeltery.proxyTank.get());
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.castingTank.get(), (be, ctx) -> ((CastingTankBlockEntity) be).getTank());
+    InventoryBlockEntity.registerItemHandlerCapabilities(event, TinkerSmeltery.castingTank.get());
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.melter.get(), (be, ctx) -> ((MelterBlockEntity) be).getTank());
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.melter.get(), (be, ctx) -> ((MelterBlockEntity) be).getItemHandler());
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.smeltery.get(), (be, ctx) -> ((HeatingStructureBlockEntity) be).getMeltingInventory());
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.foundry.get(), (be, ctx) -> ((HeatingStructureBlockEntity) be).getMeltingInventory());
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.smeltery.get(), (be, ctx) -> ((HeatingStructureBlockEntity) be).getFluidCapability().orElse(null));
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.foundry.get(), (be, ctx) -> ((HeatingStructureBlockEntity) be).getFluidCapability().orElse(null));
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.duct.get(), (be, ctx) -> ((DuctBlockEntity) be).getItemHandler());
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.channel.get(), (be, ctx) -> ((ChannelBlockEntity) be).getFluidHandlerForSide(ctx));
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.drain.get(), (be, ctx) -> ((DrainBlockEntity) be).getExportedFluidHandler());
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.alloyer.get(), (be, ctx) -> ((AlloyerBlockEntity) be).getTank());
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.heater.get(), (be, ctx) -> ((HeaterBlockEntity) be).getItemHandler());
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.fluidCannon.get(), (be, ctx) -> ((FluidCannonBlockEntity) be).getTank());
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.fluidCannon.get(), (be, ctx) -> ((FluidCannonBlockEntity) be).getItemHandler());
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.chute.get(), (be, ctx) -> ((SmelteryInputOutputBlockEntity.ChuteBlockEntity) be).getExportedItemHandler());
+    event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TinkerSmeltery.proxyTank.get(), (be, ctx) -> ((ProxyTankBlockEntity) be).getItemTank());
+    event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TinkerSmeltery.proxyTank.get(), (be, ctx) -> ((ProxyTankBlockEntity) be).getItemTank());
   }
 
   @SubscribeEvent
   static void gatherData(final GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    PackOutput packOutput = generator.getPackOutput();
-    ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-    CompletableFuture<Provider> lookupProvider = event.getLookupProvider();
-    boolean server = event.includeServer();
-
-    // its sometimes cleaner to splitup different registry sets to their own classes, combine them here into a single provider
-    RegistrySetBuilder registrySetBuilder = new RegistrySetBuilder();
-    DamageTypeProvider.register(registrySetBuilder);
-    WorldgenProvider.register(registrySetBuilder);
-    TrimMaterialProvider.register(registrySetBuilder);
-    DatapackBuiltinEntriesProvider datapackRegistryProvider = new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, registrySetBuilder, Set.of(MOD_ID));
-    generator.addProvider(server, datapackRegistryProvider);
-
-    // tags
-    BlockTagProvider blockTags = new BlockTagProvider(packOutput, lookupProvider, existingFileHelper);
-    generator.addProvider(server, blockTags);
-    generator.addProvider(server, new ItemTagProvider(packOutput, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
-    generator.addProvider(server, new FluidTagProvider(packOutput, lookupProvider, existingFileHelper));
-    generator.addProvider(server, new EntityTypeTagProvider(packOutput, lookupProvider, existingFileHelper));
-    generator.addProvider(server, new BlockEntityTypeTagProvider(packOutput, lookupProvider, existingFileHelper));
-    generator.addProvider(server, new BiomeTagProvider(packOutput, lookupProvider, existingFileHelper));
-    generator.addProvider(server, new EnchantmentTagProvider(packOutput, lookupProvider, existingFileHelper));
-    generator.addProvider(server, new MenuTypeTagProvider(packOutput, lookupProvider, existingFileHelper));
-    generator.addProvider(server, new PotionTagProvider(packOutput, lookupProvider, existingFileHelper));
-    generator.addProvider(server, new DamageTypeTagProvider(packOutput, datapackRegistryProvider.getRegistryProvider(), existingFileHelper));
-
-    // other datagen
-    generator.addProvider(server, new TConstructLootTableProvider(packOutput, lookupProvider));
-    generator.addProvider(server, new AdvancementsProvider(packOutput));
-    generator.addProvider(server, new GlobalLootModifiersProvider(packOutput, lookupProvider));
-    generator.addProvider(server, new LootTableInjectionProvider(packOutput));
-    generator.addProvider(server, new ConfigurationDataProvider(packOutput));
+    // Datagen is intentionally disabled in this server-focused Arclight compatibility build.
   }
 
   /* Utils */
@@ -208,7 +162,7 @@ public class TConstruct {
    */
   @SuppressWarnings("removal")
   public static ResourceLocation getResource(String name) {
-    return new ResourceLocation(MOD_ID, name);
+    return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
   }
 
   /**

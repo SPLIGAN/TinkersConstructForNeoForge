@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +31,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import slimeknights.mantle.datagen.MantleTags;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.mantle.util.RegistryHelper;
@@ -38,6 +38,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
+import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -151,7 +152,7 @@ public class ChannelBlock extends Block implements EntityBlock {
 	}
 
   @Override
-  public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {
+  protected boolean isPathfindable(BlockState state, PathComputationType type) {
     return false;
   }
 
@@ -166,7 +167,7 @@ public class ChannelBlock extends Block implements EntityBlock {
 	 */
 	private static boolean isFluidHandler(LevelAccessor world, Direction side, BlockPos pos) {
 		BlockEntity te = world.getBlockEntity(pos);
-		return te != null && te.getCapability(ForgeCapabilities.FLUID_HANDLER, side).isPresent();
+		return te instanceof ITankBlockEntity;
 	}
 
 	/**
@@ -285,9 +286,18 @@ public class ChannelBlock extends Block implements EntityBlock {
 		return null;
 	}
 
+	private static ItemInteractionResult toItemInteraction(InteractionResult result, Level level) {
+		return switch (result) {
+			case SUCCESS -> ItemInteractionResult.sidedSuccess(level.isClientSide());
+			case CONSUME -> ItemInteractionResult.CONSUME;
+			case PASS -> ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			case FAIL -> ItemInteractionResult.FAIL;
+      default -> ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		};
+	}
+
 	@SuppressWarnings("deprecation")
-	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected InteractionResult channelInteraction(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		Direction hitFace = hit.getDirection();
 		if (world.getBlockState(pos.relative(hitFace)).canBeReplaced()) {
 			// if the player is holding a channel, skip unless we clicked the top
@@ -345,6 +355,16 @@ public class ChannelBlock extends Block implements EntityBlock {
 		}
 
 		return InteractionResult.PASS;
+	}
+
+	@Override
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		return toItemInteraction(channelInteraction(state, level, pos, player, hand, hit), level);
+	}
+
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+		return channelInteraction(state, level, pos, player, InteractionHand.MAIN_HAND, hit);
 	}
 
 	@SuppressWarnings("deprecation")

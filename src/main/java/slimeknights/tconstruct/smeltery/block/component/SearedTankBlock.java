@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,12 +22,13 @@ import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.LevelReader;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.utils.NBTTags;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity.ITankBlock;
@@ -77,13 +79,20 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     return new TankBlockEntity(pPos, pState, this);
   }
 
-  @Deprecated
   @Override
-  public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-    if (FluidTransferHelper.interactWithTank(world, pos, player, hand, hit)) {
-      return InteractionResult.SUCCESS;
+  protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    if (FluidTransferHelper.interactWithTank(level, pos, player, hand, hit)) {
+      return ItemInteractionResult.sidedSuccess(level.isClientSide());
     }
-    return super.use(state, world, pos, player, hand, hit);
+    return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+  }
+
+  @Override
+  protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    if (FluidTransferHelper.interactWithTank(level, pos, player, InteractionHand.MAIN_HAND, hit)) {
+      return InteractionResult.sidedSuccess(level.isClientSide());
+    }
+    return InteractionResult.PASS;
   }
 
   /** Helper for setting the light level on placement */
@@ -104,9 +113,9 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
 
   @Override
   public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
+    CompoundTag nbt = ItemStackTagCompat.getTag(stack);
     if (nbt != null && world.getBlockEntity(pos) instanceof TankBlockEntity tank) {
-      tank.updateTank(nbt.getCompound(NBTTags.TANK));
+      tank.updateTank(world.registryAccess(), nbt.getCompound(NBTTags.TANK));
     }
     super.setPlacedBy(world, pos, state, placer, stack);
   }
@@ -124,7 +133,7 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
   }
 
   @Override
-  public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+  public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
     ItemStack stack = new ItemStack(this);
     BlockEntityHelper.get(TankBlockEntity.class, world, pos).ifPresent(te -> te.setTankTag(stack));
     return stack;

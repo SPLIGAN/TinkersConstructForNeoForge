@@ -163,32 +163,31 @@ public class PiggyBackPackItem extends TooltipItem {
   }
 
   public static class CarryPotionEffect extends TinkerEffect {
-    static final String UUID = "ff4de63a-2b24-11e6-b67b-9e71128cae77";
-
     public CarryPotionEffect() {
       super(MobEffectCategory.NEUTRAL, true);
 
-      this.addAttributeModifier(Attributes.MOVEMENT_SPEED, UUID, -0.05D, AttributeModifier.Operation.MULTIPLY_TOTAL);
+      this.addAttributeModifier(Attributes.MOVEMENT_SPEED, slimeknights.tconstruct.TConstruct.getResource("carry_slowdown"), -0.05D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
       return true; // check every tick
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity livingEntityIn, int p_76394_2_) {
+    public boolean applyEffectTick(@Nonnull LivingEntity livingEntityIn, int p_76394_2_) {
       ItemStack chestArmor = livingEntityIn.getItemBySlot(EquipmentSlot.CHEST);
       if (chestArmor.isEmpty() || chestArmor.getItem() != TinkerGadgets.piggyBackpack.get()) {
         TinkerGadgets.piggyBackpack.get().matchCarriedEntitiesToCount(livingEntityIn, 0);
       } else {
         TinkerGadgets.piggyBackpack.get().matchCarriedEntitiesToCount(livingEntityIn, chestArmor.getCount());
-        if (!livingEntityIn.getCommandSenderWorld().isClientSide) {
+        if (!livingEntityIn.level().isClientSide) {
           if (livingEntityIn instanceof net.minecraft.world.entity.player.Player player) {
             PiggybackCapability.get(player).updatePassengers();
           }
         }
       }
+      return true;
     }
 
     @Override

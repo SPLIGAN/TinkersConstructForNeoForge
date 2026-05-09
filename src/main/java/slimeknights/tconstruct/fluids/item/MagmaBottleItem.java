@@ -32,12 +32,11 @@ public class MagmaBottleItem extends Item {
   }
 
   @Override
-  public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-    super.appendHoverText(stack, worldIn, tooltip, flagIn);
+  public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
     tooltip.add(Component.translatable(
       "potion.withDuration",
       Blocks.FIRE.getName(),
-      StringUtil.formatTickDuration(fireTime * 20)
+      StringUtil.formatTickDuration(fireTime * 20, 1f)
     ).withStyle(MobEffectCategory.HARMFUL.getTooltipFormatting()));
   }
 
@@ -47,19 +46,16 @@ public class MagmaBottleItem extends Item {
     return InteractionResultHolder.consume(player.getItemInHand(hand));
   }
 
-  @Override
   public int getUseDuration(ItemStack pStack) {
     return 32;
   }
 
-  @Override
   public UseAnim getUseAnimation(ItemStack pStack) {
     return UseAnim.DRINK;
   }
 
-  @Override
   public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity living) {
-    living.setSecondsOnFire(fireTime);
+    living.setRemainingFireTicks(Math.max(living.getRemainingFireTicks(), fireTime * 20));
     ItemStack container = stack.getCraftingRemainingItem();
     Player player = living instanceof Player p ? p : null;
     if (player == null || !player.getAbilities().instabuild) {
@@ -78,7 +74,6 @@ public class MagmaBottleItem extends Item {
   }
 
   @Nullable
-  @Override
   public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
     return new ConstantFluidContainerWrapper(new FluidStack(TinkerFluids.magma.get(), FluidValues.BOTTLE), stack);
   }

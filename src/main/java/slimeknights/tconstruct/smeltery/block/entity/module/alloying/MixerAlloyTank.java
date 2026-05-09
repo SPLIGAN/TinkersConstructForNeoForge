@@ -6,8 +6,7 @@ import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
+import slimeknights.tconstruct.library.utils.NeoCapabilityHelper;
 import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.common.util.NonNullConsumer;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -22,6 +21,7 @@ import slimeknights.tconstruct.library.recipe.alloying.IMutableAlloyTank;
 import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Alloy tank that takes inputs from neighboring blocks
@@ -140,17 +140,20 @@ public class MixerAlloyTank implements IMutableAlloyTank {
           BlockPos target = parent.getBlockPos().relative(direction);
           // limit by blocks as that gives the modpack more control, say they want to allow only scorched tanks
           if (world.getBlockState(target).is(TinkerTags.Blocks.ALLOYER_TANKS)) {
-            BlockEntity te = world.getBlockEntity(target);
-            if (te != null) {
+            if (world.getBlockEntity(target) != null) {
               // if we found a tank, increment the number of tanks
-              LazyOptional<IFluidHandler> capability = te.getCapability(ForgeCapabilities.FLUID_HANDLER, direction.getOpposite());
+              LazyOptional<IFluidHandler> capability = NeoCapabilityHelper.getBlockFluidLazy(world, target, direction.getOpposite());
               if (capability.isPresent()) {
                 // attach a listener so we know when the side invalidates
-                capability.addListener(listeners.computeIfAbsent(direction, dir -> new WeakConsumerWrapper<>(this, (self, handler) -> {
-                  if (handler == self.inputs.get(dir)) {
-                    refresh(dir, false);
-                  }
-                })));
+                capability.addListener(listeners.computeIfAbsent(direction, dir -> {
+                  @SuppressWarnings("unchecked")
+                  NonNullConsumer<LazyOptional<IFluidHandler>> l = (NonNullConsumer<LazyOptional<IFluidHandler>>) (Consumer<LazyOptional<IFluidHandler>>) new WeakConsumerWrapper<MixerAlloyTank, LazyOptional<IFluidHandler>>(this, (self, handler) -> {
+                    if (handler == self.inputs.get(dir)) {
+                      refresh(dir, false);
+                    }
+                  });
+                  return l;
+                }));
                 inputs.put(direction, capability);
                 currentTanks++;
               } else {

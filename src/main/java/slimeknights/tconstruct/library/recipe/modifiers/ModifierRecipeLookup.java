@@ -93,7 +93,11 @@ public class ModifierRecipeLookup {
       return Collections.emptyList();
     }
     if (RECIPE_MODIFIER_LIST == null) {
-      RECIPE_MODIFIER_LIST = RECIPE_MODIFIERS.values().stream().distinct().sorted(Comparator.comparing(LazyModifier::getId)).map(mod -> new ModifierEntry(mod, 1)).toList();
+      RECIPE_MODIFIER_LIST = RECIPE_MODIFIERS.values().stream()
+        .distinct()
+        .sorted(Comparator.comparing(mod -> mod.getId().toString()))
+        .map(mod -> new ModifierEntry(mod, 1))
+        .toList();
     }
     return RECIPE_MODIFIER_LIST;
   }

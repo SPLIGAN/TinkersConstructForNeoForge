@@ -17,6 +17,7 @@ import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Module to reduce duration of effects on unequip. Used to prevent an exploit with {@link slimeknights.tconstruct.shared.TinkerAttributes#GOOD_EFFECT_DURATION} */
@@ -45,10 +46,14 @@ public record ReduceEffectOnUnequipModule(MobEffectCategory category, LevelingVa
       LivingEntity entity = context.getEntity();
       float percent = this.percent.compute(modifier);
       if (percent != 0) {
-        // iterate all matching effects, updating the duration
-        for (MobEffectInstance instance : entity.getActiveEffects()) {
-          if (!instance.isInfiniteDuration() && instance.getEffect().getCategory() == this.category && !instance.getCurativeItems().isEmpty()) {
-            instance.duration = Math.max(1, (int) (instance.duration * (1 - percent)));
+        var snapshot = new ArrayList<>(entity.getActiveEffects());
+        for (MobEffectInstance instance : snapshot) {
+          if (!instance.isInfiniteDuration()
+            && instance.getEffect().value().getCategory() == this.category
+            && !instance.getCures().isEmpty()) {
+            int newDur = Math.max(1, (int) (instance.getDuration() * (1 - percent)));
+            entity.removeEffect(instance.getEffect());
+            entity.addEffect(new MobEffectInstance(instance.getEffect(), newDur, instance.getAmplifier(), instance.isAmbient(), instance.isVisible(), instance.showIcon()));
           }
         }
       }

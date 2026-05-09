@@ -75,7 +75,8 @@ public class MultiblockStructureData {
     innerX = maxInside.getX() - minInside.getX() + 1;
     innerY = maxInside.getY() - minInside.getY() + 1;
     innerZ = maxInside.getZ() - minInside.getZ() + 1;
-    bounds = new AABB(minInside, maxInside.offset(1, 1, 1));
+    bounds = new AABB(minInside.getX(), minInside.getY(), minInside.getZ(),
+                      maxInside.getX() + 1, maxInside.getY() + 1, maxInside.getZ() + 1);
   }
 
   /**
@@ -270,7 +271,12 @@ public class MultiblockStructureData {
   protected static ListTag writePosList(Collection<BlockPos> collection, BlockPos basePos) {
     ListTag list = new ListTag();
     for (BlockPos pos : collection) {
-      list.add(NbtUtils.writeBlockPos(pos.subtract(basePos)));
+      BlockPos rel = pos.subtract(basePos);
+      CompoundTag posTag = new CompoundTag();
+      posTag.putInt("X", rel.getX());
+      posTag.putInt("Y", rel.getY());
+      posTag.putInt("Z", rel.getZ());
+      list.add(posTag);
     }
     return list;
   }

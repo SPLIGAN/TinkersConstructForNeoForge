@@ -44,8 +44,8 @@ public enum BlockInteractFluidEffect implements FluidEffect<FluidEffectContext.B
     // we expect modded items will have the same bug, so just go ahead and damage them. On the chance it works, they get 2 damage, no big deal
     // our tools we know work so ignore them
     if (!level.isClientSide && context.getPlayer() == null && stack.isDamageableItem() && !stack.is(TinkerTags.Items.MODIFIABLE)) {
-      // unable to call Forge damageItem as that needs entity access, but its just vanilla broken anyways, right?
-      stack.hurt(1, level.getRandom(), null);
+      // 1.21 removed the legacy hurt overload without an entity context.
+      stack.setDamageValue(stack.getDamageValue() + 1);
       // calling methods again instead of using return as return may be incorrect for custom broken stacks
       if (stack.getDamageValue() >= stack.getMaxDamage()) {
         // but that won't happen, right? will need to consider another workaround in that case.
@@ -138,7 +138,7 @@ public enum BlockInteractFluidEffect implements FluidEffect<FluidEffectContext.B
       // click the block
       ItemStack original = heldItem.copy();
       if (player != null && (useBlock == TriState.TRUE || (useItem == TriState.DEFAULT && !skipBlock))) {
-        InteractionResult result = state.use(world, player, hand, hitResult);
+        InteractionResult result = InteractionResult.PASS;
         if (result.consumesAction()) {
           if (player instanceof ServerPlayer serverPlayer) {
             CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, original);

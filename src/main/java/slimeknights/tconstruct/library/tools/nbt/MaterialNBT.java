@@ -37,6 +37,10 @@ public class MaterialNBT implements Iterable<MaterialVariant> {
   @Getter
   private final List<MaterialVariant> list;
 
+  public List<MaterialVariant> getList() {
+    return list;
+  }
+
   /** Creates a new material NBT */
   public MaterialNBT(List<MaterialVariant> list) {
     this.list = ImmutableList.copyOf(list);
@@ -152,9 +156,11 @@ public class MaterialNBT implements Iterable<MaterialVariant> {
    * @return  List of materials
    */
   public ListTag serializeToNBT() {
-    return list.stream()
-               .map(lazy -> StringTag.valueOf(lazy.getVariant().toString()))
-               .collect(Collectors.toCollection(ListTag::new));
+    ListTag out = new ListTag();
+    for (MaterialVariant lazy : list) {
+      out.add(StringTag.valueOf(lazy.variant().toString()));
+    }
+    return out;
   }
 
 

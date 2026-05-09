@@ -14,7 +14,6 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.TierSortingRegistry;
-import net.neoforged.neoforge.common.loot.LootModifierManager;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.loadable.Loadable;
 import slimeknights.mantle.data.loadable.Loadables;
@@ -31,6 +30,7 @@ import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.library.tools.part.IToolPart;
 import slimeknights.tconstruct.library.utils.GsonLoadable;
+import slimeknights.mantle.util.JsonHelper;
 
 import java.util.Set;
 
@@ -51,7 +51,7 @@ public class TinkerLoadables {
   public static final StringLoadable<RecipeType<?>> RECIPE_TYPE = new RegistryLoadable<>(BuiltInRegistries.RECIPE_TYPE);
 
   /** Same string form as NeoForge {@link ItemAbility} names (typically a namespaced ID). */
-  public static final StringLoadable<ItemAbility> ITEM_ABILITY = Loadables.RESOURCE_LOCATION.flatXmap(
+  public static final StringLoadable<ItemAbility> ITEM_ABILITY = Loadables.RESOURCE_LOCATION.xmap(
       (id, error) -> ItemAbility.get(id.toString()),
       (ability, error) -> ResourceLocation.parse(ability.name()));
 
@@ -83,7 +83,7 @@ public class TinkerLoadables {
 
   /* Loot tables */
   /** Loadable for a loot entry instance */
-  public static final Loadable<LootPoolEntryContainer> LOOT_ENTRY = new GsonLoadable<>(LootModifierManager.GSON_INSTANCE, LootPoolEntryContainer.class);
+  public static final Loadable<LootPoolEntryContainer> LOOT_ENTRY = new GsonLoadable<>(JsonHelper.DEFAULT_GSON, LootPoolEntryContainer.class);
 
   /** Loadble requiring the argument to be an instance of the passed class */
   @SuppressWarnings("unchecked")  // The type works when deserializing, so it works when serializing

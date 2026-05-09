@@ -2,11 +2,13 @@ package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -15,7 +17,6 @@ import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -86,7 +87,7 @@ public class MeltingModule implements IMeltingContainer, ContainerData {
     // clear progress if setting to empty or the items do not match
     if (newStack.isEmpty()) {
       resetRecipe();
-    } else if (this.stack.isEmpty() || !ItemHandlerHelper.canItemStacksStack(this.stack, newStack)) {
+    } else if (this.stack.isEmpty() || !ItemStack.isSameItemSameComponents(this.stack, newStack)) {
       currentTime = 0;
     }
 
@@ -176,10 +177,14 @@ public class MeltingModule implements IMeltingContainer, ContainerData {
       return last;
     }
     // if that fails, try to find a new recipe
-    Optional<IMeltingRecipe> newRecipe = world.getRecipeManager().getRecipeFor(TinkerRecipeTypes.MELTING.get(), this, world);
-    if (newRecipe.isPresent()) {
-      lastRecipe = newRecipe.get();
-      return lastRecipe;
+    RecipeManager recipes = world.getRecipeManager();
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    java.util.Collection<RecipeHolder<?>> meltingRecipes = (java.util.Collection) recipes.getAllRecipesFor((net.minecraft.world.item.crafting.RecipeType) TinkerRecipeTypes.MELTING.get());
+    for (RecipeHolder<?> holder : meltingRecipes) {
+      if (holder.value() instanceof IMeltingRecipe melting && melting.matches(this, world)) {
+        lastRecipe = melting;
+        return lastRecipe;
+      }
     }
     return null;
   }
@@ -208,10 +213,12 @@ public class MeltingModule implements IMeltingContainer, ContainerData {
    * Writes this module to NBT
    * @return  Module in NBT
    */
-  public CompoundTag writeToTag() {
+  public CompoundTag writeToTag(HolderLookup.Provider provider) {
     CompoundTag nbt = new CompoundTag();
     if (!stack.isEmpty()) {
-      stack.save(nbt);
+      CompoundTag stackTag = new CompoundTag();
+      stack.save(provider, stackTag);
+      nbt.put("Item", stackTag);
       nbt.putInt(TAG_CURRENT_TIME, currentTime);
       nbt.putInt(TAG_REQUIRED_TIME, requiredTime);
       nbt.putInt(TAG_REQUIRED_TEMP, requiredTemp);
@@ -223,8 +230,12 @@ public class MeltingModule implements IMeltingContainer, ContainerData {
    * Reads this module from NBT
    * @param nbt  NBT
    */
-  public void readFromTag(CompoundTag nbt) {
-    stack = ItemStack.of(nbt);
+  public void readFromTag(CompoundTag nbt, HolderLookup.Provider provider) {
+    if (nbt.contains("Item", net.minecraft.nbt.Tag.TAG_COMPOUND)) {
+      stack = ItemStack.parse(provider, nbt.getCompound("Item")).orElse(ItemStack.EMPTY);
+    } else {
+      stack = ItemStack.parse(provider, nbt).orElse(ItemStack.EMPTY);
+    }
     if (!stack.isEmpty()) {
       currentTime = nbt.getInt(TAG_CURRENT_TIME);
       requiredTime = nbt.getInt(TAG_REQUIRED_TIME);

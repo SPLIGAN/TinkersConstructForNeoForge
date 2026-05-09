@@ -13,9 +13,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import slimeknights.tconstruct.common.Sounds;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 import slimeknights.tconstruct.tools.TinkerTools;
 
 import java.util.ArrayList;
@@ -40,11 +41,10 @@ public class CrystalshotItem extends ArrowItem {
     super(props);
   }
 
-  @Override
   public AbstractArrow createArrow(Level pLevel, ItemStack pStack, LivingEntity pShooter) {
     CrystalshotEntity arrow = new CrystalshotEntity(pLevel, pShooter);
     String variant = "random";
-    CompoundTag tag = pStack.getTag();
+    CompoundTag tag = ItemStackTagCompat.getTag(pStack);
     if (tag != null && tag.contains(TAG_VARIANT, Tag.TAG_STRING)) {
       variant = tag.getString(TAG_VARIANT);
     }
@@ -55,15 +55,16 @@ public class CrystalshotItem extends ArrowItem {
     return arrow;
   }
 
-  @Override
   public boolean isInfinite(ItemStack stack, ItemStack bow, Player player) {
-    return bow.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0;
+    return player.getAbilities().instabuild;
   }
 
   /** Creates a crystal shot with the given variant */
   public static ItemStack withVariant(String variant, int size) {
     ItemStack stack = new ItemStack(TinkerTools.crystalshotItem, size);
-    stack.getOrCreateTag().putString(TAG_VARIANT, variant);
+    CompoundTag tag = ItemStackTagCompat.getOrCreateTag(stack);
+    tag.putString(TAG_VARIANT, variant);
+    ItemStackTagCompat.setTag(stack, tag);
     return stack;
   }
 
@@ -72,12 +73,12 @@ public class CrystalshotItem extends ArrowItem {
 
     public CrystalshotEntity(EntityType<? extends CrystalshotEntity> type, Level level) {
       super(type, level);
-      soundEvent = Sounds.CRYSTALSHOT.getSound();
+      this.setSoundEvent(Sounds.CRYSTALSHOT.getSound());
     }
 
     public CrystalshotEntity(Level level, LivingEntity shooter) {
-      super(TinkerTools.crystalshotEntity.get(), shooter, level);
-      soundEvent = Sounds.CRYSTALSHOT.getSound();
+      super(TinkerTools.crystalshotEntity.get(), shooter, level, ItemStack.EMPTY, null);
+      this.setSoundEvent(Sounds.CRYSTALSHOT.getSound());
     }
 
     @Override
@@ -88,9 +89,9 @@ public class CrystalshotItem extends ArrowItem {
     }
 
     @Override
-    protected void defineSynchedData() {
-      super.defineSynchedData();
-      this.entityData.define(SYNC_VARIANT, "");
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+      super.defineSynchedData(builder);
+      builder.define(SYNC_VARIANT, "");
     }
 
     /** Gets the texture variant of this shot */
@@ -110,6 +111,11 @@ public class CrystalshotItem extends ArrowItem {
     @Override
     public ItemStack getPickupItem() {
       return withVariant(getVariant(), 1);
+    }
+
+    @Override
+    protected ItemStack getDefaultPickupItem() {
+      return new ItemStack(Items.ARROW);
     }
 
     @Override

@@ -14,4 +14,9 @@ public class EmptyFluidHandlerItem extends EmptyFluidHandler implements IFluidHa
   /** Container reference */
   @Getter
   private final ItemStack container;
+
+  @Override
+  public ItemStack getContainer() {
+    return container;
+  }
 }

@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.library.recipe.melting;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
@@ -15,6 +17,23 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
  * Common interface for all melting recipes
  */
 public interface IMeltingRecipe extends ICustomOutputRecipe<IMeltingContainer> {
+  @Override
+  default ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
+  }
+
+  /** @deprecated use {@link #getResultItem(HolderLookup.Provider)} */
+  @Deprecated
+  default ItemStack getResultItem(RegistryAccess access) {
+    return getResultItem((HolderLookup.Provider) access);
+  }
+
+  /** @deprecated use recipe-specific output methods */
+  @Deprecated
+  default ItemStack assemble(IMeltingContainer inv, RegistryAccess access) {
+    return getResultItem(access).copy();
+  }
+
   /**
    * Gets a new instance of the output stack for this recipe
    * @param inv  Input inventory

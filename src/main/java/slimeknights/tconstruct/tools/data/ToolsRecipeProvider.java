@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.data;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -59,7 +59,6 @@ import slimeknights.tconstruct.tools.stats.StatlessMaterialStats;
 import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterialRecipeHelper, IToolRecipeHelper {
@@ -73,13 +72,13 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
   }
 
   @Override
-  protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+  protected void buildRecipes(RecipeOutput consumer) {
     this.addToolBuildingRecipes(consumer);
     this.addPartRecipes(consumer);
     this.addRecycleRecipes(consumer);
   }
 
-  private void addToolBuildingRecipes(Consumer<FinishedRecipe> consumer) {
+  private void addToolBuildingRecipes(RecipeOutput consumer) {
     String folder = "tools/building/";
     String armorFolder = "tools/armor/";
     // stone
@@ -181,7 +180,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
 
     // travelers gear
     String travelersFolder = armorFolder + "travelers/";
-    Consumer<FinishedRecipe> shapedMaterial = MaterialsConsumerBuilder.shaped("c").material(MaterialIds.leather).build(consumer);
+    RecipeOutput shapedMaterial = MaterialsConsumerBuilder.shaped("c").material(MaterialIds.leather).build(consumer);
     // fake ingot allows things like bronze and pewter to craft it even if their ingot form is not registered
     Function<MaterialStatsId,Ingredient> travelersMaterial = type -> CompoundIngredient.of(
       MaterialValueIngredient.of(MaterialPredicate.and(MaterialPredicate.or(MaterialPredicate.CASTABLE, MaterialPredicate.COMPOSITE), new MaterialStatTypePredicate(type)), 1),
@@ -313,7 +312,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
     slimeboots(consumer, MaterialIds.enderslimeVine, TinkerWorld.enderSlimeVine, armorFolder);
   }
 
-  private void addRecycleRecipes(Consumer<FinishedRecipe> consumer) {
+  private void addRecycleRecipes(RecipeOutput consumer) {
     String folder = "tools/recycling/";
 
     // main recycling recipe - uses tool definition for parts list
@@ -402,7 +401,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
       .save(withCondition(consumer, new ModLoadedCondition("twilightforest")), location(folder + "minotaur_axe"));
   }
 
-  private void addPartRecipes(Consumer<FinishedRecipe> consumer) {
+  private void addPartRecipes(RecipeOutput consumer) {
     String partFolder = "tools/parts/";
     String castFolder = "smeltery/casts/";
     partRecipes(consumer, TinkerToolParts.repairKit, TinkerSmeltery.repairKitCast, 2, partFolder, castFolder);
@@ -481,7 +480,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
   }
 
   /** Helper to create a casting recipe for a slimeskull variant */
-  private void slimeskull(Consumer<FinishedRecipe> consumer, MaterialId material, ItemLike skull, String folder) {
+  private void slimeskull(RecipeOutput consumer, MaterialId material, ItemLike skull, String folder) {
     MaterialCastingRecipeBuilder.basinRecipe(TinkerTools.slimesuit.get(ArmorItem.Type.HELMET))
       .setCast(skull, CastPurpose.CONSUMED_OFFSET)
       .addExtraMaterial(material)
@@ -493,7 +492,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
   }
 
   /** Helper to create a casting recipe for a slime shell variant */
-  private void slimeshell(Consumer<FinishedRecipe> consumer, MaterialId material, ItemLike shell, String folder) {
+  private void slimeshell(RecipeOutput consumer, MaterialId material, ItemLike shell, String folder) {
     MaterialCastingRecipeBuilder.basinRecipe(TinkerTools.slimesuit.get(ArmorItem.Type.LEGGINGS))
       .setCast(shell, CastPurpose.CONSUMED_OFFSET)
       .addExtraMaterial(material)
@@ -502,7 +501,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
   }
 
   /** Helper to create a casting recipe for a slime boots variant */
-  private void slimeboots(Consumer<FinishedRecipe> consumer, MaterialId material, ItemLike laces, String folder) {
+  private void slimeboots(RecipeOutput consumer, MaterialId material, ItemLike laces, String folder) {
     MaterialCastingRecipeBuilder.basinRecipe(TinkerTools.slimesuit.get(ArmorItem.Type.BOOTS))
       .setCast(laces, CastPurpose.CONSUMED_OFFSET)
       .addExtraMaterial(material)

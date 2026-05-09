@@ -6,10 +6,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.EmptyHandler;
+import slimeknights.tconstruct.library.utils.NeoCapabilityHelper;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
 
@@ -31,10 +31,11 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
     super(containerType, windowId, inv, tile);
 
     // must have a TE
-    if (tile == null) {
+    if (tile == null || tile.getLevel() == null) {
       this.itemHandler = LazyOptional.of(() -> EmptyHandler.INSTANCE);
     } else {
-      this.itemHandler = tile.getCapability(ForgeCapabilities.ITEM_HANDLER, inventoryDirection);
+      final IItemHandler resolved = NeoCapabilityHelper.getBlockItem(tile.getLevel(), tile.getBlockPos(), inventoryDirection);
+      this.itemHandler = LazyOptional.of(() -> resolved != null ? resolved : EmptyHandler.INSTANCE);
     }
 
     // slot properties

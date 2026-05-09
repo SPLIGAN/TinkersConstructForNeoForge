@@ -1,8 +1,10 @@
 package slimeknights.tconstruct.library.modifiers.hook.behavior;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.mining.BlockHarvestModifierHook;
@@ -10,6 +12,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -56,7 +59,7 @@ public interface EnchantmentModifierHook {
    * @return  Enchantment level
    */
   static int getEnchantmentLevel(ItemStack stack, Enchantment enchantment) {
-    int level = EnchantmentHelper.getTagEnchantmentLevel(enchantment, stack);
+    int level = EnchantmentHelper.getTagEnchantmentLevel(net.minecraft.core.Holder.direct(enchantment), stack);
     IToolStackView tool = ToolStack.from(stack);
     for (ModifierEntry entry : tool.getModifierList()) {
       level = entry.getHook(ModifierHooks.ENCHANTMENTS).updateEnchantmentLevel(tool, entry, enchantment, level);
@@ -71,7 +74,7 @@ public interface EnchantmentModifierHook {
    * @return  All contained enchantments
    */
   static Map<Enchantment,Integer> getAllEnchantments(ItemStack stack) {
-    Map<Enchantment,Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+    Map<Enchantment,Integer> enchantments = new HashMap<>();
     IToolStackView tool = ToolStack.from(stack);
     for (ModifierEntry entry : tool.getModifierList()) {
       entry.getHook(ModifierHooks.ENCHANTMENTS).updateEnchantments(tool, entry, enchantments);
@@ -79,6 +82,24 @@ public interface EnchantmentModifierHook {
     // we allow hooks to return negative, such as to cancel out an enchantment
     enchantments.values().removeIf(VALUE_REMOVER);
     return enchantments;
+  }
+
+  /**
+   * Gameplay enchantments from modifier hooks only, for {@link net.neoforged.neoforge.common.extensions.IItemExtension#getAllEnchantments}.
+   */
+  static ItemEnchantments getAllEnchantmentData(ItemStack stack, HolderLookup.RegistryLookup<Enchantment> lookup) {
+    ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+    for (Map.Entry<Enchantment, Integer> entry : getAllEnchantments(stack).entrySet()) {
+      int level = entry.getValue();
+      if (level <= 0) {
+        continue;
+      }
+      lookup.listElements()
+        .filter(ref -> ref.value() == entry.getKey())
+        .findFirst()
+        .ifPresent(ref -> mutable.set(ref, level));
+    }
+    return mutable.toImmutable();
   }
 
   /** Merger that combines all modules together */

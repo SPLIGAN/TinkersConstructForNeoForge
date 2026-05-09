@@ -48,6 +48,11 @@ public class TinkerDataCapability {
     private final ResourceLocation id;
 
     @Override
+    public ResourceLocation getId() {
+      return id;
+    }
+
+    @Override
     public String toString() {
       return "TinkerDataKey{" + id + '}';
     }

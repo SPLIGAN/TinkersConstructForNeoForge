@@ -34,6 +34,7 @@ import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public enum HarvestModule implements ModifierModule, BlockInteractionModifierHoo
    */
   private static boolean harvestInteract(UseOnContext context, ServerLevel world, BlockState state, BlockPos pos, Player player) {
     BlockHitResult trace = new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, false);
-    InteractionResult result = state.use(world, player, context.getHand(), trace);
+    InteractionResult result = state.useWithoutItem(world, player, trace);
     return result.consumesAction();
   }
 
@@ -126,10 +127,15 @@ public enum HarvestModule implements ModifierModule, BlockInteractionModifierHoo
         }
       }
       // must have an age property, and be at max age
-      if (age == null || state.getValue(age) < age.max) {
+      if (age == null) {
         return false;
       }
-      replant = state.setValue(age, age.min);
+      int maxAge = Collections.max(age.getPossibleValues());
+      int minAge = Collections.min(age.getPossibleValues());
+      if (state.getValue(age) < maxAge) {
+        return false;
+      }
+      replant = state.setValue(age, minAge);
     }
 
     // crop is fully grown, get block drops
@@ -262,7 +268,7 @@ public enum HarvestModule implements ModifierModule, BlockInteractionModifierHoo
             player.sweepAttack();
           }
           if (broken) {
-            player.broadcastBreakEvent(context.getHand());
+            player.swing(context.getHand(), true);
           }
         }
       }

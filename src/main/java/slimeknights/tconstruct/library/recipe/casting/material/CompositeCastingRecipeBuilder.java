@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
@@ -28,11 +29,11 @@ public class CompositeCastingRecipeBuilder extends AbstractRecipeBuilder<Composi
   private IJsonPredicate<MaterialVariantId> allowedMaterials = MaterialPredicate.ANY;
 
   public static CompositeCastingRecipeBuilder basin(IMaterialItem result, int itemCost) {
-    return composite(result, itemCost, TinkerSmeltery.basinCompositeSerializer.get());
+    return composite(result, itemCost, (TypeAwareRecipeSerializer<? extends CompositeCastingRecipe>) TinkerSmeltery.basinCompositeSerializer.get());
   }
 
   public static CompositeCastingRecipeBuilder table(IMaterialItem result, int itemCost) {
-    return composite(result, itemCost, TinkerSmeltery.tableCompositeSerializer.get());
+    return composite(result, itemCost, (TypeAwareRecipeSerializer<? extends CompositeCastingRecipe>) TinkerSmeltery.tableCompositeSerializer.get());
   }
 
   @Override
@@ -42,7 +43,6 @@ public class CompositeCastingRecipeBuilder extends AbstractRecipeBuilder<Composi
 
   @Override
   public void save(RecipeOutput consumer, ResourceLocation id) {
-    ResourceLocation advancementId = this.buildOptionalAdvancement(id, "casting");
-    consumer.accept(new LoadableFinishedRecipe<>(new CompositeCastingRecipe(serializer, id, group, itemCost, result, allowedMaterials, castingStatConflict), CompositeCastingRecipe.LOADER, advancementId));
+    consumer.accept(id, new CompositeCastingRecipe(serializer, id, group, itemCost, result, allowedMaterials, castingStatConflict), this.buildOptionalAdvancementHolder(consumer, id, "casting"));
   }
 }

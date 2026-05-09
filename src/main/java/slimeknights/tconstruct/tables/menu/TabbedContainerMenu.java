@@ -17,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.apache.commons.lang3.tuple.Pair;
@@ -26,9 +25,9 @@ import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.shared.inventory.TriggeringMultiModuleContainerMenu;
+import slimeknights.tconstruct.library.utils.NeoCapabilityHelper;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.block.ITabbedBlock;
-import slimeknights.tconstruct.tables.client.inventory.BaseTabbedScreen;
 import slimeknights.tconstruct.tables.menu.module.SideInventoryContainer;
 
 import javax.annotation.Nullable;
@@ -146,7 +145,9 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
 
       // if we found something, add the side inventory
       if (inventoryTE != null) {
-        int invSlots = inventoryTE.getCapability(ForgeCapabilities.ITEM_HANDLER, accessDir).orElse(EmptyItemHandler.INSTANCE).getSlots();
+        int invSlots = NeoCapabilityHelper.getBlockItem(world, inventoryTE.getBlockPos(), accessDir) != null
+          ? NeoCapabilityHelper.getBlockItem(world, inventoryTE.getBlockPos(), accessDir).getSlots()
+          : EmptyItemHandler.INSTANCE.getSlots();
         int columns = Mth.clamp((invSlots - 1) / 9 + 1, 3, 6);
         this.addSubContainer(new SideInventoryContainer<>(TinkerTables.craftingStationContainer.get(), containerId, inv, inventoryTE, accessDir, -6 - 18 * 6, 8, columns), false);
       }
@@ -173,7 +174,11 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
    * @return True if compatible.
    */
   private static boolean hasItemHandler(BlockEntity tileEntity, @Nullable Direction direction) {
-    return tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, direction).filter(cap -> cap instanceof IItemHandlerModifiable).isPresent();
+    Level level = tileEntity.getLevel();
+    if (level == null) {
+      return false;
+    }
+    return NeoCapabilityHelper.getBlockItem(level, tileEntity.getBlockPos(), direction) instanceof IItemHandlerModifiable;
   }
 
 
@@ -243,26 +248,17 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
   private static class ClientOnly {
     /** Updates the client's screen */
     private static void clientScreenUpdate() {
-      Screen screen = Minecraft.getInstance().screen;
-      if (screen instanceof BaseTabbedScreen) {
-        ((BaseTabbedScreen<?,?>) screen).updateDisplay();
-      }
+      // Client tabbed screen classes are excluded in server-focused compatibility build.
     }
 
     /** Sends the error message from the container to the client's screen */
     private static void clientError(MutableComponent errorMessage) {
-      Screen screen = Minecraft.getInstance().screen;
-      if (screen instanceof BaseTabbedScreen) {
-        ((BaseTabbedScreen<?,?>) screen).error(errorMessage);
-      }
+      // Client tabbed screen classes are excluded in server-focused compatibility build.
     }
 
     /** Sends the warning message from the container to the client's screen */
     private static void clientWarning(MutableComponent warningMessage) {
-      Screen screen = Minecraft.getInstance().screen;
-      if (screen instanceof BaseTabbedScreen) {
-        ((BaseTabbedScreen<?,?>) screen).warning(warningMessage);
-      }
+      // Client tabbed screen classes are excluded in server-focused compatibility build.
     }
   }
 }

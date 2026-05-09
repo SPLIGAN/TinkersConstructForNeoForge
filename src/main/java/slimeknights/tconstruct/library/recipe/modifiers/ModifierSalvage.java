@@ -2,7 +2,6 @@ package slimeknights.tconstruct.library.recipe.modifiers;
 
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -16,6 +15,7 @@ import slimeknights.mantle.recipe.ICustomOutputRecipe;
 import slimeknights.tconstruct.library.json.IntRange;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.recipe.IEmptyRecipeInput;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.tools.SlotType.SlotCount;
@@ -26,7 +26,7 @@ import slimeknights.tconstruct.tools.TinkerModifiers;
 /**
  * Shared logic for main types of salvage recipes
  */
-public class ModifierSalvage implements ICustomOutputRecipe<Container> {
+public class ModifierSalvage implements ICustomOutputRecipe<IEmptyRecipeInput> {
   public static final RecordLoadable<ModifierSalvage> LOADER = RecordLoadable.create(
     ContextKey.ID.requiredField(),
     IngredientLoadable.DISALLOW_EMPTY.requiredField("tools", r -> r.toolIngredient),
@@ -90,7 +90,7 @@ public class ModifierSalvage implements ICustomOutputRecipe<Container> {
   /** @deprecated Use {@link #matches(ItemStack, IToolStackView, int)} */
   @Deprecated
   @Override
-  public boolean matches(Container inv, Level level) {
+  public boolean matches(IEmptyRecipeInput inv, Level level) {
     return false;
   }
 

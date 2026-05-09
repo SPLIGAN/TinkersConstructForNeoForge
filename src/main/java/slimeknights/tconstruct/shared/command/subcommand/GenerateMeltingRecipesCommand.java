@@ -14,7 +14,7 @@ import net.minecraft.commands.arguments.ResourceArgument;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -66,7 +66,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /** Generates melting recipes based on crafting recipes */
@@ -133,7 +132,7 @@ public class GenerateMeltingRecipesCommand {
     Comparator<MeltingResult> nameComparator = Comparator.<MeltingResult,ResourceLocation>comparing(r -> Loadables.FLUID.getKey(r.fluid.getFluid())).reversed();
     MutableInt successes = new MutableInt(0);
     Path data = pack.resolve(PackType.SERVER_DATA.getDirectory());
-    Consumer<FinishedRecipe> consumer = recipe -> {
+    RecipeOutput consumer = recipe -> {
       ResourceLocation id = recipe.getId();
       Path path = data.resolve(id.getNamespace() + "/recipes/" + id.getPath() + ".json");
       if (GeneratePackHelper.saveJson(recipe.serializeRecipe(), path)) {
@@ -339,7 +338,7 @@ public class GenerateMeltingRecipesCommand {
         return first.tag.equals(second.tag);
       }
       // if either lack a tag, do exact fluid
-      return first.fluid.isFluidEqual(second.fluid);
+      return FluidStack.isSameFluidSameComponents(first.fluid, second.fluid);
     }
 
     /** Combines two results into a larger result. Precondition is {@link #matches(MeltingResult, MeltingResult)} is true. */

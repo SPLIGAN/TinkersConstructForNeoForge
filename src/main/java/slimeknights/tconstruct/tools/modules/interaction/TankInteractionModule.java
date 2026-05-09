@@ -8,14 +8,11 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.fluid.FluidTransferHelper;
-import slimeknights.mantle.util.LogicHelper;
 import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
@@ -26,6 +23,7 @@ import slimeknights.tconstruct.library.module.HookProvider;
 import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.definition.module.ToolHooks;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
+import slimeknights.tconstruct.library.utils.NeoCapabilityHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -56,13 +54,8 @@ public record TankInteractionModule(@Nullable InteractionSource source) implemen
 
     Level world = context.getLevel();
     BlockPos target = context.getClickedPos();
-    // must have a TE that has a fluid handler capability
-    BlockEntity te = world.getBlockEntity(target);
-    if (te == null) {
-      return InteractionResult.PASS;
-    }
     Direction face = context.getClickedFace();
-    IFluidHandler cap = LogicHelper.orElseNull(te.getCapability(ForgeCapabilities.FLUID_HANDLER, face));
+    IFluidHandler cap = NeoCapabilityHelper.getBlockFluid(world, target, face);
     if (cap == null) {
       return InteractionResult.PASS;
     }
@@ -93,8 +86,8 @@ public record TankInteractionModule(@Nullable InteractionSource source) implemen
         }
       } else {
         // filter drained to be the same as the current fluid
-        FluidStack drained = cap.drain(new FluidStack(fluidStack, TANK_HELPER.getCapacity(tool) - fluidStack.getAmount()), FluidAction.EXECUTE);
-        if (!drained.isEmpty() && drained.isFluidEqual(fluidStack)) {
+        FluidStack drained = cap.drain(fluidStack.copyWithAmount(TANK_HELPER.getCapacity(tool) - fluidStack.getAmount()), FluidAction.EXECUTE);
+        if (!drained.isEmpty() && FluidStack.isSameFluidSameComponents(drained, fluidStack)) {
           fluidStack.grow(drained.getAmount());
           TANK_HELPER.setFluid(tool, fluidStack);
           sound = FluidTransferHelper.getFillSound(fluidStack);

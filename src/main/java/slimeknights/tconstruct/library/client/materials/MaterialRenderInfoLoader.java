@@ -10,13 +10,13 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import slimeknights.mantle.data.datamap.RegistryDataMapLoader;
 import slimeknights.mantle.data.listener.IEarlySafeManagerReloadListener;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.typed.TypedMap;
 import slimeknights.mantle.util.typed.TypedMapBuilder;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.utils.Util;
 
@@ -46,7 +46,7 @@ public class MaterialRenderInfoLoader implements IEarlySafeManagerReloadListener
    * Called on mod construct to register the resource listener
    */
   public static void init()  {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(MaterialRenderInfoLoader::onResourceManagerRegister);
+    TConstruct.MOD_EVENT_BUS.addListener(MaterialRenderInfoLoader::onResourceManagerRegister);
   }
 
   private static void onResourceManagerRegister(RegisterClientReloadListenersEvent event) {
@@ -132,7 +132,7 @@ public class MaterialRenderInfoLoader implements IEarlySafeManagerReloadListener
 
     // store the list immediately, otherwise it is not in place in time for models to load
     this.renderInfos = Map.copyOf(map);
-    log.debug("Loaded material render infos: {}", Util.toIndentedStringList(map.keySet().stream().sorted(Comparator.comparing(MaterialVariantId::getId).thenComparing(MaterialVariantId::getVariant)).toList()));
+    log.debug("Loaded material render infos: {}", Util.toIndentedStringList(map.keySet().stream().sorted(Comparator.comparing((MaterialVariantId id) -> id.getId().toString()).thenComparing(MaterialVariantId::getVariant)).toList()));
     log.info("{} material render infos loaded", map.size());
   }
 

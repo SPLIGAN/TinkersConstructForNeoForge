@@ -27,7 +27,7 @@ public class ToolStackItemPredicate {
   }
 
   public static ItemPredicate ofContext(IJsonPredicate<IToolContext> predicate) {
-    return new ToolStackItemPredicate(ToolStackPredicate.context(predicate));
+    return ofTool(ToolStackPredicate.context(predicate));
   }
 
   public boolean matches(ItemStack stack) {

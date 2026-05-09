@@ -3,13 +3,18 @@ package slimeknights.tconstruct.library.tools.helper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 
-import static net.minecraft.world.damagesource.CombatRules.getDamageAfterAbsorb;
-
 /**
- * Utinet.minecraft.world.damagesource.CombatRulesation logic
+ * Armor-related calculations for tinkers integrations with vanilla combat.
  */
 public class ArmorUtil {
   private ArmorUtil() {}
+
+  /** Pre-1.21 style armor absorb (float-only), kept for {@link #getDamageForEvent} math which inverts this path. */
+  private static float damageAfterArmorAbsorb(float damage, float totalArmor, float toughnessAttribute) {
+    float f = 2.0F + toughnessAttribute / 4.0F;
+    float g = Mth.clamp(totalArmor - damage / f, totalArmor * 0.2F, 20.0F);
+    return damage * (1.0F - g / 25.0F);
+  }
 
   /**
    * Inverse of {@link net.minecraft.world.damagesource.CombatRules#getDamageAfterAbsorb(float, float, float)}  with respect to damage
@@ -92,7 +97,7 @@ public class ArmorUtil {
     float damage = originalDamage;
     // if there is no armor value though, no work is needed
     if (armor > 0) {
-      damage = getDamageAfterAbsorb(damage, armor, toughness);
+      damage = damageAfterArmorAbsorb(damage, armor, toughness);
     }
 
     // next, we want to apply our modifiers bonus M(x), it works out to be a reduction between 0 and 80%

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.json.variable.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
@@ -45,11 +46,11 @@ public interface EntityVariable extends IHaveLoader {
   /** Gets the temperature of the biome containing the entity. */
   EntityVariable BIOME_TEMPERATURE = simple(entity -> {
     BlockPos pos = entity.blockPosition();
-    return entity.level().getBiome(pos).value().getTemperature(pos);
+    return entity.level().getBiome(pos).value().getBaseTemperature();
   });
   /** Returns 2 if entity is in water, or 1 if in rain */
   EntityVariable WATER = simple(entity -> {
-    if (entity.isInWater() || entity.wasEyeInWater) {
+    if (entity.isInWater() || entity.isEyeInFluid(FluidTags.WATER)) {
       return 2;
     }
     if (LivingEntityPredicate.RAINING.matches(entity)) {

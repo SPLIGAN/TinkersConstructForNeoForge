@@ -21,7 +21,6 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import slimeknights.mantle.data.loadable.common.ColorLoadable;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.client.data.material.MaterialPartTextureGenerator;
 import slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping.Interpolate;
 import slimeknights.tconstruct.library.client.data.util.AbstractSpriteReader;
 import slimeknights.tconstruct.library.client.data.util.DataGenSpriteReader;
@@ -362,7 +361,7 @@ public class GreyToSpriteTransformer implements IRecolorSpriteTransformer {
       init = true;
       ISpriteTransformer.SERIALIZER.registerDeserializer(NAME, DESERIALIZER);
       ISpriteTransformer.SERIALIZER.registerDeserializer(AnimatedGreyToSpriteTransformer.NAME, AnimatedGreyToSpriteTransformer.DESERIALIZER);
-      MaterialPartTextureGenerator.registerCallback(GreyToSpriteTransformer::textureCallback);
+      // Material part texture datagen is excluded in server-focused compatibility build.
     }
   }
 

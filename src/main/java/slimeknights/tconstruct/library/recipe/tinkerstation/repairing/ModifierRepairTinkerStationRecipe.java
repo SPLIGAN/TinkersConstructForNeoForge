@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.tinkerstation.repairing;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -109,5 +110,10 @@ public class ModifierRepairTinkerStationRecipe implements ITinkerStationRecipe, 
   @Override
   public RecipeSerializer<?> getSerializer() {
     return TinkerModifiers.modifierRepair.get();
+  }
+
+  @Override
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
   }
 }

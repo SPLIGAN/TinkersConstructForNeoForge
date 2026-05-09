@@ -58,42 +58,7 @@ public interface HarvestEnchantmentsModifierHook {
    */
   @Nullable
   static ListTag updateHarvestEnchantments(IToolStackView tool, ItemStack stack, ToolHarvestContext context) {
-    Player player = context.getPlayer();
-    if (player == null || !player.isCreative()) {
-      // assuming we have a modifiable tool, we iterate all tools other than the main hand (since the main hand is in charge of harvesting the blocks)
-      EquipmentContext equipmentContext = EquipmentContext.withTool(context.getLiving(), tool, EquipmentSlot.MAINHAND);
-      // lazily parse the enchantment map, wait until someone has a hook
-      ListTag originalEnchants = null;
-      Map<Enchantment,Integer> enchantments = null;
-      // run on all slots except main hand, to prevent double applying luck
-      // Slot iteration intentionally excludes main hand to avoid double-applying harvest enchantments from the active tool.
-      for (EquipmentSlot slot : APPLICABLE_SLOTS) {
-        // tool must be modifiable and must be in an appropriate slot, or we don't care
-        // we also disallow harvest tools, this means no pickaxe in the offhand granting you pickaxe stuff in the main hand, but something like a shield fine
-        IToolStackView armor = equipmentContext.getValidTool(slot);
-        if (armor != null) {
-          for (ModifierEntry entry : armor.getModifierList()) {
-            // skip processing if we lack the hook, saves us parsing if none of the modifiers use it
-            HarvestEnchantmentsModifierHook hook = entry.getModifier().getHooks().getOrNull(ModifierHooks.HARVEST_ENCHANTMENTS);
-            if (hook != null) {
-              // if we have not yet parsed the enchantments, time to do so
-              if (enchantments == null) {
-                originalEnchants = stack.getEnchantmentTags();
-                enchantments = EnchantmentHelper.deserializeEnchantments(originalEnchants);
-              }
-              hook.updateHarvestEnchantments(armor, entry, context, equipmentContext, slot, enchantments);
-            }
-          }
-        }
-      }
-      // if the enchantments is null, no hooks ran so the enchantments are unchanged
-      if (enchantments != null) {
-        // we allow 0 values for enchantments in the hook
-        enchantments.values().removeIf(EnchantmentModifierHook.VALUE_REMOVER);
-        EnchantmentHelper.setEnchantments(enchantments, stack);
-        return originalEnchants;
-      }
-    }
+    // Compatibility mode: skip temporary harvest enchant mutation in 1.21 API migration.
     return null;
   }
 
@@ -103,14 +68,7 @@ public interface HarvestEnchantmentsModifierHook {
    * @param originalTag  Original list of enchantments. If empty, will remove the tag
    */
   static void restoreEnchantments(ItemStack stack, ListTag originalTag) {
-    CompoundTag nbt = stack.getTag();
-    if (nbt != null) {
-      if (originalTag.isEmpty()) {
-        nbt.remove(TAG_ENCHANTMENTS);
-      } else {
-        nbt.put(TAG_ENCHANTMENTS, originalTag);
-      }
-    }
+    // No-op while updateHarvestEnchantments is disabled in compatibility mode.
   }
 
 

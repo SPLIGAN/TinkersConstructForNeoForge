@@ -87,6 +87,10 @@ public abstract class TinkerToolEvent extends Event {
       NeoForge.EVENT_BUS.post(this);
       return this.result;
     }
+
+    public void setResult(Result result) {
+      this.result = result;
+    }
   }
 
   /**
@@ -112,6 +116,10 @@ public abstract class TinkerToolEvent extends Event {
     public Result fire() {
       NeoForge.EVENT_BUS.post(this);
       return this.result;
+    }
+
+    public void setResult(Result result) {
+      this.result = result;
     }
   }
 }

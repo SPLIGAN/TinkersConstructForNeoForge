@@ -32,7 +32,6 @@ public class TagNotEmptyCondition<T> implements LootItemCondition {
     return registry != null && registry.getTagOrEmpty(tag).iterator().hasNext();
   }
 
-  @Override
   public MapCodec<? extends LootItemCondition> codec() {
     return MapCodec.unit(this);
   }

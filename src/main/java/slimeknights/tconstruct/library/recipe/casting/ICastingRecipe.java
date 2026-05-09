@@ -1,5 +1,7 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.recipe.ICommonRecipe;
@@ -13,6 +15,23 @@ import static slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe.getT
  * Base interface for all casting recipes
  */
 public interface ICastingRecipe extends ICommonRecipe<ICastingContainer> {
+  @Override
+  default ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
+  }
+
+  /** @deprecated use {@link #getResultItem(HolderLookup.Provider)} */
+  @Deprecated
+  default ItemStack getResultItem(RegistryAccess access) {
+    return getResultItem((HolderLookup.Provider) access);
+  }
+
+  /** @deprecated use recipe-specific result helpers */
+  @Deprecated
+  default ItemStack assemble(ICastingContainer inv, RegistryAccess access) {
+    return getResultItem(access).copy();
+  }
+
   @Override
   default ItemStack getToastSymbol() {
     return new ItemStack(getType() == TinkerRecipeTypes.CASTING_TABLE.get() ? TinkerSmeltery.searedTable : TinkerSmeltery.searedBasin);

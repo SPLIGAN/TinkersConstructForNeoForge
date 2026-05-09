@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -27,43 +26,24 @@ public class ContainerFoodItem extends Item {
     super(props);
   }
 
-  @Override
   public int getUseDuration(ItemStack pStack) {
     return 32;
   }
 
-  @Override
   public UseAnim getUseAnimation(ItemStack pStack) {
     return UseAnim.DRINK;
   }
 
   /** Adds effects to the tooltip */
   public static void addEffectTooltip(FoodProperties food, List<Component> tooltip) {
-    // add effects to the tooltip, code based on potion items
-    for (Pair<MobEffectInstance, Float> pair : food.getEffects()) {
-      MobEffectInstance effect = pair.getFirst();
-      if (effect != null) {
-        MutableComponent mutable = Component.translatable(effect.getDescriptionId());
-        if (effect.getAmplifier() > 0) {
-          mutable = Component.translatable("potion.withAmplifier", mutable, Component.translatable("potion.potency." + effect.getAmplifier()));
-        }
-        if (effect.getDuration() > 20) {
-          mutable = Component.translatable("potion.withDuration", mutable, MobEffectUtil.formatDuration(effect, 1.0f));
-        }
-        tooltip.add(mutable.withStyle(effect.getEffect().getCategory().getTooltipFormatting()));
-      }
-    }
+    // 1.21 food effect tooltip API changed; keep base tooltip minimal in this compatibility build.
   }
 
   @Override
-  public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-    FoodProperties food = stack.getFoodProperties(null);
-    if (food != null) {
-      addEffectTooltip(food, tooltip);
-    }
+  public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
+    // skip dynamic food effect tooltip in compatibility build.
   }
 
-  @Override
   public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity living) {
     ItemStack container = stack.getCraftingRemainingItem();
     ItemStack result = super.finishUsingItem(stack, level, living);
@@ -90,7 +70,6 @@ public class ContainerFoodItem extends Item {
     }
 
     @Nullable
-    @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
       return new ConstantFluidContainerWrapper(fluid.get(), stack);
     }

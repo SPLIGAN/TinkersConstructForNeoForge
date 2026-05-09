@@ -28,6 +28,15 @@ public class ModuleHook<T> implements IdAwareObject {
     this(name, filter, null, defaultInstance);
   }
 
+  @Override
+  public ResourceLocation getId() {
+    return id;
+  }
+
+  public T getDefaultInstance() {
+    return defaultInstance;
+  }
+
   /** checks if the given module can be used for this hook */
   public boolean isValid(Object module) {
     return filter.isInstance(module);

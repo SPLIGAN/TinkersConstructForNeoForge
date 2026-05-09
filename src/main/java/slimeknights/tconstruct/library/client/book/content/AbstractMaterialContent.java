@@ -328,7 +328,7 @@ public abstract class AbstractMaterialContent extends PageContent {
                                     .findFirst().orElse(FluidStack.EMPTY);
       elementItem.tooltip = List.of(
         CASTABLE,
-        Component.translatable(CAST_FROM, firstFluid.getDisplayName()).withStyle(ChatFormatting.GRAY)
+        Component.translatable(CAST_FROM, firstFluid.getHoverName()).withStyle(ChatFormatting.GRAY)
       );
       displayTools.add(elementItem);
     }
@@ -350,7 +350,7 @@ public abstract class AbstractMaterialContent extends PageContent {
           FluidStack firstFluid = composite.getFluids().stream().findFirst().orElse(FluidStack.EMPTY);
           elementItem.tooltip = List.of(
             COMPOSITE,
-            Component.translatable(COMPOSITE_FROM, firstFluid.getDisplayName(), MaterialTooltipCache.getDisplayName(inputId)).withStyle(ChatFormatting.GRAY)
+            Component.translatable(COMPOSITE_FROM, firstFluid.getHoverName(), MaterialTooltipCache.getDisplayName(inputId)).withStyle(ChatFormatting.GRAY)
           );
           displayTools.add(elementItem);
         }

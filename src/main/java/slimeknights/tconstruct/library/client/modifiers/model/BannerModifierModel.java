@@ -10,6 +10,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import slimeknights.mantle.client.model.util.MantleItemLayerModel;
@@ -77,11 +78,12 @@ public record BannerModifierModel(@Nullable ResourceLocation smallPrefix, @Nulla
           // patterns are stored as short strings for some reason, for consistency we also store as hashes
           // map that back to the pattern
           CompoundTag tag = list.getCompound(i);
-          Holder<BannerPattern> pattern = BannerPattern.byHash(tag.getString(BannerModule.KEY_PATTERN));
+          var registryAccess = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.registryAccess() : null;
+          var pattern = BannerModule.resolveBannerPattern(registryAccess, tag.getString(BannerModule.KEY_PATTERN));
           int color = tag.getInt(BannerModule.KEY_COLOR);
-          if (pattern != null) {
+          if (pattern.isPresent()) {
             // patterns currently resolve their texture suffix from the registry ID; we can switch to an explicit asset root if Mojang adds one later.
-            pattern.unwrapKey().ifPresent(id -> {
+            pattern.get().unwrapKey().ifPresent(id -> {
               TextureAtlasSprite sprite = spriteGetter.apply(ModifierModel.blockAtlas(prefix.withSuffix(MaterialRenderInfo.getSuffix(id.location()))));
               // skip if sprite is missing - deals with modded patterns that we haven't made textures for
               if (!MissingTextureAtlasSprite.getLocation().equals(sprite.contents().name())) {

@@ -38,7 +38,6 @@ public class TagIntersectionPresentCondition<T> implements ICondition {
     return new TagIntersectionPresentCondition<>(Arrays.stream(names).map(name -> TagKey.create(registry, name)).toList());
   }
 
-  @Override
   public ResourceLocation getID() {
     return NAME;
   }
@@ -74,7 +73,6 @@ public class TagIntersectionPresentCondition<T> implements ICondition {
     return false;
   }
 
-  @Override
   public MapCodec<? extends ICondition> codec() {
     return MapCodec.unit(this);
   }

@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.ForgeHooks;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
+import slimeknights.tconstruct.library.utils.NeoCapabilityHelper;
 import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.common.util.NonNullConsumer;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -22,12 +22,15 @@ import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.library.utils.Util;
 
+import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
 
 /** Fuel module variant that supports both item and fluid fuels. Only supports a single fluid position which should not change. */
 public class SolidFuelModule extends FuelModule {
   /** Listener to attach to stored item capabilities */
-  private final NonNullConsumer<LazyOptional<IItemHandler>> itemListener = new WeakConsumerWrapper<>(this, SolidFuelModule::resetHandler);
+  @SuppressWarnings("unchecked")
+  private final NonNullConsumer<LazyOptional<IItemHandler>> itemListener = (NonNullConsumer<LazyOptional<IItemHandler>>) (Consumer<LazyOptional<IItemHandler>>) new WeakConsumerWrapper<SolidFuelModule, LazyOptional<IItemHandler>>(this, (self, cap) -> self.resetHandler(cap));
 
   /** Location of the fuel tank */
   private final BlockPos fuelPos;
@@ -115,11 +118,11 @@ public class SolidFuelModule extends FuelModule {
     if (te != null) {
       // first, identify a capability that has what we need
       // on the chance both are present, we prioritize fluid; we don't expect that to change
-      fluidHandler = te.getCapability(ForgeCapabilities.FLUID_HANDLER);
+      fluidHandler = NeoCapabilityHelper.getBlockFluidLazy(getLevel(), fuelPos, null);
       if (fluidHandler.isPresent()) {
         fluidHandler.addListener(fluidListener);
       }
-      itemHandler = te.getCapability(ForgeCapabilities.ITEM_HANDLER);
+      itemHandler = NeoCapabilityHelper.getBlockItemLazy(getLevel(), fuelPos, null);
       if (itemHandler.isPresent()) {
         itemHandler.addListener(itemListener);
       }

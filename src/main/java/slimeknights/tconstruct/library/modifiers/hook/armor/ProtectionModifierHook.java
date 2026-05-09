@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.modifiers.hook.armor;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.registries.BuiltInRegistries;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
@@ -45,7 +46,7 @@ public interface ProtectionModifierHook {
   /** Gets the maximum protection amount on the given entity */
   @SuppressWarnings("removal")
   static double getProtectionCap(LivingEntity living, TinkerDataCapability.Holder data) {
-    return Math.min(living.getAttributeValue(TinkerAttributes.PROTECTION_CAP.get()) * 25f + data.get(TinkerDataKeys.PROTECTION_CAP, 0f), 25 * 0.95f);
+    return Math.min(living.getAttributeValue(BuiltInRegistries.ATTRIBUTE.wrapAsHolder(TinkerAttributes.PROTECTION_CAP.get())) * 25f + data.get(TinkerDataKeys.PROTECTION_CAP, 0f), 25 * 0.95f);
   }
 
   /** Gets the maximum protection amount on the given entity */

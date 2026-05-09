@@ -3,8 +3,8 @@ package slimeknights.tconstruct.smeltery.block.entity.controller;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,12 +23,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.capabilities.Capability;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
@@ -49,6 +46,7 @@ import slimeknights.tconstruct.smeltery.block.entity.multiblock.MultiblockResult
 import slimeknights.tconstruct.smeltery.block.entity.tank.IDisplayFluidListener;
 import slimeknights.tconstruct.smeltery.block.entity.tank.ISmelteryTankHandler;
 import slimeknights.tconstruct.smeltery.block.entity.tank.SmelteryTank;
+import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.smeltery.menu.HeatingStructureContainerMenu;
 import slimeknights.tconstruct.smeltery.network.StructureErrorPositionPacket;
 import slimeknights.tconstruct.smeltery.network.StructureUpdatePacket;
@@ -101,8 +99,6 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   /** Inventory handling melting items */
   @Getter
   protected final MeltingModuleInventory meltingInventory = createMeltingInventory();
-
-  private final LazyOptional<IItemHandler> itemCapability = LazyOptional.of(() -> meltingInventory);
 
   /** Fuel module */
   @Getter
@@ -329,27 +325,6 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
     }
   }
 
-  /* Capability */
-
-  @Override
-  public void invalidateCaps() {
-    super.invalidateCaps();
-    this.itemCapability.invalidate();
-    // fluidCapability is only used by drains, but still need to invalidate it so drains stop talking to an invalid smeltery
-    // on the chance we have no fluid capability (invalid structure), this will simply no-op internally
-    this.fluidCapability.invalidate();
-  }
-
-  @Nonnull
-  @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-    if (capability == ForgeCapabilities.ITEM_HANDLER) {
-      return itemCapability.cast();
-    }
-    return super.getCapability(capability, facing);
-  }
-
-
   /* Structure */
 
   /**
@@ -505,12 +480,12 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
     this.setChangedFast();
   }
 
-  @Override
   public AABB getRenderBoundingBox() {
     if (structure != null) {
       return structure.getBounds();
     } else if (defaultBounds == null) {
-      defaultBounds = new AABB(worldPosition, worldPosition.offset(1, 1, 1));
+      defaultBounds = new AABB(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(),
+                               worldPosition.getX() + 1, worldPosition.getY() + 1, worldPosition.getZ() + 1);
     }
     return defaultBounds;
   }
@@ -613,17 +588,17 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   }
 
   @Override
-  public void load(CompoundTag nbt) {
-    super.load(nbt);
+  public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+    super.loadAdditional(nbt, provider);
     if (nbt.contains(TAG_TANK, Tag.TAG_COMPOUND)) {
-      tank.read(nbt.getCompound(TAG_TANK));
+      tank.read(nbt.getCompound(TAG_TANK), provider);
       FluidStack first = tank.getFluidInTank(0);
       if (!first.isEmpty()) {
         updateDisplayFluid(first);
       }
     }
     if (nbt.contains(TAG_INVENTORY, Tag.TAG_COMPOUND)) {
-      meltingInventory.readFromTag(nbt.getCompound(TAG_INVENTORY));
+      meltingInventory.readFromTag(nbt.getCompound(TAG_INVENTORY), provider);
     }
     if (nbt.contains(TAG_STRUCTURE, Tag.TAG_COMPOUND)) {
       setStructure(multiblock.readFromTag(nbt.getCompound(TAG_STRUCTURE), this.worldPosition));
@@ -632,8 +607,9 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
       }
     }
     // only exists to be sent server to client in update packets
-    if (nbt.contains(TAG_ERROR_POS, Tag.TAG_COMPOUND)) {
-      this.errorPos = NbtUtils.readBlockPos(nbt.getCompound(TAG_ERROR_POS)).offset(this.worldPosition);
+    BlockPos err = TagUtil.readOptionalPos(nbt, TAG_ERROR_POS, this.worldPosition);
+    if (err != null) {
+      this.errorPos = err;
     }
     fuelModule.readFromTag(nbt);
     if (nbt.contains(TAG_TEXTURE, Tag.TAG_STRING)) {
@@ -643,9 +619,9 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   }
 
   @Override
-  public void saveAdditional(CompoundTag compound) {
+  public void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
     // Tag that just writes to disk
-    super.saveAdditional(compound);
+    super.saveAdditional(compound, provider);
     if (structure != null) {
       compound.put(TAG_STRUCTURE, structure.writeToTag(this.worldPosition));
     }
@@ -653,26 +629,26 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
   }
 
   @Override
-  public void saveSynced(CompoundTag compound) {
+  public void saveSynced(CompoundTag compound, HolderLookup.Provider provider) {
     // Tag that writes to disk and syncs to client
-    super.saveSynced(compound);
-    compound.put(TAG_TANK, tank.write(new CompoundTag()));
-    compound.put(TAG_INVENTORY, meltingInventory.writeToTag());
+    super.saveSynced(compound, provider);
+    compound.put(TAG_TANK, tank.write(new CompoundTag(), provider));
+    compound.put(TAG_INVENTORY, meltingInventory.writeToTag(provider));
     if (texture != Blocks.AIR) {
       compound.putString(TAG_TEXTURE, getTextureName());
     }
   }
 
   @Override
-  public CompoundTag getUpdateTag() {
+  public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
     // Tag that just syncs to client
-    CompoundTag nbt = super.getUpdateTag();
+    CompoundTag nbt = super.getUpdateTag(provider);
     if (structure != null) {
       nbt.put(TAG_STRUCTURE, structure.writeClientTag(this.worldPosition));
     }
     // sync error position, not actually saved in Tag
     if (errorPos != null) {
-      nbt.put(TAG_ERROR_POS, NbtUtils.writeBlockPos(errorPos.subtract(this.worldPosition)));
+      TagUtil.writeRelativeBlockPos(nbt, TAG_ERROR_POS, errorPos, this.worldPosition);
     }
     return nbt;
   }

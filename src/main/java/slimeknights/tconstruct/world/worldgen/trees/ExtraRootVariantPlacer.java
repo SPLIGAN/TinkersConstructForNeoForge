@@ -38,12 +38,14 @@ import java.util.function.Predicate;
 /** Extension of {@link MangroveRootPlacer} to allow more root variants */
 public class ExtraRootVariantPlacer extends MangroveRootPlacer {
   public static final Codec<ExtraRootVariantPlacer> CODEC = RecordCodecBuilder.create(inst -> rootPlacerParts(inst).and(inst.group(
-    MangroveRootPlacement.CODEC.fieldOf("mangrove_root_placement").forGetter(p -> p.mangroveRootPlacement),
+    MangroveRootPlacement.CODEC.fieldOf("mangrove_root_placement").forGetter(p -> p.codecMangroveRootPlacement),
     RootVariant.CODEC.listOf().fieldOf("root_variants").forGetter(p -> p.rootVariants))).apply(inst, ExtraRootVariantPlacer::new));
 
+  private final MangroveRootPlacement codecMangroveRootPlacement;
   private final List<RootVariant> rootVariants;
   public ExtraRootVariantPlacer(IntProvider pTrunkOffset, BlockStateProvider pRootProvider, Optional<AboveRootPlacement> pAboveRootPlacement, MangroveRootPlacement mangrovePlacement, List<RootVariant> rootVariants) {
     super(pTrunkOffset, pRootProvider, pAboveRootPlacement, mangrovePlacement);
+    this.codecMangroveRootPlacement = mangrovePlacement;
     this.rootVariants = rootVariants;
   }
 

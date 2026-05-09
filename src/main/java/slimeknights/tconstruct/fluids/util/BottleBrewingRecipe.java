@@ -18,21 +18,11 @@ public class BottleBrewingRecipe extends BrewingRecipe {
 
   @Override
   public boolean isIngredient(ItemStack stack) {
-    for (PotionBrewing.Mix<Item> recipe : PotionBrewing.CONTAINER_MIXES) {
-      if (recipe.from.get() == from && recipe.to.get() == to) {
-        return recipe.ingredient.test(stack);
-      }
-    }
     return false;
   }
 
   @Override
   public Ingredient getIngredient() {
-    for (PotionBrewing.Mix<Item> recipe : PotionBrewing.CONTAINER_MIXES) {
-      if (recipe.from.get() == from && recipe.to.get() == to) {
-        return recipe.ingredient;
-      }
-    }
     return Ingredient.EMPTY;
   }
 }

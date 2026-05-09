@@ -3,8 +3,6 @@ package slimeknights.tconstruct.tools;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
@@ -13,13 +11,12 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTab.ItemDisplayParameters;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.neoforged.neoforge.common.crafting.CraftingHelper;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -31,10 +28,6 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.config.ConfigurableAction;
-import slimeknights.tconstruct.common.data.tags.MaterialTagProvider;
-import slimeknights.tconstruct.library.client.data.material.GeneratorPartTextureJsonGenerator;
-import slimeknights.tconstruct.library.client.data.material.MaterialPaletteDebugGenerator;
-import slimeknights.tconstruct.library.client.data.material.MaterialPartTextureGenerator;
 import slimeknights.tconstruct.library.json.loot.AddToolDataFunction;
 import slimeknights.tconstruct.library.json.predicate.tool.HasMaterialPredicate;
 import slimeknights.tconstruct.library.json.predicate.tool.HasModifierPredicate;
@@ -122,22 +115,8 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
 import slimeknights.tconstruct.tables.TinkerTables;
-import slimeknights.tconstruct.tools.data.ArmorModelProvider;
 import slimeknights.tconstruct.tools.data.ModifierIds;
-import slimeknights.tconstruct.tools.data.StationSlotLayoutProvider;
-import slimeknights.tconstruct.tools.data.ToolDefinitionDataProvider;
-import slimeknights.tconstruct.tools.data.ToolItemModelProvider;
-import slimeknights.tconstruct.tools.data.ToolsRecipeProvider;
-import slimeknights.tconstruct.tools.data.client.ModifierModelMapProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialDataProvider;
 import slimeknights.tconstruct.tools.data.material.MaterialIds;
-import slimeknights.tconstruct.tools.data.material.MaterialRecipeProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialRenderInfoProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialStatsDataProvider;
-import slimeknights.tconstruct.tools.data.material.MaterialTraitsDataProvider;
-import slimeknights.tconstruct.tools.data.sprite.TinkerMaterialSpriteProvider;
-import slimeknights.tconstruct.tools.data.sprite.TinkerPartSpriteProvider;
-import slimeknights.tconstruct.tools.data.sprite.TinkerTrimMaterialPaletteGenerator;
 import slimeknights.tconstruct.tools.entity.CombatFishingHook;
 import slimeknights.tconstruct.tools.entity.ModifiableArrow;
 import slimeknights.tconstruct.tools.entity.ThrownShuriken;
@@ -147,8 +126,6 @@ import slimeknights.tconstruct.tools.item.CrystalshotItem.CrystalshotEntity;
 import slimeknights.tconstruct.tools.item.ModifiableSwordItem;
 import slimeknights.tconstruct.tools.item.SlimeskullItem;
 import slimeknights.tconstruct.tools.logic.EquipmentChangeWatcher;
-import slimeknights.tconstruct.tools.logic.ModifiableArrowDispenserBehavior;
-import slimeknights.tconstruct.tools.logic.ModifiableShurikenDispenserBehavior;
 import slimeknights.tconstruct.tools.menu.ToolContainerMenu;
 import slimeknights.tconstruct.tools.modules.MeltingFluidEffectiveModule;
 
@@ -169,7 +146,7 @@ public final class TinkerTools extends TinkerModule {
   }
 
   /** Creative tab for complete tools */
-  public static final DeferredHolder<?, CreativeModeTab> tabTools = CREATIVE_TABS.register(
+  public static final DeferredHolder<CreativeModeTab, CreativeModeTab> tabTools = CREATIVE_TABS.register(
     "tools", () -> CreativeModeTab.builder().title(TConstruct.makeTranslation("itemGroup", "tools"))
                                   .icon(() -> TinkerTools.pickaxe.get().getRenderTool())
                                   .displayItems(TinkerTools::addTabItems)
@@ -178,7 +155,7 @@ public final class TinkerTools extends TinkerModule {
                                   .build());
 
   /** Loot function type for tool add data */
-  public static final DeferredHolder<?, LootItemFunctionType> lootAddToolData = LOOT_FUNCTIONS.register("add_tool_data", () -> new LootItemFunctionType(AddToolDataFunction.CODEC));
+  public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<?>> lootAddToolData = LOOT_FUNCTIONS.register("add_tool_data", () -> new LootItemFunctionType<>(AddToolDataFunction.CODEC));
 
   /*
    * Items
@@ -242,24 +219,24 @@ public final class TinkerTools extends TinkerModule {
   public static final ItemObject<ArrowItem> crystalshotItem = ITEMS.register("crystalshot", () -> new CrystalshotItem(ITEM_PROPS));
 
   /* Particles */
-  public static final DeferredHolder<?, SimpleParticleType> hammerAttackParticle = PARTICLE_TYPES.register("hammer_attack", () -> new SimpleParticleType(true));
-  public static final DeferredHolder<?, SimpleParticleType> axeAttackParticle = PARTICLE_TYPES.register("axe_attack", () -> new SimpleParticleType(true));
-  public static final DeferredHolder<?, SimpleParticleType> bonkAttackParticle = PARTICLE_TYPES.register("bonk", () -> new SimpleParticleType(true));
+  public static final DeferredHolder<ParticleType<?>, SimpleParticleType> hammerAttackParticle = PARTICLE_TYPES.register("hammer_attack", () -> new SimpleParticleType(true));
+  public static final DeferredHolder<ParticleType<?>, SimpleParticleType> axeAttackParticle = PARTICLE_TYPES.register("axe_attack", () -> new SimpleParticleType(true));
+  public static final DeferredHolder<ParticleType<?>, SimpleParticleType> bonkAttackParticle = PARTICLE_TYPES.register("bonk", () -> new SimpleParticleType(true));
 
   /* Entities */
-  public static final DeferredHolder<?, EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.register("indestructible_item", () ->
+  public static final DeferredHolder<EntityType<?>, EntityType<IndestructibleItemEntity>> indestructibleItem = ENTITIES.register("indestructible_item", () ->
     EntityType.Builder.<IndestructibleItemEntity>of(IndestructibleItemEntity::new, MobCategory.MISC)
                       .sized(0.25F, 0.25F)
                       .fireImmune());
-  public static final DeferredHolder<?, EntityType<CrystalshotEntity>> crystalshotEntity = ENTITIES.register("crystalshot", () ->
+  public static final DeferredHolder<EntityType<?>, EntityType<CrystalshotEntity>> crystalshotEntity = ENTITIES.register("crystalshot", () ->
     EntityType.Builder.<CrystalshotEntity>of(CrystalshotEntity::new, MobCategory.MISC)
                       .sized(0.5F, 0.5F)
                       .clientTrackingRange(4)
                       .updateInterval(20));
-  public static final DeferredHolder<?, EntityType<CombatFishingHook>> fishingHook = ENTITIES.register("fishing_bobber", () -> EntityType.Builder.<CombatFishingHook>of(CombatFishingHook::new, MobCategory.MISC).noSave().noSummon().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(5));
-  public static final DeferredHolder<?, EntityType<ModifiableArrow>> materialArrow = ENTITIES.register("arrow", () -> EntityType.Builder.<ModifiableArrow>of(ModifiableArrow::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20));
-  public static final DeferredHolder<?, EntityType<ThrownShuriken>> thrownShuriken = ENTITIES.register("thrown_shuriken", () -> EntityType.Builder.<ThrownShuriken>of(ThrownShuriken::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10));
-  public static final DeferredHolder<?, EntityType<ThrownTool>> thrownTool = ENTITIES.register("thrown_tool", () -> EntityType.Builder.<ThrownTool>of(ThrownTool::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(4).updateInterval(20));
+  public static final DeferredHolder<EntityType<?>, EntityType<CombatFishingHook>> fishingHook = ENTITIES.register("fishing_bobber", () -> EntityType.Builder.<CombatFishingHook>of(CombatFishingHook::new, MobCategory.MISC).noSave().noSummon().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(5));
+  public static final DeferredHolder<EntityType<?>, EntityType<ModifiableArrow>> materialArrow = ENTITIES.register("arrow", () -> EntityType.Builder.<ModifiableArrow>of(ModifiableArrow::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20));
+  public static final DeferredHolder<EntityType<?>, EntityType<ThrownShuriken>> thrownShuriken = ENTITIES.register("thrown_shuriken", () -> EntityType.Builder.<ThrownShuriken>of(ThrownShuriken::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10));
+  public static final DeferredHolder<EntityType<?>, EntityType<ThrownTool>> thrownTool = ENTITIES.register("thrown_tool", () -> EntityType.Builder.<ThrownTool>of(ThrownTool::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(4).updateInterval(20));
   static {
     // used for the fishing bobber
     DATA_SERIALIZERS.register("material_variant", () -> MaterialVariantId.DATA_ACCESSOR);
@@ -267,7 +244,7 @@ public final class TinkerTools extends TinkerModule {
 
 
   /* Containers */
-  public static final DeferredHolder<?, MenuType<ToolContainerMenu>> toolContainer = MENUS.register("tool_container", ToolContainerMenu::forClient);
+  public static final DeferredHolder<MenuType<?>, MenuType<ToolContainerMenu>> toolContainer = MENUS.register("tool_container", ToolContainerMenu::forClient);
 
 
   /*
@@ -284,12 +261,9 @@ public final class TinkerTools extends TinkerModule {
       event.enqueueWork(action);
     }
     event.enqueueWork(() -> {
-      DispenserBlock.registerBehavior(TinkerTools.arrow.get(), ModifiableArrowDispenserBehavior.INSTANCE);
-      DispenserBlock.registerBehavior(TinkerTools.shuriken.get(), ModifiableShurikenDispenserBehavior.INSTANCE);
-      DispenserBlock.registerBehavior(TinkerTools.throwingAxe.get(), ModifiableShurikenDispenserBehavior.INSTANCE);
       ModifierUtil.registerShieldDisabler(entity -> {
         if (entity instanceof Player player && player.isBlocking()) {
-          player.disableShield(true);
+          player.disableShield();
         }
       }, EntityType.PLAYER);
     });
@@ -300,7 +274,6 @@ public final class TinkerTools extends TinkerModule {
   @SubscribeEvent
   void registerRecipeSerializers(RegisterEvent event) {
     if (event.getRegistryKey() == Registries.RECIPE_SERIALIZER) {
-      CraftingHelper.register(ToolHookIngredient.Serializer.ID, ToolHookIngredient.Serializer.INSTANCE);
 
       // register tool stats that are not defined directly in the class; safer than static init registration
       ToolStats.register(OverslimeModule.OVERSLIME_STAT);
@@ -371,33 +344,7 @@ public final class TinkerTools extends TinkerModule {
     }
   }
 
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    PackOutput packOutput = generator.getPackOutput();
-    ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-    boolean server = event.includeServer();
-    boolean client = event.includeClient();
-    generator.addProvider(server, new ToolsRecipeProvider(packOutput));
-    generator.addProvider(server, new MaterialRecipeProvider(packOutput));
-    MaterialDataProvider materials = new MaterialDataProvider(packOutput);
-    generator.addProvider(server, materials);
-    generator.addProvider(server, new MaterialStatsDataProvider(packOutput, materials));
-    generator.addProvider(server, new MaterialTraitsDataProvider(packOutput, materials));
-    generator.addProvider(server, new ToolDefinitionDataProvider(packOutput));
-    generator.addProvider(server, new StationSlotLayoutProvider(packOutput));
-    generator.addProvider(server, new MaterialTagProvider(packOutput, existingFileHelper));
-    generator.addProvider(client, new ToolItemModelProvider(packOutput, existingFileHelper));
-    TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
-    TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
-    generator.addProvider(client, new MaterialRenderInfoProvider(packOutput, materialSprites, existingFileHelper));
-    generator.addProvider(client, new GeneratorPartTextureJsonGenerator(packOutput, TConstruct.MOD_ID, partSprites));
-    generator.addProvider(client, new MaterialPartTextureGenerator(packOutput, existingFileHelper, partSprites, materialSprites));
-    generator.addProvider(client, new MaterialPaletteDebugGenerator(packOutput, TConstruct.MOD_ID, materialSprites));
-    generator.addProvider(client, new ArmorModelProvider(packOutput));
-    generator.addProvider(client, new TinkerTrimMaterialPaletteGenerator(packOutput, existingFileHelper, materialSprites));
-    generator.addProvider(client, new ModifierModelMapProvider(packOutput));
-  }
+  // Datagen is intentionally disabled in this server-focused Arclight compatibility build.
 
   /** Adds all relevant items to the creative tab */
   private static void addTabItems(ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {
@@ -479,7 +426,7 @@ public final class TinkerTools extends TinkerModule {
           efln.addModifier(ModifierIds.redirected, 1);
         }
         ItemStack stack = efln.createStack();
-        stack.setHoverName(TConstruct.makeTranslation("item", "efln_ball"));
+        stack.set(DataComponents.CUSTOM_NAME, TConstruct.makeTranslation("item", "efln_ball"));
         tab.accept(stack);
       }
     }

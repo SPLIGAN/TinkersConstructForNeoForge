@@ -49,7 +49,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder basinRecipe(ItemLike result) {
-    return castingRecipe(result, TinkerSmeltery.basinPotionRecipeSerializer.get());
+    return castingRecipe(result, (TypeAwareRecipeSerializer<PotionCastingRecipe>) TinkerSmeltery.basinPotionRecipeSerializer.get());
   }
 
   /**
@@ -58,7 +58,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder tableRecipe(ItemLike result) {
-    return castingRecipe(result, TinkerSmeltery.tablePotionRecipeSerializer.get());
+    return castingRecipe(result, (TypeAwareRecipeSerializer<PotionCastingRecipe>) TinkerSmeltery.tablePotionRecipeSerializer.get());
   }
 
 
@@ -75,7 +75,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder basinTipping(ModifierId modifier) {
-    return tippingRecipe(modifier, TinkerSmeltery.basinTippingRecipeSerializer.get());
+    return tippingRecipe(modifier, (TypeAwareRecipeSerializer<? extends PotionCastingRecipe>) TinkerSmeltery.basinTippingRecipeSerializer.get());
   }
 
   /**
@@ -84,7 +84,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder tableTipping(ModifierId modifier) {
-    return tippingRecipe(modifier, TinkerSmeltery.tableTippingRecipeSerializer.get());
+    return tippingRecipe(modifier, (TypeAwareRecipeSerializer<? extends PotionCastingRecipe>) TinkerSmeltery.tableTippingRecipeSerializer.get());
   }
 
   /**
@@ -93,7 +93,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder basinClearing(ModifierId modifier) {
-    return tippingRecipe(modifier, TinkerSmeltery.basinTipClearingRecipeSerializer.get());
+    return tippingRecipe(modifier, (TypeAwareRecipeSerializer<? extends PotionCastingRecipe>) TinkerSmeltery.basinTipClearingRecipeSerializer.get());
   }
 
   /**
@@ -102,7 +102,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder tableClearing(ModifierId modifier) {
-    return tippingRecipe(modifier, TinkerSmeltery.tableTipClearingRecipeSerializer.get());
+    return tippingRecipe(modifier, (TypeAwareRecipeSerializer<? extends PotionCastingRecipe>) TinkerSmeltery.tableTipClearingRecipeSerializer.get());
   }
 
 
@@ -176,11 +176,11 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
     if (this.coolingTime < 0) {
       throw new IllegalStateException("Cooling time is too low, must be at least 0");
     }
-    ResourceLocation advancementId = this.buildOptionalAdvancement(id, "casting");
+    var advancementHolder = this.buildOptionalAdvancementHolder(consumer, id, "casting");
     if (modifier != null) {
-      consumer.accept(new LoadableFinishedRecipe<>(new TippingCastingRecipe(recipeSerializer, id, group, bottle, fluid, coolingTime, modifier), TippingCastingRecipe.LOADER, advancementId));
+      consumer.accept(id, new TippingCastingRecipe(recipeSerializer, id, group, bottle, fluid, coolingTime, modifier), advancementHolder);
     } else {
-      consumer.accept(new LoadableFinishedRecipe<>(new PotionCastingRecipe(recipeSerializer, id, group, bottle, fluid, result, coolingTime), PotionCastingRecipe.LOADER, advancementId));
+      consumer.accept(id, new PotionCastingRecipe(recipeSerializer, id, group, bottle, fluid, result, coolingTime), advancementHolder);
     }
   }
 }

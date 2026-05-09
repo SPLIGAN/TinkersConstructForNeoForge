@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.Mantle;
 import slimeknights.mantle.data.registry.NamedComponentRegistry;
@@ -24,7 +25,18 @@ import java.util.function.BiFunction;
 @RequiredArgsConstructor
 public class ToolTankHelper {
   /** Helper function to parse a fluid from NBT */
-  public static final BiFunction<CompoundTag, String, FluidStack> PARSE_FLUID = (nbt, key) -> FluidStack.loadFluidStackFromNBT(nbt.getCompound(key));
+  public static final BiFunction<CompoundTag, String, FluidStack> PARSE_FLUID = (nbt, key) -> {
+    CompoundTag fluidTag = nbt.getCompound(key);
+    if (fluidTag.isEmpty() || !fluidTag.contains("fluid")) {
+      return FluidStack.EMPTY;
+    }
+    ResourceLocation id = ResourceLocation.parse(fluidTag.getString("fluid"));
+    int amount = fluidTag.getInt("amount");
+    if (amount <= 0) {
+      return FluidStack.EMPTY;
+    }
+    return new FluidStack(BuiltInRegistries.FLUID.get(id), amount);
+  };
 
   /** Format key for the stat */
   public static final String MB_FORMAT = Mantle.makeDescriptionId("gui", "fluid.millibucket");
@@ -68,7 +80,10 @@ public class ToolTankHelper {
     if (fluid.getAmount() > capacity) {
       fluid.setAmount(capacity);
     }
-    tool.getPersistentData().put(fluidKey, fluid.writeToNBT(new CompoundTag()));
+    CompoundTag tag = new CompoundTag();
+    tag.putString("fluid", BuiltInRegistries.FLUID.getKey(fluid.getFluid()).toString());
+    tag.putInt("amount", fluid.getAmount());
+    tool.getPersistentData().put(fluidKey, tag);
     return fluid;
   }
 }

@@ -91,4 +91,10 @@ public class ConstantFluidContainerWrapper implements IFluidHandlerItem, ICapabi
   public IFluidHandlerItem getCapability(ItemStack object, Void context) {
     return this;
   }
+
+  @Nonnull
+  @Override
+  public ItemStack getContainer() {
+    return container;
+  }
 }

@@ -44,7 +44,7 @@ public record FieryAttackModule(LevelingValue time) implements ModifierModule, P
 
   /** Sets the target on fire */
   private void setFire(ModifierEntry modifier, Entity target) {
-    target.setSecondsOnFire(Math.round(time.compute(modifier.getEffectiveLevel())));
+    target.setRemainingFireTicks(Math.max(target.getRemainingFireTicks(), Math.round(time.compute(modifier.getEffectiveLevel())) * 20));
   }
 
   @Override
@@ -74,7 +74,7 @@ public record FieryAttackModule(LevelingValue time) implements ModifierModule, P
   @Override
   public void onProjectileShoot(IToolStackView tool, ModifierEntry modifier, @Nullable LivingEntity shooter, ItemStack ammo, Projectile projectile, @Nullable AbstractArrow arrow, ModDataNBT persistentData, boolean primary) {
     // this is mostly cosmetic as we handle hit time below
-    projectile.setSecondsOnFire(100);
+    projectile.setRemainingFireTicks(Math.max(projectile.getRemainingFireTicks(), 100 * 20));
   }
 
   @Override

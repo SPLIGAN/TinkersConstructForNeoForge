@@ -1,7 +1,8 @@
 package slimeknights.tconstruct.world.entity;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,11 +21,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
@@ -37,9 +36,9 @@ public abstract class ArmoredSlimeEntity extends Slime {
   public ArmoredSlimeEntity(EntityType<? extends ArmoredSlimeEntity> type, Level world) {
     super(type, world);
     if (!world.isClientSide) {
-      tryAddAttribute(Attributes.ARMOR, new AttributeModifier("tconstruct.small_armor_bonus", 3, Operation.MULTIPLY_TOTAL));
-      tryAddAttribute(Attributes.ARMOR_TOUGHNESS, new AttributeModifier("tconstruct.small_toughness_bonus", 3, Operation.MULTIPLY_TOTAL));
-      tryAddAttribute(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("tconstruct.small_resistence_bonus", 3, Operation.MULTIPLY_TOTAL));
+      tryAddAttribute(Attributes.ARMOR, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("tconstruct", "small_armor_bonus"), 3, Operation.ADD_MULTIPLIED_TOTAL));
+      tryAddAttribute(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("tconstruct", "small_toughness_bonus"), 3, Operation.ADD_MULTIPLIED_TOTAL));
+      tryAddAttribute(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("tconstruct", "small_resistence_bonus"), 3, Operation.ADD_MULTIPLIED_TOTAL));
     }
     this.entityData.set(METAL, false);
   }
@@ -51,9 +50,9 @@ public abstract class ArmoredSlimeEntity extends Slime {
   }
 
   @Override
-  protected void defineSynchedData() {
-    super.defineSynchedData();
-    this.entityData.define(METAL, false);
+  protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    super.defineSynchedData(builder);
+    builder.define(METAL, false);
   }
 
   /** Sets this slime to have a metal core */
@@ -67,7 +66,7 @@ public abstract class ArmoredSlimeEntity extends Slime {
   }
 
   /** Adds an attribute if possible */
-  private void tryAddAttribute(Attribute attribute, AttributeModifier modifier) {
+  private void tryAddAttribute(Holder<Attribute> attribute, AttributeModifier modifier) {
     AttributeInstance instance = getAttribute(attribute);
     if (instance != null) {
       instance.addTransientModifier(modifier);
@@ -76,8 +75,8 @@ public abstract class ArmoredSlimeEntity extends Slime {
 
   @Nullable
   @Override
-  public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance difficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-    SpawnGroupData spawnData = super.finalizeSpawn(pLevel, difficulty, pReason, pSpawnData, pDataTag);
+  public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance difficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData) {
+    SpawnGroupData spawnData = super.finalizeSpawn(pLevel, difficulty, pReason, pSpawnData);
     this.setCanPickUpLoot(this.random.nextFloat() < (0.55f * difficulty.getSpecialMultiplier()));
 
     this.populateDefaultEquipmentSlots(random, difficulty);
@@ -97,12 +96,10 @@ public abstract class ArmoredSlimeEntity extends Slime {
   @Override
   protected abstract void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty);
 
-  @Override
   protected void populateDefaultEquipmentEnchantments(RandomSource random, DifficultyInstance difficulty) {
     // no-op, unused
   }
 
-  @Override
   public Iterable<ItemStack> getArmorSlots() {
     return List.of(getItemBySlot(EquipmentSlot.HEAD));
   }
@@ -113,7 +110,6 @@ public abstract class ArmoredSlimeEntity extends Slime {
     return getEquipmentSlotForItem(stack) == EquipmentSlot.HEAD;
   }
 
-  @Override
   protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
     ItemStack stack = this.getItemBySlot(EquipmentSlot.HEAD);
     float slotChance = this.getEquipmentDropChance(EquipmentSlot.HEAD);
@@ -123,7 +119,7 @@ public abstract class ArmoredSlimeEntity extends Slime {
       slotChance = 0.25f;
     }
     boolean alwaysDrop = slotChance > 1.0F;
-    if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) && (recentlyHit || alwaysDrop)) {
+    if (!stack.isEmpty() && (recentlyHit || alwaysDrop)) {
       if ((this.random.nextFloat() - (looting * 0.01f)) < slotChance) {
         if (!alwaysDrop && stack.isDamageableItem()) {
           int max = stack.getMaxDamage();
@@ -138,58 +134,7 @@ public abstract class ArmoredSlimeEntity extends Slime {
   @SuppressWarnings("IntegerDivisionInFloatingPointContext")
   @Override
   public void remove(Entity.RemovalReason reason) {
-    // on death, split into multiple slimes, and let them inherit armor if it did not drop
-    int size = this.getSize();
-    Level level = level();
-    if (!level.isClientSide && size > 1 && this.isDeadOrDying()) {
-      Component name = this.getCustomName();
-      boolean noAi = this.isNoAi();
-      boolean invulnerable = this.isInvulnerable();
-      float offset = size / 4.0F;
-      int newSize = size / 2;
-      int count = 2 + this.random.nextInt(3);
-      // determine which child will receive the helmet
-      ItemStack helmet = getItemBySlot(EquipmentSlot.HEAD);
-      boolean metal = isMetal();
-      int helmetIndex = -1;
-      if (!helmet.isEmpty()) {
-        helmetIndex = this.random.nextInt(count);
-      }
-
-      // spawn all children
-      float dropChance = getEquipmentDropChance(EquipmentSlot.HEAD);
-      for(int i = 0; i < count; ++i) {
-        float x = ((i % 2) - 0.5F) * offset;
-        float z = ((i / 2) - 0.5F) * offset;
-        ArmoredSlimeEntity slime = this.getType().create(level);
-        assert slime != null;
-        if (this.isPersistenceRequired()) {
-          slime.setPersistenceRequired();
-        }
-        slime.setCustomName(name);
-        slime.setNoAi(noAi);
-        slime.setInvulnerable(invulnerable);
-        slime.setSize(newSize, true);
-        if (metal) {
-          slime.setMetal(metal);
-        }
-        if (i == helmetIndex) {
-          slime.setItemSlot(EquipmentSlot.HEAD, helmet.copy());
-          setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
-        } else if (dropChance < 1 && random.nextFloat() < 0.25) {
-          slime.setItemSlot(EquipmentSlot.HEAD, helmet.copy());
-        }
-        slime.moveTo(this.getX() + x, this.getY() + 0.5D, this.getZ() + z, this.random.nextFloat() * 360.0F, 0.0F);
-        level.addFreshEntity(slime);
-      }
-    }
-
-    // calling supper does the split reason again, but we need to transfer armor
-    this.setRemoved(reason);
-    if (reason == Entity.RemovalReason.KILLED) {
-      this.gameEvent(GameEvent.ENTITY_DIE);
-    }
-    this.invalidateCaps();
+    super.remove(reason);
   }
 
   @Override

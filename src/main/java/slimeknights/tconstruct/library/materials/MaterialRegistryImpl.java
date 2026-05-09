@@ -78,7 +78,13 @@ public class MaterialRegistryImpl implements IMaterialRegistry {
   /** Gets the loader for all stat types */
   @Override
   public Loadable<MaterialStatType<?>> getStatTypeLoader() {
-    return materialStatsManager.getStatTypes();
+    return MaterialStatsId.PARSER.xmap((id, error) -> {
+      MaterialStatType<?> type = materialStatsManager.getStatType(id);
+      if (type == null) {
+        throw error.create("Unknown material stat type: " + id);
+      }
+      return type;
+    }, (type, error) -> type.getId());
   }
 
   @Override

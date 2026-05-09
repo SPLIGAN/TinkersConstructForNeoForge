@@ -13,9 +13,9 @@ import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.helper.FluidOutput;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -29,13 +29,14 @@ import java.util.stream.Stream;
  */
 public class MeltingRecipe implements IMeltingRecipe {
   /* Reusable fields */
+  protected static final LoadableField<String, MeltingRecipe> GROUP = StringLoadable.DEFAULT.defaultField("group", "", r -> r.group);
   protected static final LoadableField<Ingredient, MeltingRecipe> INPUT = IngredientLoadable.DISALLOW_EMPTY.requiredField("ingredient", MeltingRecipe::getInput);
   protected static final LoadableField<FluidOutput, MeltingRecipe> OUTPUT = FluidOutput.Loadable.REQUIRED.requiredField("result", r -> r.output);
   protected static final LoadableField<Integer, MeltingRecipe> TEMPERATURE = IntLoadable.FROM_ZERO.requiredField("temperature", MeltingRecipe::getTemperature);
   protected static final LoadableField<Integer, MeltingRecipe> TIME = IntLoadable.FROM_ONE.requiredField("time", MeltingRecipe::getTime);
   protected static final LoadableField<List<FluidOutput>, MeltingRecipe> BYPRODUCTS = FluidOutput.Loadable.REQUIRED.list(0).defaultField("byproducts", List.of(), r -> r.byproducts);
   /** Loader instance */
-  public static final RecordLoadable<MeltingRecipe> LOADER = RecordLoadable.create(ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP, INPUT, OUTPUT, TEMPERATURE, TIME, BYPRODUCTS, MeltingRecipe::new);
+  public static final RecordLoadable<MeltingRecipe> LOADER = RecordLoadable.create(ContextKey.ID.requiredField(), GROUP, INPUT, OUTPUT, TEMPERATURE, TIME, BYPRODUCTS, MeltingRecipe::new);
 
   @Getter
   private final ResourceLocation id;
@@ -125,7 +126,9 @@ public class MeltingRecipe implements IMeltingRecipe {
       // boost for foundry rate, this method is used for the foundry only
       OreRateType rate = getOreType();
       if (rate != null) {
-        return new FluidStack(output.get(), Config.COMMON.foundryOreRate.applyOreBoost(rate, output.getAmount()));
+        FluidStack scaled = output.get().copy();
+        scaled.setAmount(Config.COMMON.foundryOreRate.applyOreBoost(rate, output.getAmount()));
+        return scaled;
       }
       return output.get();
     });

@@ -4,7 +4,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import slimeknights.mantle.inventory.MultiModuleContainerMenu;
-import slimeknights.tconstruct.shared.TinkerCommons;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +11,6 @@ import javax.annotation.Nullable;
 public class TriggeringMultiModuleContainerMenu<TILE extends BlockEntity> extends MultiModuleContainerMenu<TILE> {
   public TriggeringMultiModuleContainerMenu(MenuType<?> type, int id, @Nullable Inventory inv, @Nullable TILE tile) {
     super(type, id, inv, tile);
-    TinkerCommons.CONTAINER_OPENED_TRIGGER.trigger(tile, inv);
+    // Advancement criterion `BlockContainerOpenedTrigger` omitted from NeoForge migration build (see source set excludes).
   }
 }

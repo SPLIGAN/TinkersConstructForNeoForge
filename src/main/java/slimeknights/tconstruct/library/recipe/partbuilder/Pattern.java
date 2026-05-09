@@ -31,7 +31,7 @@ public class Pattern extends ResourceId {
    * @return  Translation key
    */
   public String getTranslationKey() {
-    return Util.makeTranslationKey("pattern", this);
+    return Util.makeTranslationKey("pattern", getLocation());
   }
 
   /**
@@ -47,7 +47,7 @@ public class Pattern extends ResourceId {
    * @return  Pattern texture
    */
   public ResourceLocation getTexture() {
-    return new ResourceLocation(getNamespace(), "gui/tinker_pattern/" + getPath());
+    return ResourceLocation.fromNamespaceAndPath(getNamespace(), "gui/tinker_pattern/" + getPath());
   }
 
 

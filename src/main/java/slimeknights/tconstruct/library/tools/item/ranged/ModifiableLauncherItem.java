@@ -1,38 +1,43 @@
 package slimeknights.tconstruct.library.tools.item.ranged;
 
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlot.Type;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.common.ItemAbility;
-import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import slimeknights.mantle.client.SafeClientAccess;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.client.item.ModifiableItemClientExtension;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.behavior.AttributesModifierHook;
@@ -42,9 +47,7 @@ import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteract
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InventoryTickModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.SlotStackModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.UsingToolModifierHook;
-import slimeknights.tconstruct.library.modifiers.modules.build.RarityModule;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
-import slimeknights.tconstruct.library.tools.capability.ToolCapabilityProvider;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.definition.module.display.ToolNameHook;
 import slimeknights.tconstruct.library.tools.definition.module.mining.IsEffectiveToolHook;
@@ -65,6 +68,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 import static slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook.KEY_DRAWTIME;
 
@@ -112,8 +117,8 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   }
 
   @Override
-  public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-    return enchantment.isCurse() && super.canApplyAtEnchantingTable(stack, enchantment);
+  public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
+    return enchantment.is(EnchantmentTags.CURSE) && super.supportsEnchantment(stack, enchantment);
   }
 
   @Override
@@ -122,28 +127,17 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   }
 
   @Override
-  public int getEnchantmentLevel(ItemStack stack, Enchantment enchantment) {
-    return EnchantmentModifierHook.getEnchantmentLevel(stack, enchantment);
+  public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment) {
+    return EnchantmentModifierHook.getEnchantmentLevel(stack, enchantment.value());
   }
 
   @Override
-  public Map<Enchantment,Integer> getAllEnchantments(ItemStack stack) {
-    return EnchantmentModifierHook.getAllEnchantments(stack);
+  public ItemEnchantments getAllEnchantments(ItemStack stack, HolderLookup.RegistryLookup<Enchantment> lookup) {
+    return EnchantmentModifierHook.getAllEnchantmentData(stack, lookup);
   }
 
 
   /* Loading */
-
-  @Nullable
-  @Override
-  public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-    return new ToolCapabilityProvider(stack);
-  }
-
-  @Override
-  public void verifyTagAfterLoad(CompoundTag nbt) {
-    ToolStack.verifyTag(this, nbt, getToolDefinition());
-  }
 
   @Override
   public void onCraftedBy(ItemStack stack, Level worldIn, Player playerIn) {
@@ -161,8 +155,9 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   }
 
   @Override
-  public Rarity getRarity(ItemStack stack) {
-    return RarityModule.getRarity(stack);
+  public Component getHighlightTip(ItemStack stack, Component displayName) {
+    UnaryOperator<Style> mod = slimeknights.tconstruct.library.modifiers.modules.build.RarityModule.getRarity(stack).getStyleModifier();
+    return displayName.copy().withStyle(s -> mod.apply(s));
   }
 
 
@@ -189,18 +184,13 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   }
 
   @Override
-  public boolean canBeDepleted() {
-    return true;
-  }
-
-  @Override
   public int getMaxDamage(ItemStack stack) {
     return ToolDamageUtil.getFakeMaxDamage(stack);
   }
 
   @Override
   public int getDamage(ItemStack stack) {
-    if (!canBeDepleted()) {
+    if (!stack.isDamageableItem()) {
       return 0;
     }
     return ToolStack.from(stack).getDamage();
@@ -208,14 +198,16 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   @Override
   public void setDamage(ItemStack stack, int damage) {
-    if (canBeDepleted()) {
+    if (stack.isDamageableItem()) {
       ToolStack.from(stack).setDamage(damage);
     }
   }
 
   @Override
-  public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T damager, Consumer<T> onBroken) {
-    ToolDamageUtil.handleDamageItem(stack, amount, damager, onBroken);
+  public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, @Nullable T damager, Consumer<Item> onBroken) {
+    if (damager != null) {
+      ToolDamageUtil.handleDamageItem(stack, amount, damager, onBroken);
+    }
     return 0;
   }
 
@@ -274,12 +266,22 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   }
 
   @Override
-  public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-    CompoundTag nbt = stack.getTag();
-    if (nbt == null || slot.getType() != Type.HAND) {
-      return ImmutableMultimap.of();
+  public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+    EquipmentSlot slot = EquipmentSlot.MAINHAND;
+    if (stack.isEmpty() || slot.getType() != Type.HAND) {
+      return ItemAttributeModifiers.EMPTY;
     }
-    return getAttributeModifiers(ToolStack.from(stack), slot);
+    ToolStack tool = ToolStack.from(stack);
+    if (tool.isBroken()) {
+      return ItemAttributeModifiers.EMPTY;
+    }
+    Multimap<Attribute, AttributeModifier> mods = getAttributeModifiers(tool, slot);
+    ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+    EquipmentSlotGroup group = EquipmentSlotGroup.bySlot(slot);
+    for (Map.Entry<Attribute, AttributeModifier> entry : mods.entries()) {
+      builder.add(BuiltInRegistries.ATTRIBUTE.wrapAsHolder(entry.getKey()), entry.getValue(), group);
+    }
+    return builder.build();
   }
 
   @Override
@@ -291,7 +293,12 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   /* Arrow logic */
 
   @Override
-  public int getUseDuration(ItemStack pStack) {
+  public Predicate<ItemStack> getAllSupportedProjectiles() {
+    return ProjectileWeaponItem.ARROW_ONLY;
+  }
+
+  @Override
+  public int getUseDuration(ItemStack pStack, LivingEntity entity) {
     return 72000;
   }
 
@@ -301,7 +308,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   @Override
   public ItemStack finishUsingItem(ItemStack stack, Level pLevel, LivingEntity living) {
     ToolStack tool = ToolStack.from(stack);
-    int duration = getUseDuration(stack);
+    int duration = getUseDuration(stack, living);
     for (ModifierEntry entry : tool.getModifiers()) {
       entry.getHook(ModifierHooks.TOOL_USING).beforeReleaseUsing(tool, entry, living, duration, 0, ModifierEntry.EMPTY);
     }
@@ -324,10 +331,10 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   @Override
   public void onUseTick(Level level, LivingEntity living, ItemStack bow, int chargeRemaining) {
     // play the sound at the end of loading as an indicator its loaded, texture is another indicator
-    int duration = getUseDuration(bow);
+    int duration = getUseDuration(bow, living);
     if (!level.isClientSide) {
       if (duration - chargeRemaining == ModifierUtil.getPersistentInt(bow, KEY_DRAWTIME, -1)) {
-        level.playSound(null, living.getX(), living.getY(), living.getZ(), SoundEvents.CROSSBOW_LOADING_MIDDLE, SoundSource.PLAYERS, 0.75F, 1.0F);
+        level.playSound(null, living.getX(), living.getY(), living.getZ(), SoundEvents.CROSSBOW_LOADING_MIDDLE.value(), SoundSource.PLAYERS, 0.75F, 1.0F);
       }
     }
     ToolStack tool = ToolStack.from(bow);
@@ -345,13 +352,8 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   }
 
   @Override
-  public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-    TooltipUtil.addInformation(this, stack, level, tooltip, SafeClientAccess.getTooltipKey(), flag);
-  }
-
-  @Override
-  public int getDefaultTooltipHideFlags(ItemStack stack) {
-    return TooltipUtil.getModifierHideFlags(getToolDefinition());
+  public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    TooltipUtil.addInformation(this, stack, context.level(), tooltip, SafeClientAccess.getTooltipKey(), flag);
   }
 
 
@@ -367,7 +369,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
 
   @Override
   public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-    consumer.accept(ModifiableItemClientExtension.INSTANCE);
+    // Client item extension disabled in server-focused compatibility build.
   }
 
 
@@ -401,16 +403,15 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
     return MiningSpeedToolHook.getDestroySpeed(stack, state);
   }
 
-  @Override
-  public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
-    return ToolHarvestLogic.handleBlockBreak(stack, pos, player);
-  }
-
-
   /* Multishot helper */
 
   /** Gets the angle to fire the first arrow, each additional arrow offsets an additional 10 degrees */
   public static float getAngleStart(int count) {
     return -5 * (count - 1);
+  }
+
+  @Override
+  protected void shootProjectile(LivingEntity shooter, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
+    projectile.shootFromRotation(shooter, shooter.getXRot(), shooter.getYRot(), angle, velocity, inaccuracy);
   }
 }

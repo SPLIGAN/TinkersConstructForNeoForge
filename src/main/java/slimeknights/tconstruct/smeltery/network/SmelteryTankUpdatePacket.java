@@ -3,7 +3,9 @@ package slimeknights.tconstruct.smeltery.network;
 import lombok.AllArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
@@ -26,7 +28,13 @@ public class SmelteryTankUpdatePacket implements IThreadsafePacket {
     int size = buffer.readVarInt();
     fluids = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
-      fluids.add(buffer.readFluidStack());
+      ResourceLocation fluidId = buffer.readResourceLocation();
+      int amount = buffer.readVarInt();
+      if (amount <= 0) {
+        fluids.add(FluidStack.EMPTY);
+      } else {
+        fluids.add(new FluidStack(BuiltInRegistries.FLUID.get(fluidId), amount));
+      }
     }
   }
 
@@ -35,7 +43,13 @@ public class SmelteryTankUpdatePacket implements IThreadsafePacket {
     buffer.writeBlockPos(pos);
     buffer.writeVarInt(fluids.size());
     for (FluidStack fluid : fluids) {
-      buffer.writeFluidStack(fluid);
+      if (fluid.isEmpty()) {
+        buffer.writeResourceLocation(ResourceLocation.fromNamespaceAndPath("minecraft", "empty"));
+        buffer.writeVarInt(0);
+      } else {
+        buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(fluid.getFluid()));
+        buffer.writeVarInt(fluid.getAmount());
+      }
     }
   }
 

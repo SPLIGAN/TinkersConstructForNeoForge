@@ -52,7 +52,7 @@ public class UpdateMaterialStatsPacket implements IThreadsafePacket {
   public void encode(FriendlyByteBuf buffer) {
     buffer.writeInt(materialToStats.size());
     materialToStats.forEach((materialId, stats) -> {
-      buffer.writeResourceLocation(materialId);
+      buffer.writeResourceLocation(materialId.getLocation());
       buffer.writeInt(stats.size());
       stats.forEach(stat -> encodeStat(buffer, stat, stat.getType()));
     });

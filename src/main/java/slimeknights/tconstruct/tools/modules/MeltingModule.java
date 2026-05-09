@@ -11,6 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.TConstruct;
@@ -116,7 +118,9 @@ public record MeltingModule(LevelingInt temperature, LevelingInt nuggetsPerMetal
     // first, update inventory
     IMeltingRecipe recipe = lastRecipe;
     if (recipe == null || !recipe.matches(this, world)) {
-      recipe = world.getRecipeManager().getRecipeFor(TinkerRecipeTypes.MELTING.get(), this, world).orElse(null);
+      @SuppressWarnings("unchecked")
+      RecipeType<IMeltingRecipe> meltingType = (RecipeType<IMeltingRecipe>) (RecipeType<?>) TinkerRecipeTypes.MELTING.get();
+      recipe = world.getRecipeManager().getRecipeFor(meltingType, this, world).map(RecipeHolder::value).orElse(null);
       if (recipe == null) {
         MeltingModule.stack = ItemStack.EMPTY;
         return FluidStack.EMPTY;
@@ -160,7 +164,7 @@ public record MeltingModule(LevelingInt temperature, LevelingInt nuggetsPerMetal
       ItemStack stack = iterator.next();
       FluidStack output = meltItem(modifier, stack, world);
       // fluid must match tank fluid
-      if (!output.isEmpty() && (current.isEmpty() || current.isFluidEqual(output))) {
+      if (!output.isEmpty() && (current.isEmpty() || FluidStack.isSameFluidSameComponents(current, output))) {
         int amount;
 
         // if forced to melt, melt everything regardless, fluid handler will ensure we don't overflow
@@ -215,7 +219,7 @@ public record MeltingModule(LevelingInt temperature, LevelingInt nuggetsPerMetal
           damagePerOutput = 2;
         }
         FluidStack fluid = TANK_HELPER.getFluid(tool);
-        if (fluid.isEmpty() || fluid.isFluidEqual(output)) {
+        if (fluid.isEmpty() || FluidStack.isSameFluidSameComponents(fluid, output)) {
           // recipe amount determines how much we get per hit, up to twice the recipe damage
           int fluidAmount;
           if (damageDealt < damagePerOutput * 2) {

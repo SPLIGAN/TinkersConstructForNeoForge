@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.recipe.partbuilder;
 
 import net.minecraft.world.item.ItemStack;
-import slimeknights.mantle.recipe.container.ISingleStackContainer;
+import slimeknights.tconstruct.library.recipe.ISingleStackRecipeInput;
 import slimeknights.tconstruct.library.recipe.material.IMaterialValue;
 
 import javax.annotation.Nullable;
@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 /**
  * Inventory interface for the part builder
  */
-public interface IPartBuilderContainer extends ISingleStackContainer {
+public interface IPartBuilderContainer extends ISingleStackRecipeInput {
   /**
    * Gets the material recipe based on the current slot contents
    * @return  Material recipe, or null if the slot contents are not a valid material

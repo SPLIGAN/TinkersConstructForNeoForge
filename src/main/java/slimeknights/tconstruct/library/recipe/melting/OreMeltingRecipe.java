@@ -11,7 +11,6 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.helper.FluidOutput;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.json.field.MergingListField;
@@ -27,7 +26,7 @@ import java.util.stream.Stream;
  */
 public class OreMeltingRecipe extends MeltingRecipe {
   public static final RecordLoadable<OreMeltingRecipe> LOADER = RecordLoadable.create(
-    ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP, INPUT, OUTPUT, TEMPERATURE, TIME, BYPRODUCTS,
+    ContextKey.ID.requiredField(), GROUP, INPUT, OUTPUT, TEMPERATURE, TIME, BYPRODUCTS,
     TinkerLoadables.ORE_RATE_TYPE.requiredField("rate", OreMeltingRecipe::getOreType),
     new MergingListField<>(TinkerLoadables.ORE_RATE_TYPE.defaultField("rate", OreRateType.DEFAULT, Function.identity()), "byproducts", r -> r.byproductTypes),
     OreMeltingRecipe::new);

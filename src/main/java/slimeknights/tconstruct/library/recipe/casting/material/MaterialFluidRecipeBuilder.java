@@ -59,7 +59,7 @@ public class MaterialFluidRecipeBuilder extends AbstractRecipeBuilder<MaterialFl
 
   @Override
   public void save(RecipeOutput consumer) {
-    save(consumer, outputId.getId());
+    save(consumer, outputId.getId().getLocation());
   }
 
   @Override
@@ -70,7 +70,6 @@ public class MaterialFluidRecipeBuilder extends AbstractRecipeBuilder<MaterialFl
     if (this.temperature < 0) {
       throw new IllegalStateException("Temperature is too low, must be at least 0");
     }
-    ResourceLocation advancementId = this.buildOptionalAdvancement(id, "materials");
-    consumer.accept(new LoadableFinishedRecipe<>(new MaterialFluidRecipe(id, fluid, temperature, inputId, outputId), MaterialFluidRecipe.LOADER, advancementId));
+    consumer.accept(id, new MaterialFluidRecipe(id, fluid, temperature, inputId, outputId), this.buildOptionalAdvancementHolder(consumer, id, "materials"));
   }
 }

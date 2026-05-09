@@ -5,7 +5,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.loadable.record.SingletonLoader;
-import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
@@ -44,9 +43,9 @@ public enum EmbellishmentModule implements ModifierModule, DisplayNameModifierHo
 
   @Override
   public Component getDisplayName(IToolStackView tool, ModifierEntry entry, Component name, @Nullable RegistryAccess access) {
-    MaterialVariantId materialVariant = MaterialVariantId.tryParse(tool.getPersistentData().getString(entry.getId()));
+    MaterialVariantId materialVariant = MaterialVariantId.tryParse(tool.getPersistentData().getString(entry.getId().getLocation()));
     if (materialVariant != null) {
-      return Component.translatable(entry.getModifier().getTranslationKey() + ".formatted", MaterialTooltipCache.getDisplayName(materialVariant)).withStyle(style -> style.withColor(MaterialTooltipCache.getColor(materialVariant)));
+      return Component.translatable(entry.getModifier().getTranslationKey() + ".formatted", Component.literal(materialVariant.toString())).withStyle(style -> style.withColor(0xFFFFFF));
     }
     return name;
   }
@@ -55,7 +54,7 @@ public enum EmbellishmentModule implements ModifierModule, DisplayNameModifierHo
   public void addRawData(IToolStackView tool, ModifierEntry modifier, RestrictedCompoundTag tag) {
     // on build, migrate material redirects
     ModDataNBT data = tool.getPersistentData();
-    ResourceLocation key = modifier.getId();
+    ResourceLocation key = modifier.getId().getLocation();
     MaterialVariantId materialVariant = MaterialVariantId.tryParse(data.getString(key));
     if (materialVariant != null) {
       MaterialId original = materialVariant.getId();
@@ -73,7 +72,7 @@ public enum EmbellishmentModule implements ModifierModule, DisplayNameModifierHo
   @Nullable
   @Override
   public Component onRemoved(IToolStackView tool, Modifier modifier) {
-    tool.getPersistentData().remove(modifier.getId());
+    tool.getPersistentData().remove(modifier.getId().getLocation());
     return null;
   }
 }

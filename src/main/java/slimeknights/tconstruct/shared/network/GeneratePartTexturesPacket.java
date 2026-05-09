@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
-import slimeknights.tconstruct.shared.client.ClientGeneratePartTexturesCommand;
 
 /** Packet to tell the client to generate tool textures */
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ public class GeneratePartTexturesPacket implements IThreadsafePacket {
 
   @Override
   public void handleThreadsafe(IPayloadContext context) {
-    context.enqueueWork(() -> ClientGeneratePartTexturesCommand.generateTextures(operation, modId, materialPath));
+    // Client texture generation command is disabled in this server-focused compatibility build.
   }
 
   public enum Operation { ALL, MISSING }

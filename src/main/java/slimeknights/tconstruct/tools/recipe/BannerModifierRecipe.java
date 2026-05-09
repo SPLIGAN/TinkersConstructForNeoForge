@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.recipe;
 
 import lombok.Getter;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -10,11 +11,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import slimeknights.mantle.data.loadable.field.ContextKey;
+import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -40,6 +43,9 @@ import java.util.stream.Stream;
 
 /** Recipe to add a banner to a shield */
 public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<IDisplayModifierRecipe> {
+  public static final RecordLoadable<BannerModifierRecipe> LOADER =
+    RecordLoadable.create(ContextKey.ID.requiredField(), BannerModifierRecipe::new);
+
   @Getter
   private final ResourceLocation id;
 
@@ -100,7 +106,11 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
     }
 
     // get the banner data
-    CompoundTag bannerData = BlockItem.getBlockEntityData(banner);
+    CompoundTag bannerData = null;
+    CustomData beData = banner.get(DataComponents.BLOCK_ENTITY_DATA);
+    if (beData != null && !beData.isEmpty()) {
+      bannerData = beData.copyTag();
+    }
     ListTag patterns = new ListTag();
     if (bannerData != null) {
       patterns = bannerData.getList("Patterns", Tag.TAG_COMPOUND);

@@ -1,8 +1,6 @@
 package slimeknights.tconstruct.world;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -12,19 +10,13 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.library.utils.Util;
-import slimeknights.tconstruct.world.data.StructureRepalleter;
 import slimeknights.tconstruct.world.worldgen.islands.IslandPiece;
 import slimeknights.tconstruct.world.worldgen.islands.IslandStructure;
 import slimeknights.tconstruct.world.worldgen.trees.ExtraRootVariantPlacer;
@@ -40,15 +32,14 @@ import slimeknights.tconstruct.world.worldgen.trees.feature.SlimeTreeFeature;
 @SuppressWarnings("unused")
 public final class TinkerStructures extends TinkerModule {
   static final Logger log = Util.getLogger("tinker_structures");
-  private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, TConstruct.MOD_ID);
+  private static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, TConstruct.MOD_ID);
   private static final DeferredRegister<StructureType<?>> STRUCTURE_TYPE = DeferredRegister.create(Registries.STRUCTURE_TYPE, TConstruct.MOD_ID);
   private static final DeferredRegister<StructurePieceType> STRUCTURE_PIECE = DeferredRegister.create(Registries.STRUCTURE_PIECE, TConstruct.MOD_ID);
   private static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(Registries.TREE_DECORATOR_TYPE, TConstruct.MOD_ID);
   private static final DeferredRegister<RootPlacerType<?>> ROOT_PLACERS = DeferredRegister.create(Registries.ROOT_PLACER_TYPE, TConstruct.MOD_ID);
 
 
-  public TinkerStructures() {
-    IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+  public TinkerStructures(IEventBus bus) {
     FEATURES.register(bus);
     STRUCTURE_TYPE.register(bus);
     STRUCTURE_PIECE.register(bus);
@@ -60,16 +51,16 @@ public final class TinkerStructures extends TinkerModule {
   /*
    * Misc
    */
-  public static final DeferredHolder<?, TreeDecoratorType<LeaveVineDecorator>> leaveVineDecorator = TREE_DECORATORS.register("leave_vines", () -> new TreeDecoratorType<>(LeaveVineDecorator.CODEC));
-  public static final DeferredHolder<?, RootPlacerType<ExtraRootVariantPlacer>> extraRootVariantPlacer = ROOT_PLACERS.register("extra_root_variants", () -> new RootPlacerType<>(ExtraRootVariantPlacer.CODEC));
+  public static final DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<LeaveVineDecorator>> leaveVineDecorator = TREE_DECORATORS.register("leave_vines", () -> new TreeDecoratorType<>(LeaveVineDecorator.CODEC.fieldOf("config")));
+  public static final DeferredHolder<RootPlacerType<?>, RootPlacerType<ExtraRootVariantPlacer>> extraRootVariantPlacer = ROOT_PLACERS.register("extra_root_variants", () -> new RootPlacerType<>(ExtraRootVariantPlacer.CODEC.fieldOf("config")));
 
   /*
    * Features
    */
   /** Overworld variant of slimy trees */
-  public static final DeferredHolder<?, SlimeTreeFeature> slimeTree = FEATURES.register("slime_tree", () -> new SlimeTreeFeature(SlimeTreeConfig.CODEC));
+  public static final DeferredHolder<Feature<?>, SlimeTreeFeature> slimeTree = FEATURES.register("slime_tree", () -> new SlimeTreeFeature(SlimeTreeConfig.CODEC));
   /** Nether variant of slimy trees */
-  public static final DeferredHolder<?, SlimeFungusFeature> slimeFungus = FEATURES.register("slime_fungus", () -> new SlimeFungusFeature(SlimeFungusConfig.CODEC));
+  public static final DeferredHolder<Feature<?>, SlimeFungusFeature> slimeFungus = FEATURES.register("slime_fungus", () -> new SlimeFungusFeature(SlimeFungusConfig.CODEC));
 
   /* Greenheart trees */
   public static final ResourceKey<ConfiguredFeature<?,?>> earthSlimeTree = key(Registries.CONFIGURED_FEATURE, "earth_slime_tree");
@@ -92,8 +83,8 @@ public final class TinkerStructures extends TinkerModule {
   /*
    * Structures
    */
-  public static final DeferredHolder<?, StructurePieceType> islandPiece = STRUCTURE_PIECE.register("island", () -> IslandPiece::new);
-  public static final DeferredHolder<?, StructureType<IslandStructure>> island = STRUCTURE_TYPE.register("island", () -> () -> IslandStructure.CODEC);
+  public static final DeferredHolder<StructurePieceType, StructurePieceType> islandPiece = STRUCTURE_PIECE.register("island", () -> IslandPiece::new);
+  public static final DeferredHolder<StructureType<?>, StructureType<IslandStructure>> island = STRUCTURE_TYPE.register("island", () -> () -> IslandStructure.CODEC);
 
 
   // island structures
@@ -110,15 +101,4 @@ public final class TinkerStructures extends TinkerModule {
   public static final ResourceKey<StructureSet> netherOceanIsland = key(Registries.STRUCTURE_SET, "nether_ocean_island");
   public static final ResourceKey<StructureSet> endSkyIsland = key(Registries.STRUCTURE_SET, "end_sky_island");
 
-
-  @SubscribeEvent
-  void gatherData(final GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    PackOutput packOutput = generator.getPackOutput();
-    ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-    boolean server = event.includeServer();
-    generator.addProvider(server, new StructureRepalleter(packOutput, existingFileHelper));
-//    generator.addProvider(server, new StructureUpdater(packOutput, existingFileHelper, TConstruct.MOD_ID, Target.DATA_PACK, "structures"));
-//    generator.addProvider(event.includeClient(), new StructureUpdater(packOutput, existingFileHelper, TConstruct.MOD_ID, Target.RESOURCE_PACK, "book/structures"));
-  }
 }

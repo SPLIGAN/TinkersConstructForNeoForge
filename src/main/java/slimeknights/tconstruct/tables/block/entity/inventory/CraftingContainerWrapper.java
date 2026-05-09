@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 
@@ -90,5 +91,10 @@ public class CraftingContainerWrapper implements CraftingContainer {
       stacks.add(getItem(i));
     }
     return stacks;
+  }
+
+  /** Converts this mutable view to immutable 1.21 crafting input. */
+  public CraftingInput asCraftingInput() {
+    return CraftingInput.of(width, height, getItems());
   }
 }

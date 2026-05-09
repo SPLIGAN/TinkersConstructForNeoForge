@@ -92,7 +92,7 @@ public interface MaxArmorLevelModule extends HookProvider, EquipmentChangeModifi
   @SuppressWarnings("removal")
   static ComputableDataKey<ModifierMaxLevel> createKey(@Nullable ResourceLocation id) {
     if (id == null) {
-      id = new ResourceLocation("missingno");
+      id = ResourceLocation.fromNamespaceAndPath("minecraft", "missingno");
     }
     return ComputableDataKey.of(id.withSuffix("_data"), ModifierMaxLevel::new);
   }

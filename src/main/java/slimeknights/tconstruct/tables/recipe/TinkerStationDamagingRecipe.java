@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tables.recipe;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -76,5 +77,10 @@ public class TinkerStationDamagingRecipe implements ITinkerStationRecipe {
   @Override
   public RecipeSerializer<?> getSerializer() {
     return TinkerTables.tinkerStationDamagingSerializer.get();
+  }
+
+  @Override
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
   }
 }

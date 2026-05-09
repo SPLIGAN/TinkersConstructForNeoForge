@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.common.registration;
 
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
@@ -26,7 +27,7 @@ public class BlockDeferredRegisterExtension extends BlockDeferredRegister {
    * @return The geode block
    */
   public GeodeItemObject registerGeode(String name, MapColor color, SoundType blockSound, SoundEvent chimeSound, Map<BudSize,SoundType> clusterSounds, int baseLight, Item.Properties props) {
-    ItemObject<Item> shard = itemRegister.register(name, () -> new Item(props));
-    return new GeodeItemObject(shard, this, color, blockSound, chimeSound, clusterSounds, baseLight, props);
+    var shard = itemRegister.register(name, () -> new Item(props));
+    return new GeodeItemObject(new ItemObject<>(BuiltInRegistries.ITEM, shard.get()), this, color, blockSound, chimeSound, clusterSounds, baseLight, props);
   }
 }

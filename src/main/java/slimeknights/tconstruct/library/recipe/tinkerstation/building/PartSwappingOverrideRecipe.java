@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.recipe.tinkerstation.building;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -121,6 +122,11 @@ public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe {
 
   @Override
   public RecipeSerializer<?> getSerializer() {
-    return TinkerTables.fixedMaterialSwapping.get();
+    return TinkerTables.partSwappingOverride.get();
+  }
+
+  @Override
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
+    return ItemStack.EMPTY;
   }
 }

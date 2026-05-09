@@ -1,11 +1,16 @@
 package slimeknights.tconstruct.tools.modules.combat;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.neoforged.neoforge.common.Tags;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.loadable.record.SingletonLoader;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -37,7 +42,14 @@ public enum SeveringModule implements ModifierModule, ProcessLootModifierHook {
     return DEFAULT_HOOKS;
   }
 
-  @SuppressWarnings("removal")
+  private static boolean isSkullLoot(ItemStack stack) {
+    if (!(stack.getItem() instanceof BlockItem bi)) {
+      return false;
+    }
+    Block block = bi.getBlock();
+    return block instanceof SkullBlock;
+  }
+
   @Override
   public void processLoot(IToolStackView tool, ModifierEntry modifier, List<ItemStack> generatedLoot, LootContext context) {
     // if no damage source, probably not a mob
@@ -50,13 +62,20 @@ public enum SeveringModule implements ModifierModule, ProcessLootModifierHook {
     Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
     if (entity != null) {
       // ensure no head so far
-      if (generatedLoot.stream().noneMatch(stack -> stack.is(Tags.Items.HEADS))) {
+      if (generatedLoot.stream().noneMatch(SeveringModule::isSkullLoot)) {
         // find proper recipe
         Level world = context.getLevel();
         List<SeveringRecipe> recipes = SeveringRecipeCache.findRecipe(world.getRecipeManager(), entity.getType());
         if (!recipes.isEmpty()) {
           float level = modifier.getEffectiveLevel();
-          float looting = context.getLootingModifier();
+          float looting = 0;
+          if (context.hasParam(LootContextParams.TOOL)) {
+            ItemStack toolstack = context.getParam(LootContextParams.TOOL);
+            looting += world.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
+              .get(Enchantments.LOOTING)
+              .map(h -> (float) EnchantmentHelper.getItemEnchantmentLevel(h, toolstack))
+              .orElse(0f);
+          }
           // deprecated method of doubling chances
           float chanceMultiplier = entity.getType().is(TinkerTags.EntityTypes.RARE_MOBS) ? 2 : 1;
           for (SeveringRecipe recipe : recipes) {

@@ -40,7 +40,7 @@ import java.util.function.Supplier;
 
 public final class TinkerToolParts extends TinkerModule {
   /** Tab for all tool parts or tool components with many variants */
-  public static final DeferredHolder<?, CreativeModeTab> tabToolParts = CREATIVE_TABS.register(
+  public static final DeferredHolder<CreativeModeTab, CreativeModeTab> tabToolParts = CREATIVE_TABS.register(
     "tool_parts", () -> CreativeModeTab.builder().title(TConstruct.makeTranslation("itemGroup", "tool_parts"))
                                        .icon(() -> {
                                          MaterialVariantId material;
@@ -96,10 +96,10 @@ public final class TinkerToolParts extends TinkerModule {
   public static final ItemObject<ToolPartItem> shieldCore = ITEMS.register("shield_core", () -> new ToolPartItem(ITEM_PROPS, StatlessMaterialStats.SHIELD_CORE.getIdentifier()));
 
   // block entities
-  public static final DeferredHolder<?, BlockEntityType<MaterialBlockEntity>> materialBlock = BLOCK_ENTITIES.register("material_block", MaterialBlockEntity::new, fakeStorageBlock);
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MaterialBlockEntity>> materialBlock = BLOCK_ENTITIES.register("material_block", MaterialBlockEntity::new, fakeStorageBlock);
 
   // loot
-  public static final DeferredHolder<?, LootPoolEntryType> toolPartLootEntry = LOOT_ENTRIES.register("tool_part", () -> new LootPoolEntryType(ToolPartLootEntry.CODEC));
+  public static final DeferredHolder<LootPoolEntryType, LootPoolEntryType> toolPartLootEntry = LOOT_ENTRIES.register("tool_part", () -> new LootPoolEntryType(ToolPartLootEntry.CODEC));
 
   /** Adds all relevant items to the creative tab */
   private static void addTabItems(ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output tab) {

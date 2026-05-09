@@ -24,6 +24,7 @@ import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -66,16 +67,17 @@ public record InfinityModule(ItemStack ammo, String variantTag, int durabilityUs
     // our available count is based on how many arrows we can create from the remaining durability, though round up to be nice
     int count = durabilityUsage <= 0 ? 64 : Math.min(64, (tool.getCurrentDurability() + durabilityUsage - 1) / durabilityUsage);
     ItemStack ammo = this.ammo.copyWithCount(count);
-    CompoundTag tag = ammo.getOrCreateTag();
+    CompoundTag tag = ItemStackTagCompat.getOrCreateTag(ammo);
     // mark the arrow as infinity for the projectile launch hook
     tag.putBoolean(INFINITY, true);
     // if a variant is requested, set that on the stack
     if (!variantTag.isEmpty()) {
-      String variant = tool.getPersistentData().getString(modifier.getId());
+      String variant = tool.getPersistentData().getString(modifier.getId().getLocation());
       if (!variant.isEmpty()) {
         tag.putString(variantTag, variant);
       }
     }
+    ItemStackTagCompat.setTag(ammo, tag);
     return ammo;
   }
 
@@ -84,7 +86,7 @@ public record InfinityModule(ItemStack ammo, String variantTag, int durabilityUs
     // for arrows fired by this module, set them to creative only pickup
     // not an issue if you have multiple types of infinity, they all agree on the goal here
     if (arrow != null && arrow.pickup != Pickup.CREATIVE_ONLY) {
-      CompoundTag tag = ammo.getTag();
+      CompoundTag tag = ItemStackTagCompat.getTag(ammo);
       if (tag != null && tag.getBoolean(INFINITY)) {
         arrow.pickup = Pickup.CREATIVE_ONLY;
       }
@@ -102,7 +104,7 @@ public record InfinityModule(ItemStack ammo, String variantTag, int durabilityUs
   @Override
   public Component onRemoved(IToolStackView tool, Modifier modifier) {
     if (!variantTag.isEmpty()) {
-      tool.getPersistentData().remove(modifier.getId());
+      tool.getPersistentData().remove(modifier.getId().getLocation());
     }
     return null;
   }

@@ -2,18 +2,22 @@ package slimeknights.tconstruct.library.recipe.material;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.JsonArray;
+import com.mojang.serialization.JsonOps;
 import lombok.Getter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.data.loadable.Loadable;
 import slimeknights.mantle.data.loadable.field.LoadableField;
@@ -27,14 +31,18 @@ import slimeknights.tconstruct.tables.TinkerTables;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Shaped recipe with a number of {@link slimeknights.tconstruct.library.recipe.ingredient.MaterialIngredient} and
  * {@link slimeknights.tconstruct.library.recipe.ingredient.MaterialValueIngredient} to set the materials of the result.
  */
 public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraftingTableRecipe {
+  private static final HolderLookup.Provider EMPTY_LOOKUP = HolderLookup.Provider.create(Stream.of());
   /** List of tool parts to search for in the final recipe */
   @Getter
   private final List<Ingredient> parts;
@@ -47,7 +55,7 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
   @Getter
   private final List<MaterialVariantId> extraMaterials;
   public ShapedMaterialsRecipe(ResourceLocation id, String group, CraftingBookCategory category, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result, boolean showNotification, List<Ingredient> parts, List<MaterialVariantId> extraMaterials) {
-    super(id, group, category, width, height, ingredients, result, showNotification);
+    super(group, category, new ShapedRecipePattern(width, height, ingredients, Optional.empty()), result, showNotification);
     this.parts = parts;
     this.checkRepeats = parts.stream().unordered().distinct().count() == parts.size();
     this.extraMaterials = extraMaterials;
@@ -63,10 +71,10 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
    * @return Array of all matched materials. Array will have no null entries, though the array may be null if no match was found.
    */
   @Nullable
-  static MaterialVariantId[] findMaterials(CraftingContainer inventory, List<Ingredient> parts, int partCount, boolean checkRepeats) {
+  static MaterialVariantId[] findMaterials(CraftingInput inventory, List<Ingredient> parts, int partCount, boolean checkRepeats) {
     // want one material for each
     MaterialVariantId[] materials = new MaterialVariantId[partCount];
-    for (int i = 0; i < inventory.getContainerSize(); i++) {
+    for (int i = 0; i < inventory.size(); i++) {
       ItemStack stack = inventory.getItem(i);
       if (!stack.isEmpty()) {
         for (int p = 0; p < partCount; p++) {
@@ -107,7 +115,7 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
   }
 
   @Override
-  public boolean matches(CraftingContainer inventory, Level level) {
+  public boolean matches(CraftingInput inventory, Level level) {
     if (!super.matches(inventory, level)) {
       return false;
     }
@@ -136,7 +144,7 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
   }
 
   /** Assembles the item with material information */
-  static ItemStack assemble(ItemStack stack, CraftingContainer inventory, List<Ingredient> parts, int partCount, boolean checkRepeats, List<MaterialVariantId> extraMaterials) {
+  static ItemStack assemble(ItemStack stack, CraftingInput inventory, List<Ingredient> parts, int partCount, boolean checkRepeats, List<MaterialVariantId> extraMaterials) {
     MaterialVariantId[] materials = findMaterials(inventory, parts, partCount, checkRepeats);
     if (materials != null) {
       // if the result is a tool part, and we only have the one material, set its material
@@ -156,8 +164,8 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
   }
 
   @Override
-  public ItemStack assemble(CraftingContainer inventory, RegistryAccess registryAccess) {
-    return assemble(super.assemble(inventory, registryAccess), inventory, parts, parts.size(), checkRepeats, extraMaterials);
+  public ItemStack assemble(CraftingInput inventory, HolderLookup.Provider provider) {
+    return assemble(super.assemble(inventory, provider), inventory, parts, parts.size(), checkRepeats, extraMaterials);
   }
 
   @Override
@@ -171,78 +179,69 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
 
     @Override
     public ShapedMaterialsRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-      // from ShapedRecipe, copied as we want to get keys without creating multiple ingredient instances
-      String group = GsonHelper.getAsString(json, "group", "");
-      CraftingBookCategory category = CraftingBookCategory.CODEC.byName(GsonHelper.getAsString(json, "category", null), CraftingBookCategory.MISC);
-      Map<String, Ingredient> key = ShapedRecipe.keyFromJson(GsonHelper.getAsJsonObject(json, "key"));
-      String[] pattern = ShapedRecipe.shrink(ShapedRecipe.patternFromJson(GsonHelper.getAsJsonArray(json, "pattern")));
-      int width = pattern[0].length();
-      int height = pattern.length;
-      NonNullList<Ingredient> inputs = ShapedRecipe.dissolvePattern(pattern, key, width, height);
-      ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-      boolean showNotification = GsonHelper.getAsBoolean(json, "show_notification", true);
+      ShapedRecipe shaped = RecipeSerializer.SHAPED_RECIPE.codec().codec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new);
+      JsonArray patternJson = GsonHelper.getAsJsonArray(json, "pattern");
+      String[] pattern = new String[patternJson.size()];
+      for (int i = 0; i < patternJson.size(); i++) {
+        pattern[i] = GsonHelper.convertToString(patternJson.get(i), "pattern[]");
+      }
+      int width = shaped.getWidth();
+      int height = shaped.getHeight();
+      NonNullList<Ingredient> inputs = shaped.getIngredients();
 
       // specific to shaped part recipe, map from a pattern string to the ingredients for each character
       // saves memory by not having separate copies of each, plus simplifies the JSON
+      Map<Character,Ingredient> bySymbol = new HashMap<>();
+      for (int y = 0; y < pattern.length; y++) {
+        String row = pattern[y];
+        for (int x = 0; x < row.length(); x++) {
+          char symbol = row.charAt(x);
+          if (symbol != ' ') {
+            int index = y * width + x;
+            bySymbol.putIfAbsent(symbol, LogicHelper.getOrDefault(inputs, index, Ingredient.EMPTY));
+          }
+        }
+      }
       String partPattern = GsonHelper.getAsString(json, "parts");
       List<Ingredient> parts = new ArrayList<>();
       for (int i = 0; i < partPattern.length(); i++) {
-        String sym = partPattern.substring(i, i + 1);
-        Ingredient ingredient = key.get(sym);
+        char sym = partPattern.charAt(i);
+        Ingredient ingredient = bySymbol.get(sym);
         if (ingredient == null) {
           throw new JsonSyntaxException("Parts references symbol '" + sym + "' but it's not defined in the key");
         }
         parts.add(ingredient);
       }
-      return new ShapedMaterialsRecipe(recipeId, group, category, width, height, inputs, result, showNotification, List.copyOf(parts), MATERIAL_FIELD.get(json));
+      return new ShapedMaterialsRecipe(recipeId, shaped.getGroup(), shaped.category(), width, height, inputs, shaped.getResultItem(EMPTY_LOOKUP), shaped.showNotification(), List.copyOf(parts), MATERIAL_FIELD.get(json));
     }
 
     @SuppressWarnings("Java8ListReplaceAll")
     @Override
     @Nullable
     public ShapedMaterialsRecipe fromNetworkSafe(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-      // shaped syncing
-      int width = buffer.readVarInt();
-      int height = buffer.readVarInt();
-      String group = buffer.readUtf();
-      CraftingBookCategory category = buffer.readEnum(CraftingBookCategory.class);
-      // skipping ingredients for now
-      ItemStack result = buffer.readItem();
-      boolean showNotification = buffer.readBoolean();
+      ShapedRecipe shaped = RecipeSerializer.SHAPED_RECIPE.streamCodec().decode((RegistryFriendlyByteBuf) buffer);
       // fetch remaining non-ingredient elements
       List<MaterialVariantId> extraMaterials = MATERIAL_FIELD.decode(buffer);
 
-      // start syncing ingredients back over, they are distinct so we will need to rematch them
       int size = buffer.readVarInt();
       List<Ingredient> distinct = new ArrayList<>(size);
       for (int i = 0; i < size; i++) {
-        distinct.add(Ingredient.fromNetwork(buffer));
+        distinct.add(Ingredient.CONTENTS_STREAM_CODEC.decode((RegistryFriendlyByteBuf) buffer));
       }
-
-      // form inputs and parts lists
-      NonNullList<Ingredient> inputs = NonNullList.withSize(width * height, Ingredient.EMPTY);
-      for (int i = 0; i < inputs.size(); i++) {
-        inputs.set(i, LogicHelper.getOrDefault(distinct, buffer.readByte(), Ingredient.EMPTY));
+      for (int i = 0; i < shaped.getIngredients().size(); i++) {
+        buffer.readByte();
       }
       size = buffer.readVarInt();
-      // read in parts
       List<Ingredient> parts = new ArrayList<>(size);
       for (int i = 0; i < size; i++) {
         parts.add(i, LogicHelper.getOrDefault(distinct, buffer.readByte(), Ingredient.EMPTY));
       }
-      return new ShapedMaterialsRecipe(recipeId, group, category, width, height, inputs, result, showNotification, List.copyOf(parts), extraMaterials);
+      return new ShapedMaterialsRecipe(recipeId, shaped.getGroup(), shaped.category(), shaped.getWidth(), shaped.getHeight(), shaped.getIngredients(), shaped.getResultItem(EMPTY_LOOKUP), shaped.showNotification(), List.copyOf(parts), extraMaterials);
     }
 
     @Override
     public void toNetworkSafe(FriendlyByteBuf buffer, ShapedMaterialsRecipe recipe) {
-      // standard shaped recipe stuff
-      buffer.writeVarInt(recipe.getWidth());
-      buffer.writeVarInt(recipe.getHeight());
-      buffer.writeUtf(recipe.getGroup());
-      buffer.writeEnum(recipe.category());
-      // skipping ingredients for now
-      buffer.writeItem(recipe.result);
-      buffer.writeBoolean(recipe.showNotification());
+      RecipeSerializer.SHAPED_RECIPE.streamCodec().encode((RegistryFriendlyByteBuf) buffer, recipe);
       // sync remaining non-ingredient elements
       MATERIAL_FIELD.encode(buffer, recipe);
 
@@ -251,7 +250,7 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
       List<Ingredient> distinct = inputs.stream().unordered().distinct().toList();
       buffer.writeVarInt(distinct.size());
       for (Ingredient ingredient : distinct) {
-        ingredient.toNetwork(buffer);
+        Ingredient.CONTENTS_STREAM_CODEC.encode((RegistryFriendlyByteBuf) buffer, ingredient);
       }
       // to sync inputs, we just sync the index within the distinct list
       for (Ingredient ingredient : inputs) {

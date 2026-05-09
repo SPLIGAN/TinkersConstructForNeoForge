@@ -16,6 +16,8 @@ import net.minecraft.world.item.armortrim.TrimPattern;
 import net.minecraft.world.item.armortrim.TrimPatterns;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import slimeknights.mantle.data.loadable.field.ContextKey;
+import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -43,6 +45,8 @@ public class ArmorTrimRecipe implements ITinkerStationRecipe, IMultiRecipe<IDisp
   protected static final String KEY_INVALID_MATERIAL = TConstruct.makeTranslationKey("recipe", "modifier.armor_trim.invalid_material");
   protected static final String KEY_INVALID_PATTERN = TConstruct.makeTranslationKey("recipe", "modifier.armor_trim.invalid_pattern");
 
+  public static final RecordLoadable<ArmorTrimRecipe> LOADER =
+    RecordLoadable.create(ContextKey.ID.requiredField(), ArmorTrimRecipe::new);
 
   @Getter
   private final ResourceLocation id;

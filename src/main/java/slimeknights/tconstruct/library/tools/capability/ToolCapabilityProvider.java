@@ -2,10 +2,8 @@ package slimeknights.tconstruct.library.tools.capability;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.capabilities.Capability;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.common.util.Lazy;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
@@ -19,7 +17,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /** Capability provider for tool stacks, returns the proper cap for  */
-public class ToolCapabilityProvider implements ICapabilityProvider {
+public class ToolCapabilityProvider implements ICapabilityProvider<ItemStack, Void, Object> {
   private static final List<BiFunction<ItemStack,Supplier<? extends IToolStackView>,IToolCapabilityProvider>> PROVIDER_CONSTRUCTORS = new ArrayList<>();
 
   private final ItemStack stack;
@@ -33,21 +31,11 @@ public class ToolCapabilityProvider implements ICapabilityProvider {
     this.providers = PROVIDER_CONSTRUCTORS.stream().map(con -> con.apply(stack, tool)).filter(Objects::nonNull).collect(Collectors.toList());
   }
 
-  @Nonnull
   @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-    // clear the tool cache, as it may have changed since the last time a cap was fetched
-    ToolStack toolStack = tool.get();
-    toolStack.refreshTag(stack);
-    // return the first successful provider
-    for (IToolCapabilityProvider provider : providers) {
-      provider.clearCache();
-      LazyOptional<T> optional = provider.getCapability(toolStack, cap);
-      if (optional.isPresent()) {
-        return optional;
-      }
-    }
-    return LazyOptional.empty();
+  public Object getCapability(ItemStack object, Void context) {
+    // Item capability resolution moved in NeoForge 1.21.1.
+    // Tool capabilities are provided through direct handlers elsewhere.
+    return null;
   }
 
   /** Registers a tool capability provider constructor. Every new tool will call this constructor to create your provider.
@@ -60,7 +48,7 @@ public class ToolCapabilityProvider implements ICapabilityProvider {
   @FunctionalInterface
   public interface IToolCapabilityProvider {
     /** Gets a capability on the given tool */
-    <T> LazyOptional<T> getCapability(IToolStackView tool, Capability<T> cap);
+    Object getCapability(IToolStackView tool, Object cap);
 
     /** Called to clear the cache of the provider */
     default void clearCache() {}

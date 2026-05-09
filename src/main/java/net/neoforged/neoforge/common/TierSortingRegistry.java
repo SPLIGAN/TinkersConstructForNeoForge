@@ -44,16 +44,26 @@ public final class TierSortingRegistry {
     if (!state.requiresCorrectToolForDrops()) {
       return true;
     }
-    int level = tier.getLevel();
+    int level = getTierLevel(tier);
     if (state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
-      return level >= Tiers.DIAMOND.getLevel();
+      return level >= getTierLevel(Tiers.DIAMOND);
     }
     if (state.is(BlockTags.NEEDS_IRON_TOOL)) {
-      return level >= Tiers.IRON.getLevel();
+      return level >= getTierLevel(Tiers.IRON);
     }
     if (state.is(BlockTags.NEEDS_STONE_TOOL)) {
-      return level >= Tiers.STONE.getLevel();
+      return level >= getTierLevel(Tiers.STONE);
     }
-    return level >= Tiers.WOOD.getLevel();
+    return level >= getTierLevel(Tiers.WOOD);
+  }
+
+  private static int getTierLevel(Tier tier) {
+    if (tier == Tiers.WOOD) return 0;
+    if (tier == Tiers.GOLD) return 0;
+    if (tier == Tiers.STONE) return 1;
+    if (tier == Tiers.IRON) return 2;
+    if (tier == Tiers.DIAMOND) return 3;
+    if (tier == Tiers.NETHERITE) return 4;
+    return 0;
   }
 }

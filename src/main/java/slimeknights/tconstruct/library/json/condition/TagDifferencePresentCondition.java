@@ -41,7 +41,6 @@ public class TagDifferencePresentCondition<T> implements ICondition {
     return new TagDifferencePresentCondition<>(baseKey, Arrays.stream(subtracted).map(name -> TagKey.create(registry, name)).toList());
   }
 
-  @Override
   public ResourceLocation getID() {
     return NAME;
   }
@@ -74,7 +73,6 @@ public class TagDifferencePresentCondition<T> implements ICondition {
     return false;
   }
 
-  @Override
   public MapCodec<? extends ICondition> codec() {
     return MapCodec.unit(this);
   }

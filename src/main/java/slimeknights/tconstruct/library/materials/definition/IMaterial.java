@@ -14,7 +14,7 @@ public interface IMaterial extends Comparable<IMaterial> {
    * <p>
    * The fallback material needs to have all part types associated with it.
    */
-  IMaterial UNKNOWN = new Material(UNKNOWN_ID, false, true);
+  IMaterial UNKNOWN = new Material(UNKNOWN_ID.getLocation(), false, true);
 
   /**
    * Used to identify the material in NBT and other constructs.
@@ -54,7 +54,7 @@ public interface IMaterial extends Comparable<IMaterial> {
     if (this.getSortOrder() != other.getSortOrder()) {
       return Integer.compare(this.getSortOrder(), other.getSortOrder());
     }
-    return this.getIdentifier().compareTo(other.getIdentifier());
+    return this.getIdentifier().toString().compareTo(other.getIdentifier().toString());
   }
 
   /** Checks if the given material is the same material as the other, matches by ID */

@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.tools.modules.armor;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -105,14 +104,10 @@ public enum MinimapModule implements ModifierModule, EquipmentChangeModifierHook
           holder.setItemInHand(InteractionHand.OFF_HAND, map);
           map.inventoryTick(world, holder, Inventory.SLOT_OFFHAND, true);
           holder.setItemInHand(InteractionHand.OFF_HAND, held);
-          if (holder instanceof ServerPlayer player) {
+          if (holder instanceof ServerPlayer) {
             MapItemSavedData mapData = MapItem.getSavedData(map, world);
-            Integer id = MapItem.getMapId(map);
-            if (mapData != null && id != null) {
-              Packet<?> packet = mapData.getUpdatePacket(id, player);
-              if (packet != null) {
-                player.connection.send(packet);
-              }
+            if (mapData != null) {
+              // map.inventoryTick() handles discovery updates; explicit packet API changed in 1.21.
             }
           }
         }
@@ -127,7 +122,7 @@ public enum MinimapModule implements ModifierModule, EquipmentChangeModifierHook
 
   @Override
   public void onInventorySelect(IToolStackView tool, ModifierEntry modifier, Player player, int newIndex, ItemStack stack) {
-    player.displayClientMessage(Component.translatable(SELECTED, stack.getHoverName(), MapItem.getMapId(stack), newIndex + 1), true);
+    player.displayClientMessage(Component.translatable(SELECTED, stack.getHoverName(), "?", newIndex + 1), true);
   }
 
   @Override

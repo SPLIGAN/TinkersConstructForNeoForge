@@ -4,6 +4,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Plane;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -11,16 +12,13 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.capabilities.Capability;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.common.util.LazyOptional;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.util.WeakConsumerWrapper;
+import slimeknights.tconstruct.library.utils.NeoCapabilityHelper;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.fluid.FillOnlyFluidHandler;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -57,9 +55,6 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 
 	/** Cache of tanks on all neighboring sides */
 	private final Map<Direction,LazyOptional<IFluidHandler>> neighborTanks = new EnumMap<>(Direction.class);
-	/** Consumers to attach to each of the neighbors */
-	private final Map<Direction,NonNullConsumer<LazyOptional<IFluidHandler>>> neighborConsumers = new EnumMap<>(Direction.class);
-
   /** Ticker instance for this TE, serverside only */
   public static final BlockEntityTicker<ChannelBlockEntity> SERVER_TICKER = (level, pos, state, self) -> self.tick(state);
 
@@ -82,7 +77,6 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		return this.tank.getFluid();
 	}
 
-	@Override
 	public AABB getRenderBoundingBox() {
 		return new AABB(worldPosition.getX(), worldPosition.getY() - 1, worldPosition.getZ(), worldPosition.getX() + 1, worldPosition.getY() + 1, worldPosition.getZ() + 1);
 	}
@@ -97,30 +91,23 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	}
 
 
-	/* Fluid handlers */
+	/* Fluid handlers (exposed via {@link net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent}) */
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side) {
-		// top side gets the insert direct
-    if (capability == ForgeCapabilities.FLUID_HANDLER) {
-      if (side == null || side == Direction.UP) {
-        return topHandler.cast();
-      }
-      // side tanks keep track of which side inserts
-      if (side != Direction.DOWN) {
-        ChannelConnection connection = getBlockState().getValue(ChannelBlock.DIRECTION_MAP.get(side));
-        if (connection == ChannelConnection.IN) {
-          return sideHandlers.computeIfAbsent(side, s -> LazyOptional.of(() -> sideTanks.get(s))).cast();
-        }
-        // for out, return an empty fluid handler so the block we are pouring into knows we support fluids, even though we disallow any interaction
-        // this will get invalidated when the connection goes back to in later
-        if (connection == ChannelConnection.OUT) {
-          return emptySideHandler.computeIfAbsent(side, s -> LazyOptional.of(() -> EmptyFluidHandler.INSTANCE)).cast();
-        }
-      }
-    }
-
-		return super.getCapability(capability, side);
+	@Nullable
+	public IFluidHandler getFluidHandlerForSide(@Nullable Direction side) {
+		if (side == null || side == Direction.UP) {
+			return topHandler.orElse(null);
+		}
+		if (side != Direction.DOWN) {
+			ChannelConnection connection = getBlockState().getValue(ChannelBlock.DIRECTION_MAP.get(side));
+			if (connection == ChannelConnection.IN) {
+				return sideTanks.get(side);
+			}
+			if (connection == ChannelConnection.OUT) {
+				return EmptyFluidHandler.INSTANCE;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -130,16 +117,8 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 */
 	private LazyOptional<IFluidHandler> getNeighborHandlerUncached(Direction side) {
 		assert level != null;
-		// must have a TE with a fluid handler
-		BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
-		if (te != null) {
-			LazyOptional<IFluidHandler> handler = te.getCapability(ForgeCapabilities.FLUID_HANDLER, side.getOpposite());
-			if (handler.isPresent()) {
-				handler.addListener(neighborConsumers.computeIfAbsent(side, s -> new WeakConsumerWrapper<>(this, (self, lazy) -> self.invalidateSide(s, lazy))));
-				return handler;
-			}
-		}
-		return LazyOptional.empty();
+		BlockPos target = worldPosition.relative(side);
+		return NeoCapabilityHelper.getBlockFluidLazy(level, target, side.getOpposite());
 	}
 
 	/**
@@ -192,8 +171,12 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	}
 
 	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
+	public void setRemoved() {
+		invalidateChannelCaps();
+		super.setRemoved();
+	}
+
+	private void invalidateChannelCaps() {
 		topHandler.invalidate();
 		for (LazyOptional<IFluidHandler> handler : sideHandlers.values()) {
 			if (handler != null) {
@@ -417,17 +400,14 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
   }
 
   @Override
-  protected void saveSynced(CompoundTag nbt) {
-    super.saveSynced(nbt);
+  protected void saveSynced(CompoundTag nbt, HolderLookup.Provider provider) {
+    super.saveSynced(nbt, provider);
     nbt.putByteArray(TAG_IS_FLOWING, isFlowing);
-    nbt.put(TAG_TANK, tank.writeToNBT(new CompoundTag()));
+    nbt.put(TAG_TANK, tank.writeToNBT(provider, new CompoundTag()));
   }
 
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
-
-		// isFlowing
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
 		if (nbt.contains(TAG_IS_FLOWING)) {
 			byte[] nbtFlowing = nbt.getByteArray(TAG_IS_FLOWING);
 			int max = Math.min(5, nbtFlowing.length);
@@ -443,8 +423,12 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 			}
 		}
 
-		// tank
 		CompoundTag tankTag = nbt.getCompound(TAG_TANK);
-		tank.readFromNBT(tankTag);
+		if (!tankTag.isEmpty()) {
+			tank.readFromNBT(provider, tankTag);
+		} else {
+			tank.setFluid(FluidStack.EMPTY);
+		}
+		super.loadAdditional(nbt, provider);
 	}
 }

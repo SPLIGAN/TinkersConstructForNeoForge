@@ -50,6 +50,29 @@ public abstract class FluidEffectContext {
     this(level, entity, player, projectile, ItemStack.EMPTY);
   }
 
+  public Level getLevel() {
+    return level;
+  }
+
+  @Nullable
+  public LivingEntity getEntity() {
+    return entity;
+  }
+
+  @Nullable
+  public Player getPlayer() {
+    return player;
+  }
+
+  @Nullable
+  public Projectile getProjectile() {
+    return projectile;
+  }
+
+  public ItemStack getStack() {
+    return stack;
+  }
+
   /** Gets the relevant block position for this context */
   public abstract BlockPos getBlockPos();
 
@@ -102,7 +125,7 @@ public abstract class FluidEffectContext {
 
   /** If true, this context is not allowed to place blocks at the given position */
   public boolean placeRestricted(ItemStack stack) {
-    return player != null && !player.mayBuild() && !stack.hasAdventureModePlaceTagForBlock(level.registryAccess().registryOrThrow(Registries.BLOCK), new BlockInWorld(level, getBlockPos(), false));
+    return player != null && !player.mayBuild();
   }
 
   /** Context for fluid effects targeting an entity */
@@ -149,6 +172,20 @@ public abstract class FluidEffectContext {
     public BlockPos getBlockPos() {
       return target.blockPosition();
     }
+
+    @Override
+    public Vec3 getLocation() {
+      return location;
+    }
+
+    public net.minecraft.world.entity.Entity getTarget() {
+      return target;
+    }
+
+    @Nullable
+    public LivingEntity getLivingTarget() {
+      return livingTarget;
+    }
   }
 
   /** Context for fluid effects targeting an entity */
@@ -188,6 +225,10 @@ public abstract class FluidEffectContext {
     @Override
     public Vec3 getLocation() {
       return hitResult.getLocation();
+    }
+
+    public BlockHitResult getHitResult() {
+      return hitResult;
     }
 
     /** Creates a copy of this context with the given hit result */

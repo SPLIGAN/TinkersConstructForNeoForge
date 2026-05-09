@@ -22,6 +22,14 @@ public class MaterialVariant extends LazyMaterial {
     this.variant = MaterialVariantId.create(material.getIdentifier(), variant);
   }
 
+  public MaterialVariantId variant() {
+    return variant;
+  }
+
+  public MaterialVariantId getVariant() {
+    return variant;
+  }
+
   /** Creates a new lazy material variant with the given variant ID */
   public static MaterialVariant of(MaterialVariantId variantId) {
     if (variantId.equals(IMaterial.UNKNOWN_ID)) {

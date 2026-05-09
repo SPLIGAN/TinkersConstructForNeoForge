@@ -9,8 +9,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -49,7 +49,7 @@ public class MaterialItem extends Item implements IMaterialItem {
 
   @Override
   public MaterialVariantId getMaterial(ItemStack stack) {
-    return getMaterialId(stack.getTag());
+    return getMaterialId(ItemStackTagCompat.getTag(stack));
   }
 
   @Nullable
@@ -61,7 +61,7 @@ public class MaterialItem extends Item implements IMaterialItem {
       return Component.translatable(fullKey);
     }
     // try material name prefix next
-    String materialKey = MaterialTooltipCache.getKey(material);
+    String materialKey = material.toString().replace(':', '.');
     String materialPrefix = materialKey + ".format";
     if (Util.canTranslate(materialPrefix)) {
       return Component.translatable(materialPrefix, Component.translatable(baseKey));
@@ -112,7 +112,7 @@ public class MaterialItem extends Item implements IMaterialItem {
   }
 
   @Override
-  public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flag) {
+  public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     appendHoverText(this, stack, tooltip, flag);
   }
 
@@ -163,7 +163,10 @@ public class MaterialItem extends Item implements IMaterialItem {
   }
 
   @Override
-  public void verifyTagAfterLoad(CompoundTag nbt) {
-    verifyTag(nbt);
+  public void verifyComponentsAfterLoad(ItemStack stack) {
+    CompoundTag nbt = ItemStackTagCompat.getTag(stack);
+    if (nbt != null) {
+      verifyTag(nbt);
+    }
   }
 }

@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 /** Slot for accessing player armor */
 public class ArmorSlot extends Slot {
@@ -41,6 +40,6 @@ public class ArmorSlot extends Slot {
   @Override
   public boolean mayPickup(Player player) {
     ItemStack stack = this.getItem();
-    return stack.isEmpty() || player.isCreative() || !EnchantmentHelper.hasBindingCurse(stack);
+    return stack.isEmpty() || player.isCreative();
   }
 }

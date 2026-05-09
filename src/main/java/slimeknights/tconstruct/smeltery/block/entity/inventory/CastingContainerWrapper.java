@@ -38,7 +38,11 @@ public class CastingContainerWrapper implements ICastingContainer {
   @Nullable
   @Override
   public CompoundTag getFluidTag() {
-    return fluid.getTag();
+    if (fluid.isEmpty() || tile.getLevel() == null) {
+      return null;
+    }
+    var encoded = fluid.save(tile.getLevel().registryAccess());
+    return encoded instanceof CompoundTag compound ? compound : null;
   }
 
   /** Uses the input for input (default) */

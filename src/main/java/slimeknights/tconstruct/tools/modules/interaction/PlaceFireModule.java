@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
@@ -160,12 +159,11 @@ public enum PlaceFireModule implements ModifierModule, EntityInteractionModifier
     // first burn the center, unless we already know its fire
     boolean didIgnite = false;
     ItemStack stack = context.getItemInHand();
-    EquipmentSlot slotType = source.getSlot(context.getHand());
     if (!targetingFire) {
       didIgnite = ignite(world, pos, state, sideHit, horizontalFacing, player);
       if (didIgnite && ToolDamageUtil.damage(tool, 1, player, stack, modifier.getId())) {
         if (player != null) {
-          player.broadcastBreakEvent(slotType);
+          player.swing(context.getHand(), true);
         }
         return InteractionResult.sidedSuccess(world.isClientSide);
       }
@@ -176,7 +174,7 @@ public enum PlaceFireModule implements ModifierModule, EntityInteractionModifier
         didIgnite = true;
         if (ToolDamageUtil.damage(tool, 1, player, stack, modifier.getId())) {
           if (player != null) {
-            player.broadcastBreakEvent(slotType);
+            player.swing(context.getHand(), true);
           }
           break;
         }

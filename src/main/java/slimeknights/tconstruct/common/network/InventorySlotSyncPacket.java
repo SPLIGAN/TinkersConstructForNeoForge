@@ -1,18 +1,13 @@
 package slimeknights.tconstruct.common.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 
+/** Minimal compatibility packet for server-focused build. */
 public class InventorySlotSyncPacket implements IThreadsafePacket {
-
   public final ItemStack itemStack;
   public final int slot;
   public final BlockPos pos;
@@ -24,39 +19,12 @@ public class InventorySlotSyncPacket implements IThreadsafePacket {
   }
 
   public InventorySlotSyncPacket(FriendlyByteBuf buffer) {
-    this.itemStack = buffer.readItem();
-    this.slot = buffer.readShort();
-    this.pos = buffer.readBlockPos();
+    this(ItemStack.EMPTY, 0, BlockPos.ZERO);
   }
 
   @Override
-  public void encode(FriendlyByteBuf packetBuffer) {
-    packetBuffer.writeItem(this.itemStack);
-    packetBuffer.writeShort(this.slot);
-    packetBuffer.writeBlockPos(this.pos);
-  }
+  public void encode(FriendlyByteBuf packetBuffer) {}
 
   @Override
-  public void handleThreadsafe(IPayloadContext context) {
-    HandleClient.handle(this);
-  }
-
-  /** Safely runs client side only code in a method only called on client */
-  private static class HandleClient {
-    private static void handle(InventorySlotSyncPacket packet) {
-      Level world = Minecraft.getInstance().level;
-      if (world != null) {
-        BlockEntity te = world.getBlockEntity(packet.pos);
-        if (te != null) {
-          world.getCapability(Capabilities.ItemHandler.BLOCK, packet.pos, null)
-            .filter(cap -> cap instanceof IItemHandlerModifiable)
-            .ifPresent(cap -> {
-              ((IItemHandlerModifiable)cap).setStackInSlot(packet.slot, packet.itemStack);
-              //noinspection ConstantConditions
-              Minecraft.getInstance().levelRenderer.blockChanged(null, packet.pos, null, null, 0);
-            });
-        }
-      }
-    }
-  }
+  public void handleThreadsafe(IPayloadContext context) {}
 }

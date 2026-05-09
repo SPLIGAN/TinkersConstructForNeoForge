@@ -10,7 +10,6 @@ import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
-import slimeknights.tconstruct.tables.client.inventory.TinkerStationScreen;
 import slimeknights.tconstruct.tables.block.entity.table.TinkerStationBlockEntity;
 
 import java.util.Optional;
@@ -21,9 +20,9 @@ import java.util.Optional;
 public class UpdateTinkerStationRecipePacket implements IThreadsafePacket {
   private final BlockPos pos;
   private final ResourceLocation recipe;
-  public UpdateTinkerStationRecipePacket(BlockPos pos, ITinkerStationRecipe recipe) {
+  public UpdateTinkerStationRecipePacket(BlockPos pos, ResourceLocation recipeId) {
     this.pos = pos;
-    this.recipe = recipe.getId();
+    this.recipe = recipeId;
   }
 
   public UpdateTinkerStationRecipePacket(FriendlyByteBuf buffer) {
@@ -51,14 +50,7 @@ public class UpdateTinkerStationRecipePacket implements IThreadsafePacket {
 
         // if the screen is open, use that to get the TE and update the screen
         boolean handled = false;
-        if (Minecraft.getInstance().screen instanceof TinkerStationScreen stationScreen) {
-          TinkerStationBlockEntity te = stationScreen.getTileEntity();
-          if (te.getBlockPos().equals(packet.pos)) {
-            recipe.ifPresent(te::updateRecipe);
-            stationScreen.updateDisplay();
-            handled = true;
-          }
-        }
+        // Client tinker station screen classes are excluded in server-focused compatibility build.
         // if the wrong screen is open or no screen, use the tile directly
         if (!handled) {
           recipe.ifPresent(r -> BlockEntityHelper.get(TinkerStationBlockEntity.class, world, packet.pos).ifPresent(te -> te.updateRecipe(r)));

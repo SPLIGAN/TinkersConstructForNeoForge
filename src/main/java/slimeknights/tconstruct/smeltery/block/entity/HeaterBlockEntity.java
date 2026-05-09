@@ -1,18 +1,16 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.Capability;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.IItemHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.TConstruct;
@@ -20,7 +18,6 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.inventory.HeaterItemHandler;
 import slimeknights.tconstruct.smeltery.menu.SingleItemContainerMenu;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Tile entity for the heater block below the melter */
@@ -29,7 +26,6 @@ public class HeaterBlockEntity extends NameableBlockEntity {
   private static final Component TITLE = TConstruct.makeTranslation("gui", "heater");
 
   private final HeaterItemHandler itemHandler = new HeaterItemHandler(this);
-  private final LazyOptional<IItemHandler> itemCapability = LazyOptional.of(() -> itemHandler);
 
   protected HeaterBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
     super(type, pos, state, TITLE);
@@ -39,6 +35,10 @@ public class HeaterBlockEntity extends NameableBlockEntity {
     this(TinkerSmeltery.heater.get(), pos, state);
   }
 
+  public IItemHandler getItemHandler() {
+    return itemHandler;
+  }
+
   @Nullable
   @Override
   public AbstractContainerMenu createMenu(int id, Inventory inventory, Player playerEntity) {
@@ -46,37 +46,22 @@ public class HeaterBlockEntity extends NameableBlockEntity {
   }
 
 
-  /* Capability */
-
-  @Nonnull
-  @Override
-  public <C> LazyOptional<C> getCapability(Capability<C> capability, @Nullable Direction facing) {
-    if (capability == ForgeCapabilities.ITEM_HANDLER) {
-      return itemCapability.cast();
-    }
-    return super.getCapability(capability, facing);
-  }
-
-  @Override
-  public void invalidateCaps() {
-    super.invalidateCaps();
-    itemCapability.invalidate();
-  }
-
-
   /* NBT */
 
   @Override
-  public void load(CompoundTag tags) {
-    super.load(tags);
+  public void loadAdditional(CompoundTag tags, HolderLookup.Provider provider) {
+    super.loadAdditional(tags, provider);
     if (tags.contains(TAG_ITEM, Tag.TAG_COMPOUND)) {
-      itemHandler.readFromNBT(tags.getCompound(TAG_ITEM));
+      itemHandler.setStack(ItemStack.parse(provider, tags.getCompound(TAG_ITEM)).orElse(ItemStack.EMPTY));
     }
   }
 
   @Override
-  public void saveAdditional(CompoundTag tags) {
-    super.saveAdditional(tags);
-    tags.put(TAG_ITEM, itemHandler.writeToNBT());
+  public void saveAdditional(CompoundTag tags, HolderLookup.Provider provider) {
+    super.saveAdditional(tags, provider);
+    ItemStack stack = itemHandler.getStack();
+    if (!stack.isEmpty()) {
+      tags.put(TAG_ITEM, stack.save(provider, new CompoundTag()));
+    }
   }
 }

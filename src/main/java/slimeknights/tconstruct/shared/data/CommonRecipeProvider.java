@@ -50,7 +50,7 @@ public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonR
     this.addMaterialRecipes(recipeOutput);
   }
 
-  private void addCommonRecipes(Consumer<FinishedRecipe> consumer) {
+  private void addCommonRecipes(RecipeOutput consumer) {
     // firewood and lavawood
     String folder = "common/firewood/";
     slabStairsCrafting(consumer, TinkerMaterials.blazewood, folder, false);
@@ -189,7 +189,7 @@ public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonR
     }
     // fix vanilla recipes not using tinkers glass
     String glassVanillaFolder = folder + "vanilla/";
-    Consumer<FinishedRecipe> vanillaGlassConsumer = withCondition(consumer, ConfigEnabledCondition.GLASS_RECIPE_FIX);
+    RecipeOutput vanillaGlassConsumer = withCondition(consumer, ConfigEnabledCondition.GLASS_RECIPE_FIX);
     ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.BEACON)
                        .define('S', Items.NETHER_STAR)
                        .define('G', Tags.Items.GLASS_COLORLESS)
@@ -260,7 +260,7 @@ public class CommonRecipeProvider extends BaseRecipeProvider implements ICommonR
                           .save(consumer, location("common/cheese_ingot_from_block"));
   }
 
-  private void addMaterialRecipes(Consumer<FinishedRecipe> consumer) {
+  private void addMaterialRecipes(RecipeOutput consumer) {
     String folder = "common/materials/";
 
     // ores

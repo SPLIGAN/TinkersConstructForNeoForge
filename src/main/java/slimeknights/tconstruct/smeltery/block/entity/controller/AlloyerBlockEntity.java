@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,10 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.Capability;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -32,7 +30,6 @@ import slimeknights.tconstruct.smeltery.block.entity.module.alloying.MixerAlloyT
 import slimeknights.tconstruct.smeltery.block.entity.module.alloying.SingleAlloyingModule;
 import slimeknights.tconstruct.smeltery.menu.AlloyerContainerMenu;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -49,9 +46,6 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
   /** Tank for this mixer */
   @Getter
   protected final FluidTankAnimated tank = new FluidTankAnimated(TANK_CAPACITY, this);
-  /* Capability for return */
-  private final LazyOptional<IFluidHandler> tankHolder = LazyOptional.of(() -> tank);
-
   // modules
   /** Logic for a mixer alloying */
   @Getter
@@ -77,26 +71,6 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
     super(type, pos, state, NAME);
     this.fuelModule = new SolidFuelModule(this, pos.below());
   }
-
-  /*
-   * Capability
-   */
-
-  @Nonnull
-  @Override
-  public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-    if (capability == ForgeCapabilities.FLUID_HANDLER) {
-      return tankHolder.cast();
-    }
-    return super.getCapability(capability, facing);
-  }
-
-  @Override
-  public void invalidateCaps() {
-    super.invalidateCaps();
-    this.tankHolder.invalidate();
-  }
-
 
   /*
    * Alloying
@@ -178,21 +152,23 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
   }
 
   @Override
-  public void saveSynced(CompoundTag tag) {
-    super.saveSynced(tag);
-    tag.put(NBTTags.TANK, tank.writeToNBT(new CompoundTag()));
+  public void saveSynced(CompoundTag tag, HolderLookup.Provider provider) {
+    super.saveSynced(tag, provider);
+    tag.put(NBTTags.TANK, tank.writeToNBT(provider, new CompoundTag()));
   }
 
   @Override
-  public void saveAdditional(CompoundTag tag) {
-    super.saveAdditional(tag);
+  public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+    super.saveAdditional(tag, provider);
     fuelModule.writeToTag(tag);
   }
 
   @Override
-  public void load(CompoundTag nbt) {
-    super.load(nbt);
-    tank.readFromNBT(nbt.getCompound(NBTTags.TANK));
+  public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+    super.loadAdditional(nbt, provider);
+    if (nbt.contains(NBTTags.TANK, Tag.TAG_COMPOUND)) {
+      tank.readFromNBT(provider, nbt.getCompound(NBTTags.TANK));
+    }
     fuelModule.readFromTag(nbt);
   }
 }

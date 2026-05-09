@@ -18,9 +18,9 @@ import slimeknights.tconstruct.tables.block.entity.table.CraftingStationBlockEnt
 public class UpdateCraftingRecipePacket implements IThreadsafePacket {
   private final BlockPos pos;
   private final ResourceLocation recipe;
-  public UpdateCraftingRecipePacket(BlockPos pos, CraftingRecipe recipe) {
+  public UpdateCraftingRecipePacket(BlockPos pos, ResourceLocation recipeId) {
     this.pos = pos;
-    this.recipe = recipe.getId();
+    this.recipe = recipeId;
   }
 
   public UpdateCraftingRecipePacket(FriendlyByteBuf buffer) {

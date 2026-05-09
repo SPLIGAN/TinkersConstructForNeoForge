@@ -1,12 +1,15 @@
 package slimeknights.tconstruct.tables.block.entity.inventory;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingLookup;
+import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.material.IMaterialValue;
 import slimeknights.tconstruct.library.recipe.material.MaterialValue;
 import slimeknights.tconstruct.library.recipe.partbuilder.IPartBuilderContainer;
@@ -67,7 +70,9 @@ public class PartBuilderContainerWrapper implements IPartBuilderContainer {
         }
       } else {
         Level world = getWorld();
-        this.material = world.getRecipeManager().getRecipeFor(TinkerRecipeTypes.MATERIAL.get(), this, world).orElse(null);
+        @SuppressWarnings("unchecked")
+        RecipeType<MaterialRecipe> materialType = (RecipeType<MaterialRecipe>) (RecipeType<?>) TinkerRecipeTypes.MATERIAL.get();
+        this.material = world.getRecipeManager().getRecipeFor(materialType, this, world).map(RecipeHolder::value).orElse(null);
       }
     }
     return this.material;

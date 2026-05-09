@@ -30,9 +30,13 @@ public record CureEffectsFluidEffect(ItemStack stack) implements FluidEffect<Flu
       // when simulating, search the effects list directly for curative effects
       // may still be wrong if the event cancels things though, no way to safely simulate it
       if (action.simulate()) {
-        return target.getActiveEffects().stream().anyMatch(effect -> effect.isCurativeItem(stack)) ? 1 : 0;
+        return target.getActiveEffects().isEmpty() ? 0 : 1;
       }
-      return target.curePotionEffects(stack) ? 1 : 0;
+      if (!target.getActiveEffects().isEmpty()) {
+        target.removeAllEffects();
+        return 1;
+      }
+      return 0;
     }
     return 0;
   }

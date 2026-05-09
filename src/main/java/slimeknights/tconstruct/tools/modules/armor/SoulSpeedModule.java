@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tools.modules.armor;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -8,7 +10,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -26,6 +27,7 @@ import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition.
 import slimeknights.tconstruct.library.module.HookProvider;
 import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
+import slimeknights.tconstruct.library.utils.BuiltinRegistryAccess;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -48,7 +50,8 @@ public record SoulSpeedModule(LevelingInt level, ModifierCondition<IToolStackVie
 
   @Override
   public int updateEnchantmentLevel(IToolStackView tool, ModifierEntry modifier, Enchantment enchantment, int level) {
-    if (enchantment == Enchantments.SOUL_SPEED && condition.matches(tool, modifier)) {
+    Enchantment soulSpeed = BuiltinRegistryAccess.get(Registries.ENCHANTMENT).get(Enchantments.SOUL_SPEED.location());
+    if (soulSpeed != null && enchantment == soulSpeed && condition.matches(tool, modifier)) {
       level += this.level.compute(modifier);
     }
     return level;
@@ -57,7 +60,10 @@ public record SoulSpeedModule(LevelingInt level, ModifierCondition<IToolStackVie
   @Override
   public void updateEnchantments(IToolStackView tool, ModifierEntry modifier, Map<Enchantment, Integer> map) {
     if (condition.matches(tool, modifier)) {
-      EnchantmentModifierHook.addEnchantment(map, Enchantments.SOUL_SPEED, this.level.compute(modifier));
+      Enchantment soulSpeed = BuiltinRegistryAccess.get(Registries.ENCHANTMENT).get(Enchantments.SOUL_SPEED.location());
+      if (soulSpeed != null) {
+        EnchantmentModifierHook.addEnchantment(map, soulSpeed, this.level.compute(modifier));
+      }
     }
   }
 

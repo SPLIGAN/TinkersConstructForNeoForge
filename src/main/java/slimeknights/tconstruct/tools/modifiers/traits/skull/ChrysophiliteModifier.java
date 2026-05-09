@@ -8,7 +8,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlot.Type;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.bus.api.EventPriority;
@@ -68,7 +67,7 @@ public class ChrysophiliteModifier extends NoLevelsModifier implements Equipment
   public void onEquipmentChange(IToolStackView tool, ModifierEntry modifier, EquipmentChangeContext context, EquipmentSlot slotType) {
     // adding a helmet? activate bonus
     EquipmentSlot changed = context.getChangedSlot();
-    if (slotType == EquipmentSlot.HEAD && changed.getType() == Type.ARMOR) {
+    if (slotType == EquipmentSlot.HEAD && changed.getType() == Type.HUMANOID_ARMOR) {
       boolean hasGold = ChrysophiliteModifier.hasGold(context, changed);
       context.getTinkerData().computeIfAbsent(TOTAL_GOLD).setGold(changed, hasGold);
     }
@@ -108,7 +107,7 @@ public class ChrysophiliteModifier extends NoLevelsModifier implements Equipment
           RandomSource random = target.getRandom();
           // if the stack is gold, and it drops, we get it
           // don't have to worry about checking if it already dropped, the stacks are removed on drop
-          if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) && stack.makesPiglinsNeutral(target) && random.nextFloat() < extraChance) {
+          if (!stack.isEmpty() && stack.makesPiglinsNeutral(target) && random.nextFloat() < extraChance) {
             // mobs damage items, its kinda weird
             if (stack.isDamageableItem()) {
               stack.setDamageValue(stack.getMaxDamage() - random.nextInt(1 + random.nextInt(Math.max(stack.getMaxDamage() - 3, 1))));
@@ -135,7 +134,7 @@ public class ChrysophiliteModifier extends NoLevelsModifier implements Equipment
      * @param value     New value
      */
     protected boolean setGold(EquipmentSlot slotType, boolean value) {
-      if (slotType.getType() == Type.ARMOR) {
+      if (slotType.getType() == Type.HUMANOID_ARMOR) {
         int index = slotType.getIndex();
         if (hasGold[index] != value) {
           hasGold[index] = value;

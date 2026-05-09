@@ -3,6 +3,7 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -147,15 +148,16 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   }
 
   /**
-   * Updates the tank from an NBT tag, used in the block
-   * @param nbt  tank NBT
+   * Updates the tank from an NBT tag (e.g. when placed from an item stack).
    */
-  public void updateTank(CompoundTag nbt) {
+  public void updateTank(HolderLookup.Provider provider, CompoundTag nbt) {
     if (nbt.isEmpty()) {
       tank.setFluid(FluidStack.EMPTY);
     } else {
-      tank.readFromNBT(nbt);
-      updateLight(this, tank);
+      tank.readFromNBT(provider, nbt);
+      if (level != null) {
+        updateLight(this, tank);
+      }
     }
   }
 
@@ -165,18 +167,24 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   }
 
   @Override
-  public void load(CompoundTag tag) {
+  public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
     tank.setCapacity(getCapacity(getBlockState().getBlock()));
-    updateTank(tag.getCompound(NBTTags.TANK));
-    super.load(tag);
+    CompoundTag tankTag = tag.getCompound(NBTTags.TANK);
+    if (tankTag.isEmpty()) {
+      tank.setFluid(FluidStack.EMPTY);
+    } else {
+      tank.readFromNBT(provider, tankTag);
+      updateLight(this, tank);
+    }
+    super.loadAdditional(tag, provider);
   }
 
   @Override
-  public void saveSynced(CompoundTag tag) {
-    super.saveSynced(tag);
+  public void saveSynced(CompoundTag tag, HolderLookup.Provider provider) {
+    super.saveSynced(tag, provider);
     // want tank on the client on world load
     if (!tank.isEmpty()) {
-      tag.put(NBTTags.TANK, tank.writeToNBT(new CompoundTag()));
+      tag.put(NBTTags.TANK, tank.writeToNBT(provider, new CompoundTag()));
     }
   }
 

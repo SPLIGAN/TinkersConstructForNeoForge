@@ -19,7 +19,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.event.ForgeEventFactory;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -32,6 +31,7 @@ import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
@@ -78,7 +78,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
   }
 
   @Override
-  public Predicate<ItemStack> getAllSupportedProjectiles() {
+  public Predicate<ItemStack> getAllSupportedProjectiles(ItemStack stack) {
     return ProjectileWeaponItem.ARROW_ONLY;
   }
 
@@ -111,12 +111,9 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
     // locate ammo as requested by the item properties
     // if we have ballista capabilities, use the broader predicate
     boolean isBallista = isBallista(tool);
-    ItemStack ammo = BowAmmoModifierHook.getAmmo(tool, bow, player, isBallista ? getSupportedBallistaAmmo() : getSupportedHeldProjectiles());
+    ItemStack ammo = BowAmmoModifierHook.getAmmo(tool, bow, player, isBallista ? getSupportedBallistaAmmo() : getSupportedHeldProjectiles(bow));
     // ask forge if it has any different opinions
-    InteractionResultHolder<ItemStack> override = ForgeEventFactory.onArrowNock(bow, level, player, hand, !ammo.isEmpty());
-    if (override != null) {
-      return override;
-    }
+    // NeoForge 1.21 event bridge for arrow nock changed; keep vanilla flow for now.
     // if no ammo, cannot fire
     // however, we can use a modifier if enabled
     if (!player.getAbilities().instabuild && ammo.isEmpty() && !tool.getModifiers().has(TinkerTags.Modifiers.CHARGE_EMPTY_BOW_WITH_DRAWTIME)) {
@@ -131,7 +128,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
     // store either ammo or boolean as requested
     if (!ammo.isEmpty()) {
       if (storeDrawingItem) {
-        tool.getPersistentData().put(KEY_DRAWBACK_AMMO, ammo.save(new CompoundTag()));
+        tool.getPersistentData().put(KEY_DRAWBACK_AMMO, ItemStackTagCompat.writeStack(ammo));
       } else {
         // boolean is enough to get detected by the property override, but won't bother the model
         tool.getPersistentData().putBoolean(KEY_DRAWBACK_AMMO, true);
@@ -158,7 +155,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
   public void releaseUsing(ItemStack bow, Level level, LivingEntity living, int timeLeft) {
     // call the stop using hook
     ToolStack tool = ToolStack.from(bow);
-    int duration = getUseDuration(bow);
+    int duration = getUseDuration(bow, living);
     for (ModifierEntry entry : tool.getModifiers()) {
       entry.getHook(ModifierHooks.TOOL_USING).beforeReleaseUsing(tool, entry, living, duration, timeLeft, ModifierEntry.EMPTY);
     }
@@ -176,17 +173,15 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
     Predicate<ItemStack> ammoPredicate = switch (tool.getPersistentData().getInt(KEY_BALLISTA)) {
       case FLAG_BALLISTA_HELD -> null; // main hand comes via an event, we just call the hook for merging
       case FLAG_BALLISTA_QUIVER -> BALLISTA_ONLY;
-      case FLAG_NO_BALLISTA -> getSupportedHeldProjectiles();
-      default -> isBallista(tool) ? getSupportedBallistaAmmo() : getSupportedHeldProjectiles();
+      case FLAG_NO_BALLISTA -> getSupportedHeldProjectiles(bow);
+      default -> isBallista(tool) ? getSupportedBallistaAmmo() : getSupportedHeldProjectiles(bow);
     };
     ItemStack foundAmmo = BowAmmoModifierHook.getAmmo(tool, bow, living, ammoPredicate);
     boolean hasAmmo = !foundAmmo.isEmpty() || creative && !tool.getVolatileData().getBoolean(BowAmmoModifierHook.SKIP_INVENTORY_AMMO);
 
     // ask forge its thoughts on shooting
     int chargeTime = duration - timeLeft;
-    if (player != null) {
-      chargeTime = ForgeEventFactory.onArrowLoose(bow, level, player, chargeTime, hasAmmo);
-    }
+    // NeoForge 1.21 event bridge for arrow loose changed; keep vanilla flow for now.
 
     // no ammo? no charge? nothing to do
     if (!hasAmmo || chargeTime < 0) {
@@ -238,7 +233,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
       float waterInertia = 0.6f;
       SoundEvent sound = SoundEvents.ARROW_SHOOT;
       if (thrownTool) {
-        sound = SoundEvents.TRIDENT_THROW;
+        sound = SoundEvents.TRIDENT_THROW.value();
         IToolStackView thrown = ToolStack.from(ammo);
         float thrownVelocity = ConditionalStatModifierHook.getModifiedStat(thrown, living, ToolStats.VELOCITY);
         power *= thrownVelocity * ConditionalStatModifierHook.getModifiedStat(thrown, living, ToolStats.DRAW_SPEED) / 1.5f;
@@ -258,7 +253,7 @@ public class ModifiableBowItem extends ModifiableLauncherItem {
           thrown.setOriginalSlot(originalSlot);
           arrow = thrown;
         } else {
-          arrow = arrowItem.createArrow(level, ammo, living);
+          arrow = arrowItem.createArrow(level, ammo, living, bow);
         }
         float angle = startAngle + (10 * arrowIndex);
         arrow.shootFromRotation(living, living.getXRot() + angle, living.getYRot(), 0, power * 3.0F, inaccuracy);

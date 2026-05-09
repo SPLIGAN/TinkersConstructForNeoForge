@@ -77,7 +77,6 @@ public class TinkerNetwork extends NetworkWrapper {
     instance = new TinkerNetwork(modBus);
 
     // shared
-    instance.registerPacket(InventorySlotSyncPacket.class, InventorySlotSyncPacket::new, PacketDirection.PLAY_TO_CLIENT);
     instance.registerPacket(UpdateNeighborsPacket.class, UpdateNeighborsPacket::new, PacketDirection.PLAY_TO_CLIENT);
     instance.registerPacket(GeneratePartTexturesPacket.class, GeneratePartTexturesPacket::new, PacketDirection.PLAY_TO_CLIENT);
     instance.registerPacket(SyncPersistentDataPacket.class, SyncPersistentDataPacket::new, PacketDirection.PLAY_TO_CLIENT);
@@ -101,10 +100,10 @@ public class TinkerNetwork extends NetworkWrapper {
     instance.registerPacket(UpdateToolDefinitionDataPacket.class, UpdateToolDefinitionDataPacket::new, PacketDirection.PLAY_TO_CLIENT);
     instance.registerPacket(ToolContainerFluidUpdatePacket.class, ToolContainerFluidUpdatePacket::new, PacketDirection.PLAY_TO_CLIENT);
     instance.registerPacket(SyncProjectileModifiersPacket.class, SyncProjectileModifiersPacket::new, PacketDirection.PLAY_TO_CLIENT);
-
-    // modifiers
     instance.registerPacket(TinkerControlPacket.class, TinkerControlPacket::read, PacketDirection.PLAY_TO_SERVER);
     instance.registerPacket(InteractWithAirPacket.class, InteractWithAirPacket::read, PacketDirection.PLAY_TO_SERVER);
+
+    // modifiers
     instance.registerPacket(UpdateModifiersPacket.class, UpdateModifiersPacket::new, PacketDirection.PLAY_TO_CLIENT);
     instance.registerPacket(UpdateFluidEffectsPacket.class, UpdateFluidEffectsPacket::decode, PacketDirection.PLAY_TO_CLIENT);
     instance.registerPacket(PushBlockRowPacket.class, PushBlockRowPacket::new, PacketDirection.PLAY_TO_CLIENT);

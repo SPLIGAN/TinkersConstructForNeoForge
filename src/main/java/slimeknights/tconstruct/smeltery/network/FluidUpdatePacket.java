@@ -2,7 +2,9 @@ package slimeknights.tconstruct.smeltery.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
@@ -20,13 +22,25 @@ public class FluidUpdatePacket implements IThreadsafePacket {
 
   public FluidUpdatePacket(FriendlyByteBuf buffer) {
     this.pos = buffer.readBlockPos();
-    this.fluid = buffer.readFluidStack();
+    ResourceLocation fluidId = buffer.readResourceLocation();
+    int amount = buffer.readVarInt();
+    if (amount <= 0) {
+      this.fluid = FluidStack.EMPTY;
+    } else {
+      this.fluid = new FluidStack(BuiltInRegistries.FLUID.get(fluidId), amount);
+    }
   }
 
   @Override
   public void encode(FriendlyByteBuf buffer) {
     buffer.writeBlockPos(pos);
-    buffer.writeFluidStack(fluid);
+    if (fluid.isEmpty()) {
+      buffer.writeResourceLocation(ResourceLocation.fromNamespaceAndPath("minecraft", "empty"));
+      buffer.writeVarInt(0);
+    } else {
+      buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(fluid.getFluid()));
+      buffer.writeVarInt(fluid.getAmount());
+    }
   }
 
   @Override

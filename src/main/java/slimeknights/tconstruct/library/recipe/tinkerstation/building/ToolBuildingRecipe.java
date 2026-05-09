@@ -3,7 +3,9 @@ package slimeknights.tconstruct.library.recipe.tinkerstation.building;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -15,8 +17,8 @@ import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
-import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.mantle.util.LogicHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.json.TinkerLoadables;
@@ -28,6 +30,7 @@ import slimeknights.tconstruct.library.recipe.RecipeResult;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipeCache;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 import slimeknights.tconstruct.library.tools.definition.module.material.ToolMaterialHook;
 import slimeknights.tconstruct.library.tools.definition.module.material.ToolPartsHook;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
@@ -64,9 +67,11 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
   // loadable fields
   protected static final LoadableField<IModifiable,ToolBuildingRecipe> RESULT_FIELD = TinkerLoadables.MODIFIABLE_ITEM.requiredField("result", r -> r.output);
   protected static final LoadableField<ResourceLocation,ToolBuildingRecipe> LAYOUT_FIELD = Loadables.RESOURCE_LOCATION.nullableField("slot_layout",  r -> r.layoutSlot);
+  private static final LoadableField<String, ToolBuildingRecipe> RECIPE_GROUP_FIELD =
+      StringLoadable.DEFAULT.defaultField("group", "", ToolBuildingRecipe::getGroup);
   /** Loader instance */
   public static final RecordLoadable<ToolBuildingRecipe> LOADER = RecordLoadable.create(
-    ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP, RESULT_FIELD,
+    ContextKey.ID.requiredField(), RECIPE_GROUP_FIELD, RESULT_FIELD,
     IntLoadable.FROM_ONE.defaultField("result_count", 1, true, r -> r.outputCount),
     LAYOUT_FIELD,
     IngredientLoadable.DISALLOW_EMPTY.list(0).defaultField("extra_requirements", List.of(), r -> r.ingredients),
@@ -211,7 +216,7 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
     if (error != null) {
       return RecipeResult.failure(error);
     }
-    return LazyToolStack.success(tool, Math.min(output.asItem().getMaxStackSize(), count));
+    return LazyToolStack.success(tool, Math.min(output.asItem().getDefaultInstance().getMaxStackSize(), count));
   }
 
 
@@ -294,7 +299,9 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
           } else {
             // not a full list? mark it for display with just the materials on the end
             result = new MaterialIdNBT(list).updateStack(new ItemStack(output, outputCount));
-            result.getOrCreateTag().putBoolean(TooltipUtil.KEY_DISPLAY, true);
+            CompoundTag displayTag = ItemStackTagCompat.getOrCreateTag(result);
+            displayTag.putBoolean(TooltipUtil.KEY_DISPLAY, true);
+            ItemStackTagCompat.setTag(result, displayTag);
           }
         }
       }
@@ -312,11 +319,8 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
   }
 
 
-  /* Unused */
-
-  @Deprecated
   @Override
-  public ItemStack getResultItem(RegistryAccess access) {
+  public ItemStack getResultItem(HolderLookup.Provider provider) {
     return new ItemStack(this.output);
   }
 

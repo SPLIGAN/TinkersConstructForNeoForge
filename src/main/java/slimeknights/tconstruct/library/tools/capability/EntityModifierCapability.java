@@ -1,27 +1,11 @@
 package slimeknights.tconstruct.library.tools.capability;
 
-import lombok.Getter;
-import lombok.Setter;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.capabilities.Capability;
-import net.neoforged.neoforge.capabilities.CapabilityManager;
-import net.neoforged.neoforge.capabilities.CapabilityToken;
-import net.neoforged.neoforge.capabilities.ICapabilitySerializable;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.util.LazyOptional;
-import net.neoforged.neoforge.event.AttachCapabilitiesEvent;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -48,19 +32,20 @@ public class EntityModifierCapability {
   /** List of predicates to check if the entity supports this capability */
   private static final List<Predicate<Entity>> ENTITY_PREDICATES = new ArrayList<>();
 
-  /** Capability ID */
-  private static final ResourceLocation ID = TConstruct.getResource("modifiers");
-  /** Capability type */
-  public static final Capability<EntityModifiers> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+  /** Fallback attachment store for NeoForge capability migration */
+  private static final Map<Entity,EntityModifiers> ENTITY_DATA = new WeakHashMap<>();
 
   /** Gets the capability for the entity or an empty instance if missing */
   public static EntityModifiers getCapability(Entity entity) {
-    return entity.getCapability(CAPABILITY).orElse(EMPTY);
+    if (!supportCapability(entity)) {
+      return EMPTY;
+    }
+    return ENTITY_DATA.computeIfAbsent(entity, key -> new StoredEntityModifiers());
   }
 
   /** Gets the data or an empty instance if missing */
   public static ModifierNBT getOrEmpty(Entity entity) {
-    return entity.getCapability(CAPABILITY).orElse(EMPTY).getModifiers();
+    return getCapability(entity).getModifiers();
   }
 
   /** Checks if the given entity supports this capability */
@@ -80,50 +65,20 @@ public class EntityModifierCapability {
 
   /** Registers this capability with relevant busses*/
   public static void register() {
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.NORMAL, false, RegisterCapabilitiesEvent.class, event -> event.register(ModifierNBT.class));
-    NeoForge.EVENT_BUS.addGenericListener(Entity.class, EntityModifierCapability::attachCapability);
+    // Intentionally empty for minimal NeoForge+Arclight compatibility build.
   }
 
-  /** Event listener to attach the capability */
-  private static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
-    if (supportCapability(event.getObject())) {
-      Provider provider = new Provider();
-      event.addCapability(ID, provider);
-      event.addListener(provider);
-    }
-  }
-
-  /** Capability provider instance */
-  private static class Provider implements ICapabilitySerializable<ListTag>, Runnable, EntityModifiers {
-    @Getter @Setter
+  private static class StoredEntityModifiers implements EntityModifiers {
     private ModifierNBT modifiers = ModifierNBT.EMPTY;
-    private LazyOptional<EntityModifiers> capability;
-    private Provider() {
-      this.capability = LazyOptional.of(() -> this);
-    }
 
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-      return CAPABILITY.orEmpty(cap, capability);
+    public ModifierNBT getModifiers() {
+      return modifiers;
     }
 
     @Override
-    public void run() {
-      // called when capabilities invalidate, create a new cap just in case they are revived later
-      capability.invalidate();
-      capability = LazyOptional.of(() -> this);
-    }
-
-    @Override
-    public ListTag serializeNBT() {
-      return modifiers.serializeToNBT();
-    }
-
-    @Override
-    public void deserializeNBT(ListTag nbt) {
-      modifiers = ModifierNBT.readFromNBT(nbt);
-      run();
+    public void setModifiers(ModifierNBT nbt) {
+      this.modifiers = nbt;
     }
   }
 

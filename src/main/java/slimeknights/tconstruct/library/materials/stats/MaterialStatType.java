@@ -5,7 +5,6 @@ import lombok.experimental.Accessors;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.loadable.record.SingletonLoader;
-import slimeknights.mantle.registration.object.IdAwareObject;
 
 import java.util.function.Function;
 
@@ -17,7 +16,7 @@ import java.util.function.Function;
  * <p>Each instance of this class should be unique. If two instances with the same id exist, internal systems might break.</p>
  */
 @Getter
-public class MaterialStatType<T extends IMaterialStats> implements IdAwareObject {
+public class MaterialStatType<T extends IMaterialStats> {
   /** Context key to use if you want the recipe serializer passed into your recipe */
   public static final ContextKey<MaterialStatType<?>> CONTEXT_KEY = new ContextKey<>("material_stat_type");
 

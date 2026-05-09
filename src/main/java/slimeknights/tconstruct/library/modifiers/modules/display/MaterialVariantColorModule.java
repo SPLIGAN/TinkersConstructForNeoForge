@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.modifiers.modules.display;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
-import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -40,7 +39,7 @@ public record MaterialVariantColorModule(MaterialId material) implements Modifie
     // use the color of the first match found
     for (MaterialVariant material : tool.getMaterials()) {
       if (this.material.equals(material.getId())) {
-        return name.copy().withStyle(style -> style.withColor(MaterialTooltipCache.getColor(material.getVariant())));
+        return name.copy().withStyle(style -> style.withColor(0xFFFFFF));
       }
     }
     return name;

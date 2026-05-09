@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.helper;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +20,7 @@ import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
 import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.part.IToolPart;
+import slimeknights.tconstruct.library.utils.ItemStackTagCompat;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -100,7 +102,9 @@ public final class ToolBuildHandler {
 		  // use all 5 render materials for display stacks, having too many materials is not a problem and its easier than making this reload sensitive
       stack = new MaterialIdNBT(RENDER_MATERIALS).updateStack(stack);
     }
-    stack.getOrCreateTag().putBoolean(TooltipUtil.KEY_DISPLAY, true);
+    CompoundTag displayRoot = ItemStackTagCompat.getOrCreateTag(stack);
+    displayRoot.putBoolean(TooltipUtil.KEY_DISPLAY, true);
+    ItemStackTagCompat.setTag(stack, displayRoot);
     return stack;
   }
 
@@ -190,7 +194,9 @@ public final class ToolBuildHandler {
   public static ItemStack getDisplayPart(IToolPart toolPart, int i) {
     // mark the part as display to suppress the invalid material tooltip
     ItemStack item = toolPart.withMaterialForDisplay(ToolBuildHandler.getRenderMaterial(i));
-    item.getOrCreateTag().putBoolean(TooltipUtil.KEY_DISPLAY, true);
+    CompoundTag partTag = ItemStackTagCompat.getOrCreateTag(item);
+    partTag.putBoolean(TooltipUtil.KEY_DISPLAY, true);
+    ItemStackTagCompat.setTag(item, partTag);
     return item;
   }
 

@@ -1,11 +1,14 @@
 package slimeknights.tconstruct.common;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.extensions.common.IClientMobEffectExtensions;
 
 import java.util.function.Consumer;
@@ -24,10 +27,16 @@ public class TinkerEffect extends MobEffect {
     this.show = show;
   }
 
-  // override to change return type
-  @Override
+  // helper to keep fluent style with legacy call sites
   public TinkerEffect addAttributeModifier(Attribute pAttribute, String pUuid, double pAmount, Operation pOperation) {
-    super.addAttributeModifier(pAttribute, pUuid, pAmount, pOperation);
+    ResourceLocation id = ResourceLocation.fromNamespaceAndPath("tconstruct", pUuid.toLowerCase());
+    super.addAttributeModifier(BuiltInRegistries.ATTRIBUTE.wrapAsHolder(pAttribute), id, pAmount, pOperation);
+    return this;
+  }
+
+  /** Fluent modifier registration for Minecraft 1.21+ vanilla attributes (provided as holders). */
+  public TinkerEffect addAttributeModifier(Holder<Attribute> attribute, ResourceLocation modifierId, double amount, Operation operation) {
+    super.addAttributeModifier(attribute, modifierId, amount, operation);
     return this;
   }
 
@@ -86,7 +95,7 @@ public class TinkerEffect extends MobEffect {
    */
   @Deprecated
   public MobEffectInstance apply(LivingEntity entity, int duration, int amplifier, boolean showIcon) {
-    MobEffectInstance effect = new MobEffectInstance(this, duration, amplifier, false, false, showIcon);
+    MobEffectInstance effect = new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(this), duration, amplifier, false, false, showIcon);
     entity.addEffect(effect);
     return effect;
   }
@@ -110,16 +119,31 @@ public class TinkerEffect extends MobEffect {
   }
 
   /**
+   * Gets the level of the effect on the entity starting from 1, or 0 if not active
+   */
+  public static int getLevel(LivingEntity entity, Holder<MobEffect> effect) {
+    return getAmplifier(entity, effect) + 1;
+  }
+
+  /**
    * Gets the amplifier of the effect on the entity starting from 0, or -1 if not active
    * @param entity  Entity to check
    * @return  Amplifier, or -1 if inactive
    */
   public static int getAmplifier(LivingEntity entity, MobEffect effect) {
-    MobEffectInstance instance = entity.getEffect(effect);
+    MobEffectInstance instance = entity.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect));
     if (instance != null) {
       return instance.getAmplifier();
     }
     return -1;
+  }
+
+  /**
+   * Gets the amplifier of the effect on the entity starting from 0, or -1 if not active
+   */
+  public static int getAmplifier(LivingEntity entity, Holder<MobEffect> effect) {
+    MobEffectInstance instance = entity.getEffect(effect);
+    return instance != null ? instance.getAmplifier() : -1;
   }
 
   /** @deprecated use {@link #getAmplifier(LivingEntity, MobEffect)} which is better named or {@link #getLevel(LivingEntity, MobEffect)} which gives a more useful return */

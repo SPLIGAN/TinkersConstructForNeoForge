@@ -185,7 +185,7 @@ public final class SlotType {
       @Override
       public JsonElement serialize(SlotCount slots) {
         JsonObject json = new JsonObject();
-        json.addProperty(slots.type.getName(), slots.count);
+        json.addProperty(slots.type().getName(), slots.count());
         return json;
       }
 

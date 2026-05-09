@@ -66,6 +66,8 @@ public class CombatFishingHook extends FishingHook implements ProjectileWithKnoc
   private double impactVelocity = 1;
   /** Last block state hit by the bobber, used for grapling to freeze the projectile in the block */
   private BlockState wallState = null;
+  /** Local wall timer replacing private FishingHook#life access. */
+  private int stuckLifeTicks = 0;
 
   public CombatFishingHook(EntityType<? extends FishingHook> pEntityType, Level pLevel) {
     super(pEntityType, pLevel);
@@ -105,11 +107,11 @@ public class CombatFishingHook extends FishingHook implements ProjectileWithKnoc
   }
 
   @Override
-  protected void defineSynchedData() {
-    super.defineSynchedData();
-    this.entityData.define(GRAPPLE, (byte) GrappleType.NONE.ordinal());
-    this.entityData.define(COLLECTING, false);
-    this.entityData.define(MATERIAL, IMaterial.UNKNOWN_ID);
+  protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    super.defineSynchedData(builder);
+    builder.define(GRAPPLE, (byte) GrappleType.NONE.ordinal());
+    builder.define(COLLECTING, false);
+    builder.define(MATERIAL, IMaterial.UNKNOWN_ID);
   }
 
   /** Gets the currently displayed material */
@@ -239,7 +241,9 @@ public class CombatFishingHook extends FishingHook implements ProjectileWithKnoc
         if (target.hurt(source, damage)) {
           if (!this.level().isClientSide && owner instanceof LivingEntity ownerLiving) {
             if (targetLiving != null) {
-              EnchantmentHelper.doPostHurtEffects(targetLiving, owner);
+              if (this.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+                EnchantmentHelper.doPostAttackEffects(serverLevel, targetLiving, source);
+              }
             }
 
             // run modifier hook
@@ -296,9 +300,6 @@ public class CombatFishingHook extends FishingHook implements ProjectileWithKnoc
     // goal is dividing the scale by the square root of the length, computed as the negative 4th root of the length squared to reduce sqrt calls.
     knockback = knockback.scale(GRAPPLE_STRENGTH * Math.pow(knockback.lengthSqr(), -0.25f));
     owner.push(knockback.x, knockback.y, knockback.z);
-    if (isDrill() && owner instanceof Player player) {
-      player.startAutoSpinAttack(20);
-    }
     if (owner instanceof ServerPlayer player) {
       player.connection.send(new ClientboundSetEntityMotionPacket(player.getId(), player.getDeltaMovement()));
     }
@@ -350,7 +351,7 @@ public class CombatFishingHook extends FishingHook implements ProjectileWithKnoc
     this.wallState = null;
     Vec3 velocity = this.getDeltaMovement();
     this.setDeltaMovement(velocity.multiply(this.random.nextFloat() * 0.2F, this.random.nextFloat() * 0.2F, this.random.nextFloat() * 0.2F));
-    this.life = 0;
+    this.stuckLifeTicks = 0;
   }
 
   @Override
@@ -373,14 +374,14 @@ public class CombatFishingHook extends FishingHook implements ProjectileWithKnoc
 
   @Override
   public void tick() {
-    // if in the wall, continue ticking life
-    int oldLife = this.life;
     super.tick();
     if (this.wallState != null && !level().isClientSide) {
-      this.life = oldLife + 1;
-      if (this.life >= 1200) {
+      this.stuckLifeTicks++;
+      if (this.stuckLifeTicks >= 1200) {
         this.discard();
       }
+    } else {
+      this.stuckLifeTicks = 0;
     }
   }
 
