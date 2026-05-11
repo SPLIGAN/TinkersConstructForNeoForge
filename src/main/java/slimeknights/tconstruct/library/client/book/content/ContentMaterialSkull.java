@@ -6,6 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.client.book.data.BookData;
 import slimeknights.mantle.client.screen.book.element.ItemElement;
@@ -66,15 +68,19 @@ public class ContentMaterialSkull extends AbstractMaterialContent {
   private IDisplayableCastingRecipe getSkullRecipe() {
     Level world = Minecraft.getInstance().level;
     if (!searchedSkullRecipe && world != null) {
-      skullRecipe = world.getRecipeManager().getAllRecipesFor(TinkerRecipeTypes.CASTING_BASIN.get()).stream()
-												 .filter(recipe -> recipe instanceof IDisplayableCastingRecipe)
-												 .map(recipe -> (IDisplayableCastingRecipe)recipe)
-												 .filter(recipe -> {
-                           ItemStack output = recipe.getOutput();
-                           return output.getItem() == TinkerTools.slimesuit.get(ArmorItem.Type.HELMET) && MaterialIdNBT.from(output).getMaterial(0).getId().toString().equals(materialName);
-                         })
-												 .findFirst()
-												 .orElse(null);
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      java.util.Collection<RecipeHolder<?>> basinHolders =
+        (java.util.Collection) world.getRecipeManager().getAllRecipesFor((RecipeType) TinkerRecipeTypes.CASTING_BASIN.get());
+      skullRecipe = basinHolders.stream()
+        .map(RecipeHolder::value)
+        .filter(recipe -> recipe instanceof IDisplayableCastingRecipe)
+        .map(recipe -> (IDisplayableCastingRecipe) recipe)
+        .filter(recipe -> {
+          ItemStack output = recipe.getOutput();
+          return output.getItem() == TinkerTools.slimesuit.get(ArmorItem.Type.HELMET) && MaterialIdNBT.from(output).getMaterial(0).getId().toString().equals(materialName);
+        })
+        .findFirst()
+        .orElse(null);
       searchedSkullRecipe = true;
     }
     return skullRecipe;

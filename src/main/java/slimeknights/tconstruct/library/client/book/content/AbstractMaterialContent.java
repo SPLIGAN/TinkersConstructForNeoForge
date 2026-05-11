@@ -9,8 +9,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.client.book.HTMLUtils;
@@ -23,7 +25,6 @@ import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.ItemElement;
 import slimeknights.mantle.client.screen.book.element.TextComponentElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
-import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.mantle.util.html.HtmlElement;
 import slimeknights.mantle.util.html.HtmlGroup;
@@ -147,8 +148,12 @@ public abstract class AbstractMaterialContent extends PageContent {
       }
       // simply combine all items from all recipes
       MaterialVariantId material = getMaterialVariant();
-      repairStacks = RecipeHelper.getUIRecipes(world.getRecipeManager(), TinkerRecipeTypes.MATERIAL.get(), MaterialRecipe.class, recipe -> material.matchesVariant(recipe.getMaterial()))
-        .stream()
+      @SuppressWarnings("unchecked")
+      RecipeType<MaterialRecipe> materialType = (RecipeType<MaterialRecipe>) (RecipeType<?>) TinkerRecipeTypes.MATERIAL.get();
+      repairStacks = world.getRecipeManager().getAllRecipesFor(materialType).stream()
+        .map(RecipeHolder::value)
+        .filter(r -> r instanceof MaterialRecipe mr && material.matchesVariant(mr.getMaterial()))
+        .map(r -> (MaterialRecipe) r)
         // prefer 1 value 1 needed (ingots), then 1 value with higher needed (nuggets), then higher value (blocks)
         .sorted(Comparator.comparing(MaterialRecipe::getValue).thenComparing(MaterialRecipe::getNeeded))
         .flatMap(recipe -> Arrays.stream(recipe.getIngredient().getItems()))

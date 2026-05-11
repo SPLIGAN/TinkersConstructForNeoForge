@@ -196,6 +196,10 @@ import slimeknights.tconstruct.tools.item.DragonScaleItem;
 import slimeknights.tconstruct.tools.item.ModifierCrystalItem;
 import slimeknights.tconstruct.tools.modifiers.EnergyHandlerModifier;
 import slimeknights.tconstruct.tools.modifiers.ModifierLootModifier;
+import slimeknights.tconstruct.tools.modifiers.loot.ChrysophiliteBonusFunction;
+import slimeknights.tconstruct.tools.modifiers.loot.ChrysophiliteLootCondition;
+import slimeknights.tconstruct.tools.modifiers.loot.HasModifierLootCondition;
+import slimeknights.tconstruct.tools.modifiers.loot.ModifierBonusLootFunction;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.AmbidextrousModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.fluid.BurstingModifier;
 import slimeknights.tconstruct.tools.modifiers.ability.fluid.WettingModifier;
@@ -752,7 +756,15 @@ public final class TinkerModifiers extends TinkerModule {
    * Loot
    */
   public static final DeferredHolder<MapCodec<? extends net.neoforged.neoforge.common.loot.IGlobalLootModifier>, MapCodec<ModifierLootModifier>> modifierLootModifier = GLOBAL_LOOT_MODIFIERS.register("modifier_hook", () -> ModifierLootModifier.CODEC);
-  // Legacy loot serializers are temporarily disabled in this compatibility build.
+
+  public static final DeferredHolder<LootItemConditionType, LootItemConditionType> chrysophiliteLootCondition =
+      LOOT_CONDITIONS.register("chrysophilite", () -> new LootItemConditionType(ChrysophiliteLootCondition.CODEC));
+  public static final DeferredHolder<LootItemConditionType, LootItemConditionType> hasModifierLootCondition =
+      LOOT_CONDITIONS.register("has_modifier", () -> new LootItemConditionType(HasModifierLootCondition.CODEC));
+  public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<?>> chrysophiliteBonusFunction =
+      LOOT_FUNCTIONS.register("chrysophilite_bonus", () -> new LootItemFunctionType<>(ChrysophiliteBonusFunction.CODEC));
+  public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<?>> modifierBonusFunction =
+      LOOT_FUNCTIONS.register("modifier_bonus", () -> new LootItemFunctionType<>(ModifierBonusLootFunction.CODEC));
 
   /*
    * Events

@@ -98,18 +98,22 @@ public class SlimeskullArmorModel extends MultilayerArmorModel {
   }
 
   @Override
-  public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+  public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer vertexBuilder, int packedLightIn, int packedOverlayIn, int color) {
+    float alpha = (float)(color >>> 24) / 255.0F;
+    float red = (float)(color >> 16 & 255) / 255.0F;
+    float green = (float)(color >> 8 & 255) / 255.0F;
+    float blue = (float)(color & 255) / 255.0F;
     if (base != null && buffer != null) {
       if (model != ArmorModel.EMPTY) {
         matrixStackIn.pushPose();
         // TODO: this offset messes with the rotation of the skull slightly, though it is barely noticable
         matrixStackIn.translate(0.0D, base.young ? -0.015D : -0.02D, 0.0D);
         matrixStackIn.scale(1.01f, 1.1f, 1.01f);
-        super.renderToBuffer(matrixStackIn, vertexBuilder, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        super.renderToBuffer(matrixStackIn, vertexBuilder, packedLightIn, packedOverlayIn, color);
         matrixStackIn.popPose();
       }
       if (headModel != null && headTexture != null) {
-        VertexConsumer heaadBuffer = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.entityCutoutNoCullZOffset(headTexture), false, hasGlint);
+        VertexConsumer heaadBuffer = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.entityCutoutNoCullZOffset(headTexture), hasGlint);
         matrixStackIn.pushPose();
         if (base.crouching) {
           matrixStackIn.translate(0, base.head.y / 16.0F, 0);

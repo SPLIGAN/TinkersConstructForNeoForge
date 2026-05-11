@@ -80,7 +80,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
 
   /** Makes a conditional redirect to the given ID */
   protected JsonRedirect conditionalRedirect(ModifierId id, @Nullable ICondition condition) {
-    return new JsonRedirect(id, condition);
+    return new JsonRedirect(id.getLocation(), condition);
   }
 
   /** Makes an unconditional redirect to the given ID */
@@ -91,7 +91,7 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   @Override
   public CompletableFuture<?> run(CachedOutput cache) {
     addModifiers();
-    return allOf(composableModifiers.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), entry.getValue().serialize())));
+    return allOf(composableModifiers.entrySet().stream().map(entry -> saveJson(cache, entry.getKey().getLocation(), entry.getValue().serialize())));
   }
 
   /** Result for composable too */

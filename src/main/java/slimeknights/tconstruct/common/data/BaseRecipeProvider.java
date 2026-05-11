@@ -1,9 +1,9 @@
 package slimeknights.tconstruct.common.data;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.core.HolderLookup;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import slimeknights.mantle.recipe.data.IRecipeHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -18,12 +18,6 @@ public abstract class BaseRecipeProvider extends RecipeProvider implements ICond
     super(generator, lookupProvider);
     TConstruct.sealTinkersClass(this, "BaseRecipeProvider", "BaseRecipeProvider is trivial to recreate and directly extending can lead to addon recipes polluting our namespace.");
   }
-
-  @Override
-  protected abstract void buildRecipes(RecipeOutput recipeOutput);
-
-  @Override
-  public abstract String getName();
 
   @Override
   public String getModId() {

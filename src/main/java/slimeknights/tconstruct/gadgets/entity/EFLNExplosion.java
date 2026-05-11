@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Explosion.BlockInteraction;
+import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -12,6 +14,7 @@ import slimeknights.tconstruct.library.utils.CustomExplosion;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -33,46 +36,43 @@ public class EFLNExplosion extends CustomExplosion {
   @Override
   protected void calculateHitBlocks() {
     // optimization: if we are not interacting with blocks, no need to calculate blocks
-    if (!interactsWithBlocks() && !fire) {
+    if (!interactsWithBlocks() && !explosionPlacingFire()) {
       return;
     }
 
-    // we do a sphere of a certain radius, and check if the blockpos is inside the radius
-    float radius = this.radius * this.radius;
-    int range = (int)radius + 1;
+    float blastRadius = radius();
+    float radiusSquared = blastRadius * blastRadius;
+    int range = (int) radiusSquared + 1;
+    Level level = explosionLevel();
+    ExplosionDamageCalculator calculator = explosionDamageCalculator();
+    Vec3 ctr = center();
 
     Set<BlockPos> set = new HashSet<>();
     for (int x = -range; x < range; ++x) {
       for (int y = -range; y < range; ++y) {
         for (int z = -range; z < range; ++z) {
-          int distance = x * x + y * y + z * z;
-          // inside the sphere?
-          if (distance <= radius) {
-            BlockPos blockpos = new BlockPos(x, y, z).offset(Mth.floor(this.x), Mth.floor(this.y), Mth.floor(this.z));
-            // no air blocks
-            if (this.level.isEmptyBlock(blockpos)) {
+          int distanceSq = x * x + y * y + z * z;
+          if (distanceSq <= radiusSquared) {
+            BlockPos blockpos = new BlockPos(x, y, z).offset(Mth.floor(ctr.x), Mth.floor(ctr.y), Mth.floor(ctr.z));
+            if (level.isEmptyBlock(blockpos)) {
               continue;
             }
 
-            // explosion "strength" at the current position
-            float strength = this.radius * (1f - distance / (radius));
-            BlockState blockstate = this.level.getBlockState(blockpos);
-
-            FluidState fluid = this.level.getFluidState(blockpos);
-            float power = Math.max(blockstate.getExplosionResistance(this.level, blockpos, this), fluid.getExplosionResistance(this.level, blockpos, this));
-            if (this.source != null) {
-              power = this.source.getBlockExplosionResistance(this, this.level, blockpos, blockstate, fluid, power);
+            float strength = blastRadius * (1f - distanceSq / radiusSquared);
+            BlockState blockstate = level.getBlockState(blockpos);
+            FluidState fluid = level.getFluidState(blockpos);
+            Optional<Float> resist = calculator.getBlockExplosionResistance(this, level, blockpos, blockstate, fluid);
+            if (resist.isPresent()) {
+              strength -= (resist.get() + 0.3F) * 0.3F;
             }
 
-            strength -= (power + 0.3F) * 0.3F;
-
-            if (strength > 0.0F && (this.source == null || this.source.shouldBlockExplode(this, this.level, blockpos, blockstate, strength))) {
+            if (strength > 0.0F && calculator.shouldBlockExplode(this, level, blockpos, blockstate, strength)) {
               set.add(blockpos);
             }
           }
         }
       }
     }
-    this.toBlow.addAll(set);
+    getToBlow().addAll(set);
   }
 }

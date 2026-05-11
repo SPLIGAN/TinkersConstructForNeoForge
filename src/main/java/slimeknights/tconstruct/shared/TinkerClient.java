@@ -129,7 +129,7 @@ public class TinkerClient {
         RenderSystem.setShaderTexture(0, texture.atlasLocation());
         // changed: shader using pos tex
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
         // change: handle brightness based on renderWater, and enable blend
         Player player = minecraft.player;
@@ -145,13 +145,12 @@ public class TinkerClient {
         float v0 = texture.getV0();
         float v1 = texture.getV1();
         Matrix4f matrix4f = event.getPoseStack().last().pose();
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         // change: dropped color, see above
-        bufferbuilder.vertex(matrix4f, -1, -1, -0.5f).uv(u1, v1).endVertex();
-        bufferbuilder.vertex(matrix4f, 1, -1, -0.5f).uv(u0, v1).endVertex();
-        bufferbuilder.vertex(matrix4f, 1, 1, -0.5f).uv(u0, v0).endVertex();
-        bufferbuilder.vertex(matrix4f, -1, 1, -0.5f).uv(u1, v0).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
+        bufferBuilder.addVertex(matrix4f, -1, -1, -0.5f).setUv(u1, v1);
+        bufferBuilder.addVertex(matrix4f, 1, -1, -0.5f).setUv(u0, v1);
+        bufferBuilder.addVertex(matrix4f, 1, 1, -0.5f).setUv(u0, v0);
+        bufferBuilder.addVertex(matrix4f, -1, 1, -0.5f).setUv(u1, v0);
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         // changed: disable blend
         RenderSystem.disableBlend();
       }

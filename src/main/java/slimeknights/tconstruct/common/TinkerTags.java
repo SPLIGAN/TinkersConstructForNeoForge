@@ -67,6 +67,10 @@ public class TinkerTags {
     public static final TagKey<Block> WORKBENCHES = common("workbenches");
     public static final TagKey<Block> TABLES = local("tables");
     public static final TagKey<Block> GLASS_PANES_SILICA = common("glass_panes/silica");
+    /** Quartz-style glass blocks (NeoForge removed {@code forge:glass/silica}; kept under {@code c:glass/silica}). */
+    public static final TagKey<Block> GLASS_SILICA = common("glass/silica");
+    /** Stained glass panes (NeoForge provides {@link net.neoforged.neoforge.common.Tags.Blocks#GLASS_BLOCKS_CHEAP} for blocks only). */
+    public static final TagKey<Block> STAINED_GLASS_PANES = common("glass_panes/stained");
 
     /** Compat: allows other mods to add normal stone variants which can be used to create stone tools.
      * Note this tag includes both stone and cobblestone, unlike the default forge/vanilla tags that include one or the other
@@ -226,6 +230,8 @@ public class TinkerTags {
     public static final TagKey<Item> WORKBENCHES = common("workbenches");
     public static final TagKey<Item> TABLES = local("tables");
     public static final TagKey<Item> GLASS_PANES_SILICA = common("glass_panes/silica");
+    public static final TagKey<Item> GLASS_SILICA = common("glass/silica");
+    public static final TagKey<Item> STAINED_GLASS_PANES = common("glass_panes/stained");
 
     /** Compat: allows other mods to add normal stone variants which can be used to create stone tools.
      * Note this tag includes both stone and cobblestone, unlike the default forge/vanilla tags that include one or the other
@@ -443,6 +449,8 @@ public class TinkerTags {
 
     /** Modifiable items that are worn as armor. Items in this tag support the {@link ToolStats#ARMOR}, {@link ToolStats#ARMOR_TOUGHNESS} and {@link ToolStats#KNOCKBACK_RESISTANCE} stats. */
     public static final TagKey<Item> ARMOR = local("modifiable/armor");
+    /** Body-slot armor (e.g. mounts / wolf armor EquipmentSlot BODY). */
+    public static final TagKey<Item> BODY = local("modifiable/armor/body");
     /** Modifiable items that are worn as boots */
     public static final TagKey<Item> BOOTS = local("modifiable/armor/boots");
     /** Modifiable items that are worn as leggings */

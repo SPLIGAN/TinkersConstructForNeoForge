@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.recipe.material;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
@@ -8,6 +9,8 @@ import java.util.List;
 
 /** Common methods between {@link ShapelessMaterialsRecipe} and {@link ShapedMaterialsRecipe} */
 public interface MaterialsCraftingTableRecipe {
+  /** Recipe id from the datapack (not on vanilla {@link net.minecraft.world.item.crafting.CraftingRecipe} in 1.21+). */
+  ResourceLocation getRecipeId();
   /** Gets the list of parts on this recipe. May be larger than {@link #getPartCount()}, in which case the extra should be ignored. */
   List<Ingredient> getParts();
 

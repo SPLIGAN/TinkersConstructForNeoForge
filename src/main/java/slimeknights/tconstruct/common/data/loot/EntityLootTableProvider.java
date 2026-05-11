@@ -58,22 +58,24 @@ public class EntityLootTableProvider extends EntityLootSubProvider {
                                                                    .add(LootItem.lootTableItem(Items.CLAY_BALL)
                                                                                           .apply(SetItemCountFunction.setCount(UniformGenerator.between(-2.0F, 1.0F)))
                                                                                           .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0.0F, 1.0F)))
-                                                                                          .apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE))))));
+                                                                                          .apply(SmeltItemFunction.smelted().when(shouldSmeltLoot())))));
 
     LootItemCondition.Builder killedByFrog = killedByFrog();
-    this.add(TinkerWorld.terracubeEntity.get(),
-             LootTable.lootTable()
-                      .withPool(LootPool.lootPool()
-                                        .setRolls(ConstantValue.exactly(1))
-                                        .add(LootItem.lootTableItem(Items.CLAY_BALL)
-                                                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(-2.0F, 1.0F)))
-                                                     .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0.0F, 1.0F)))
-                                                     .when(killedByFrog.invert())
-                                                     .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().subPredicate(SlimePredicate.sized(MinMaxBounds.Ints.atLeast(2))))))
-                                        .add(LootItem.lootTableItem(TinkerSmeltery.searedLamp)
-                                                     .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
-                                                     .when(killedByFrog))
-                                        .apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))));
+    LootItemCondition.Builder largeSlime = LootItemEntityPropertyCondition.hasProperties(
+      LootContext.EntityTarget.THIS,
+      EntityPredicate.Builder.entity().subPredicate(SlimePredicate.sized(MinMaxBounds.Ints.atLeast(2))));
+    LootPool.Builder terracubePool = LootPool.lootPool()
+      .setRolls(ConstantValue.exactly(1))
+      .add(LootItem.lootTableItem(Items.CLAY_BALL)
+        .apply(SetItemCountFunction.setCount(UniformGenerator.between(-2.0F, 1.0F)))
+        .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0.0F, 1.0F)))
+        .when(killedByFrog.invert())
+        .when(largeSlime)
+        .apply(SmeltItemFunction.smelted().when(shouldSmeltLoot())))
+      .add(LootItem.lootTableItem(TinkerSmeltery.searedLamp)
+        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
+        .when(killedByFrog));
+    this.add(TinkerWorld.terracubeEntity.get(), LootTable.lootTable().withPool(terracubePool));
   }
 
   /** Drops an item using the same chances as slimeballs */

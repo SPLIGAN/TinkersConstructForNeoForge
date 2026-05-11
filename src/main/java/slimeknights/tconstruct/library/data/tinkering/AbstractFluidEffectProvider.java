@@ -23,6 +23,8 @@ import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.conditions.OrCondition;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.GenericDataProvider;
+
+import java.util.Arrays;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
 import slimeknights.mantle.recipe.condition.TagFilledCondition;
@@ -88,7 +90,7 @@ public abstract class AbstractFluidEffectProvider extends GenericDataProvider {
   /** Creates a new fluid builder for the given mod ID */
   @SuppressWarnings("removal")
   protected Builder addFluid(String name, FluidIngredient fluid) {
-    return addFluid(new ResourceLocation(modId, name), fluid);
+    return addFluid(ResourceLocation.fromNamespaceAndPath(modId, name), fluid);
   }
 
   /** Creates a builder for a fluid stack */
@@ -226,7 +228,7 @@ public abstract class AbstractFluidEffectProvider extends GenericDataProvider {
       for (int i = 0; i < names.length; i++) {
         conditions[i+1] = new TagFilledCondition<>(ItemTags.create(commonResource("ingots/" + names[i])));
       }
-      return addCondition(new OrCondition(conditions));
+      return addCondition(new OrCondition(Arrays.asList(conditions)));
     }
 
     /** Adds an effect to the given fluid */

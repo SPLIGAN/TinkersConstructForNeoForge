@@ -23,12 +23,7 @@ import slimeknights.tconstruct.world.TinkerWorld;
 
 public class WorldRecipeProvider extends BaseRecipeProvider implements ICommonRecipeHelper {
   public WorldRecipeProvider(PackOutput packOutput) {
-    super(packOutput);
-  }
-
-  @Override
-  public String getName() {
-    return "Tinkers' Construct World Recipes";
+    super(packOutput, java.util.concurrent.CompletableFuture.completedFuture(net.minecraft.data.registries.VanillaRegistries.createLookup()));
   }
 
   @Override

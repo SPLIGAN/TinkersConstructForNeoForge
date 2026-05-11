@@ -65,6 +65,12 @@ public class InfoPanelScreen<P extends MultiModuleScreen<?>, C extends AbstractC
 
   @Setter
   protected float textScale = 1.0f;
+
+  /** Matches parent {@link net.minecraft.client.gui.screens.inventory.AbstractContainerScreen} height (protected field is not settable from sibling screens). */
+  public void setSyncedImageHeight(int height) {
+    this.imageHeight = height;
+  }
+
   public InfoPanelScreen(P parent, C container, Inventory playerInventory, Component title) {
     super(parent, container, playerInventory, title, true, false);
 
@@ -415,5 +421,11 @@ public class InfoPanelScreen<P extends MultiModuleScreen<?>, C extends AbstractC
     }
 
     return this.slider.mouseScrolled(scrollData, true);
+  }
+
+  /** 4-arg overload for vanilla/neoforge screen mouse wheel (horizontal + vertical). */
+  public boolean handleMouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+    double scrollData = scrollY != 0.0D ? scrollY : scrollX;
+    return handleMouseScrolled(mouseX, mouseY, scrollData);
   }
 }

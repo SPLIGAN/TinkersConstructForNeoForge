@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
-import net.minecraft.client.renderer.entity.FishingHookRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -17,8 +16,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbilities;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.armor.texture.ArmorTextureSupplier;
 import slimeknights.tconstruct.library.client.armor.texture.TintedArmorTexture;
@@ -108,12 +105,10 @@ public class CombatFishingHookRenderer extends EntityRenderer<CombatFishingHook>
 
       // render bobber
       PoseStack.Pose lastPose = poseStack.last();
-      Matrix4f pose = lastPose.pose();
-      Matrix3f normal = lastPose.normal();
-      texture.vertex(consumer, pose, normal, bobberLight, 0f, 0, 0, 1);
-      texture.vertex(consumer, pose, normal, bobberLight, 1f, 0, 1, 1);
-      texture.vertex(consumer, pose, normal, bobberLight, 1f, 1, 1, 0);
-      texture.vertex(consumer, pose, normal, bobberLight, 0f, 1, 0, 0);
+      texture.vertex(consumer, lastPose, bobberLight, 0f, 0, 0, 1);
+      texture.vertex(consumer, lastPose, bobberLight, 1f, 0, 1, 1);
+      texture.vertex(consumer, lastPose, bobberLight, 1f, 1, 1, 0);
+      texture.vertex(consumer, lastPose, bobberLight, 0f, 1, 0, 0);
       poseStack.popPose();
 
       // handle hand side
@@ -155,7 +150,7 @@ public class CombatFishingHookRenderer extends EntityRenderer<CombatFishingHook>
       consumer = buffer.getBuffer(RenderType.lineStrip());
       lastPose = poseStack.last();
       for (int i = 0; i <= 16; i++) {
-        FishingHookRenderer.stringVertex(hookXOff, hookYOff, hookZOff, consumer, lastPose, i / 16f, (i + 1) / 16f);
+        stringVertex(hookXOff, hookYOff, hookZOff, consumer, lastPose, fraction(i, 16), fraction(i + 1, 16));
       }
 
       poseStack.popPose();
@@ -166,6 +161,28 @@ public class CombatFishingHookRenderer extends EntityRenderer<CombatFishingHook>
   @Override
   public ResourceLocation getTextureLocation(CombatFishingHook pEntity) {
     return BASE;
+  }
+
+  /** Copied from {@link net.minecraft.client.renderer.entity.FishingHookRenderer} (method is private in 1.21+). */
+  private static float fraction(int numerator, int denominator) {
+    return (float) numerator / (float) denominator;
+  }
+
+  /** Copied from {@link net.minecraft.client.renderer.entity.FishingHookRenderer} (method is private in 1.21+). */
+  private static void stringVertex(
+    float x, float y, float z, VertexConsumer consumer, PoseStack.Pose pose, float stringFraction, float nextStringFraction
+  ) {
+    float f = x * stringFraction;
+    float f1 = y * (stringFraction * stringFraction + stringFraction) * 0.5F + 0.25F;
+    float f2 = z * stringFraction;
+    float f3 = x * nextStringFraction - f;
+    float f4 = y * (nextStringFraction * nextStringFraction + nextStringFraction) * 0.5F + 0.25F - f1;
+    float f5 = z * nextStringFraction - f2;
+    float f6 = Mth.sqrt(f3 * f3 + f4 * f4 + f5 * f5);
+    f3 /= f6;
+    f4 /= f6;
+    f5 /= f6;
+    consumer.addVertex(pose, f, f1, f2).setColor(-16777216).setNormal(pose, f3, f4, f5);
   }
 
   private record MaterialTexture(RenderType texture, int luminosity, int alpha, int red, int green, int blue) {
@@ -189,14 +206,13 @@ public class CombatFishingHookRenderer extends EntityRenderer<CombatFishingHook>
     }
 
     /** Draws a vertex using this texture. */
-    public void vertex(VertexConsumer consumer, Matrix4f pose, Matrix3f normal, int lightmap, float pX, int pY, int pU, int pV) {
-      consumer.vertex(pose, pX - 0.5f, pY - 0.5f, 0f)
-        .color(red, green, blue, alpha)
-        .uv(pU, pV)
-        .overlayCoords(OverlayTexture.NO_OVERLAY)
-        .uv2(lightmap)
-        .normal(normal, 0.0F, 1.0F, 0.0F)
-        .endVertex();
+    public void vertex(VertexConsumer consumer, PoseStack.Pose pose, int lightmap, float pX, int pY, int pU, int pV) {
+      consumer.addVertex(pose, pX - 0.5f, pY - 0.5f, 0f)
+        .setColor(red, green, blue, alpha)
+        .setUv(pU, pV)
+        .setOverlay(OverlayTexture.NO_OVERLAY)
+        .setLight(lightmap)
+        .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
   }
 }

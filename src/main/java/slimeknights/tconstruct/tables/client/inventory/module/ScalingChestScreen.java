@@ -5,11 +5,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import slimeknights.mantle.client.screen.MultiModuleScreen;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.EmptyItemHandler;
+import slimeknights.tconstruct.library.utils.NeoCapabilityHelper;
 import slimeknights.tconstruct.tables.block.entity.inventory.IScalingContainer;
 
 import java.util.Optional;
@@ -20,7 +20,8 @@ public class ScalingChestScreen<T extends BlockEntity> extends DynamicContainerS
     super(parent, container, playerInventory, title);
     BlockEntity tile = container.getTile();
     IItemHandler handler = Optional.ofNullable(tile)
-                                   .flatMap(t -> t.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve())
+                                   .filter(t -> t.getLevel() != null)
+                                   .map(t -> NeoCapabilityHelper.getBlockItem(t.getLevel(), t.getBlockPos(), null))
                                    .orElse(EmptyItemHandler.INSTANCE);
     this.scaling = handler instanceof IScalingContainer ? (IScalingContainer) handler : handler::getSlots;
     this.slotCount = scaling.getVisualSize();
@@ -66,4 +67,15 @@ public class ScalingChestScreen<T extends BlockEntity> extends DynamicContainerS
 
   @Override
   protected void renderLabels(GuiGraphics graphics, int x, int y) {}
+
+  /** Parent tabbed screen cannot assign {@code imageHeight} on a sibling module. */
+  public void addImageHeight(int delta) {
+    this.imageHeight += delta;
+  }
+
+  /** 4-arg overload for vanilla screen wheel API. */
+  public boolean handleMouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+    double scrollData = scrollY != 0.0D ? scrollY : scrollX;
+    return handleMouseScrolled(mouseX, mouseY, scrollData);
+  }
 }

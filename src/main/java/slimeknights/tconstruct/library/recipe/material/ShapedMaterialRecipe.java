@@ -37,15 +37,27 @@ import java.util.stream.Stream;
 public class ShapedMaterialRecipe extends ShapedRecipe {
   private static final HolderLookup.Provider EMPTY_LOOKUP = HolderLookup.Provider.create(Stream.of());
   private MaterialValueIngredient material;
+  private final ResourceLocation recipeId;
   private final List<MaterialVariantId> extraMaterials;
 
   public ShapedMaterialRecipe(ResourceLocation id, String group, CraftingBookCategory category, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result, boolean showNotification, List<MaterialVariantId> extraMaterials) {
     super(group, category, new ShapedRecipePattern(width, height, ingredients, Optional.empty()), result, showNotification);
+    this.recipeId = id;
     this.extraMaterials = extraMaterials;
+  }
+
+  /** Shaped recipe parsed from JSON/network with the real recipe id (1.21+ — parent {@link ShapedRecipe} does not expose the holder id). */
+  public ShapedMaterialRecipe(ResourceLocation recipeId, ShapedRecipe shaped, List<MaterialVariantId> extraMaterials) {
+    this(recipeId, shaped.getGroup(), shaped.category(), shaped.getWidth(), shaped.getHeight(), shaped.getIngredients(), shaped.getResultItem(EMPTY_LOOKUP), shaped.showNotification(), extraMaterials);
   }
 
   public ShapedMaterialRecipe(ShapedRecipe recipe, List<MaterialVariantId> extraMaterials) {
     this(ResourceLocation.fromNamespaceAndPath("minecraft", "missingno"), recipe.getGroup(), recipe.category(), recipe.getWidth(), recipe.getHeight(), recipe.getIngredients(), recipe.getResultItem(EMPTY_LOOKUP), recipe.showNotification(), extraMaterials);
+  }
+
+  /** @return Datapack id for JEI and logging */
+  public ResourceLocation getId() {
+    return recipeId;
   }
 
   /** @deprecated use {@link #ShapedMaterialRecipe(ResourceLocation,String,CraftingBookCategory,int,int,NonNullList,ItemStack,boolean,List)} */
@@ -154,7 +166,7 @@ public class ShapedMaterialRecipe extends ShapedRecipe {
     @Override
     public ShapedMaterialRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
       ShapedRecipe shaped = RecipeSerializer.SHAPED_RECIPE.codec().codec().parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new);
-      ShapedMaterialRecipe recipe = new ShapedMaterialRecipe(shaped, MATERIAL_FIELD.get(json));
+      ShapedMaterialRecipe recipe = new ShapedMaterialRecipe(recipeId, shaped, MATERIAL_FIELD.get(json));
       // ensure the material is valid, since we have all the needed information to check
       // better now than at runtime
       if (recipe.getMaterial() == null) {
@@ -168,7 +180,7 @@ public class ShapedMaterialRecipe extends ShapedRecipe {
     public ShapedMaterialRecipe fromNetworkSafe(ResourceLocation recipeId, FriendlyByteBuf buffer) {
       ShapedRecipe recipe = RecipeSerializer.SHAPED_RECIPE.streamCodec().decode((RegistryFriendlyByteBuf) buffer);
       List<MaterialVariantId> extraMaterials = MATERIAL_FIELD.decode(buffer);
-      return recipe == null ? null : new ShapedMaterialRecipe(recipe, extraMaterials);
+      return recipe == null ? null : new ShapedMaterialRecipe(recipeId, recipe, extraMaterials);
     }
 
     @Override

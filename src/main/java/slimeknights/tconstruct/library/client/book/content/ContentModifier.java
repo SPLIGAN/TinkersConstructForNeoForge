@@ -9,6 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import slimeknights.mantle.client.book.HTMLUtils;
 import slimeknights.mantle.client.book.data.BookData;
@@ -40,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ContentModifier extends PageContent {
   public static final ResourceLocation ID = TConstruct.getResource("modifier");
@@ -134,8 +138,13 @@ public class ContentModifier extends PageContent {
         Level level = Minecraft.getInstance().level;
         assert level != null;
         TagKey<Item> filter = getToolFilterTag();
+        // DeferredHolder exposes RecipeType<?> — filter by type instead of getAllRecipesFor (generic RecipeInput bound).
+        RecipeType<?> stationType = TinkerRecipeTypes.TINKER_STATION.get();
+        Stream<? extends Recipe<?>> stationRecipes = level.getRecipeManager().getRecipes().stream()
+          .filter(holder -> holder.value().getType() == stationType)
+          .map(RecipeHolder::value);
         // TODO: feel we can speed this up by not fetching the whole recipes list for every page
-        this.recipes = RecipeHelper.getJEIRecipes(level.registryAccess(), level.getRecipeManager(), TinkerRecipeTypes.TINKER_STATION.get(), IDisplayModifierRecipe.class).stream()
+        this.recipes = RecipeHelper.getJEIRecipes(level.registryAccess(), stationRecipes, IDisplayModifierRecipe.class).stream()
           // must output this modifier, and must have at least 1 tool that matches the filter
           .filter(recipe -> recipe.getDisplayResult().matches(modifier) && (filter == null || recipe.getToolWithoutModifier().stream().anyMatch(tool -> tool.is(filter))))
           .toList();

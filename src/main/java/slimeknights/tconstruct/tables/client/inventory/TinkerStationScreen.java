@@ -2,12 +2,14 @@ package slimeknights.tconstruct.tables.client.inventory;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -40,12 +42,32 @@ import slimeknights.tconstruct.tables.network.TinkerStationRenamePacket;
 import slimeknights.tconstruct.tables.network.TinkerStationSelectionPacket;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.util.List;
 
 import static slimeknights.tconstruct.tables.block.entity.table.TinkerStationBlockEntity.INPUT_SLOT;
 import static slimeknights.tconstruct.tables.block.entity.table.TinkerStationBlockEntity.TINKER_SLOT;
 
 public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntity,TinkerStationContainerMenu> {
+  /** {@link AbstractContainerScreen#topPos} is protected; sibling {@link ModuleScreen} instances cannot be adjusted lexically. */
+  private static final VarHandle ABSTRACT_SCREEN_TOP_POS;
+
+  static {
+    try {
+      MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(AbstractContainerScreen.class, MethodHandles.lookup());
+      ABSTRACT_SCREEN_TOP_POS = lookup.findVarHandle(AbstractContainerScreen.class, "topPos", int.class);
+    } catch (ReflectiveOperationException e) {
+      throw new ExceptionInInitializerError(e);
+    }
+  }
+
+  private static void addTopOffset(AbstractContainerScreen<?> screen, int delta) {
+    int next = (int) ABSTRACT_SCREEN_TOP_POS.get(screen) + delta;
+    ABSTRACT_SCREEN_TOP_POS.set(screen, next);
+  }
+
   // titles to display
   private static final Component COMPONENTS_TEXT = TConstruct.makeTranslation("gui", "tinker_station.components");
  // fallback text for crafting with no named slots
@@ -122,7 +144,7 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
     super(container, playerInventory, title);
 
     this.tinkerInfo.yOffset = 5;
-    this.modifierInfo.yOffset = this.tinkerInfo.imageHeight + 9;
+    this.modifierInfo.yOffset = this.tinkerInfo.getYSize() + 9;
 
     this.imageHeight = 184;
 
@@ -162,10 +184,10 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
     this.tinkerInfo.xOffset = 2;
     this.tinkerInfo.yOffset = this.centerBeam.h + this.panelDecorationL.h;
     this.modifierInfo.xOffset = this.tinkerInfo.xOffset;
-    this.modifierInfo.yOffset = this.tinkerInfo.yOffset + this.tinkerInfo.imageHeight + 4;
+    this.modifierInfo.yOffset = this.tinkerInfo.yOffset + this.tinkerInfo.getYSize() + 4;
 
     for (ModuleScreen<?,?> module : this.modules) {
-      module.topPos += 4;
+      addTopOffset((AbstractContainerScreen<?>) module, 4);
     }
 
     int x = (this.width - this.imageWidth) / 2;
@@ -216,25 +238,51 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
     int stillFilled = 0;
     for (int i = 0; i <= maxInputs; i++) {
       Slot slot = this.getMenu().getSlot(i);
+      if (!(slot instanceof TinkerStationSlot current)) {
+        continue;
+      }
       LayoutSlot layoutSlot = currentLayout.getSlot(i);
+      int listIndex = slot.index;
       if (layoutSlot.isHidden()) {
-        // put the position in the still filled line
-        slot.x = STILL_FILLED_X - STILL_FILLED_SPACING * stillFilled;
-        slot.y = STILL_FILLED_Y;
+        int newX = STILL_FILLED_X - STILL_FILLED_SPACING * stillFilled;
+        int newY = STILL_FILLED_Y;
         stillFilled++;
-        if (slot instanceof TinkerStationSlot tinkerSlot) {
-          tinkerSlot.deactivate();
+        if (current.x == newX && current.y == newY) {
+          current.deactivate();
+        } else {
+          replaceTinkerStationSlotAt(listIndex, current, newX, newY, null);
         }
       } else {
-        slot.x = layoutSlot.getX();
-        slot.y = layoutSlot.getY();
-        if (slot instanceof TinkerStationSlot tinkerSlot) {
-          tinkerSlot.activate(layoutSlot);
+        int newX = layoutSlot.getX();
+        int newY = layoutSlot.getY();
+        if (current.x == newX && current.y == newY) {
+          current.activate(layoutSlot);
+        } else {
+          replaceTinkerStationSlotAt(listIndex, current, newX, newY, layoutSlot);
         }
       }
     }
 
     this.updateDisplay();
+  }
+
+  /** Vanilla {@link Slot} x/y are final in 1.21+; recreate {@link TinkerStationSlot} when coordinates change. */
+  private void replaceTinkerStationSlotAt(int listIndex, TinkerStationSlot current, int newX, int newY, @Nullable LayoutSlot activateWith) {
+    if (this.tile == null) {
+      return;
+    }
+    TinkerStationSlot neu = new TinkerStationSlot(this.tile, current.getSlotIndex(), newX, newY);
+    ((Slot) neu).index = ((Slot) current).index;
+    Pair<ResourceLocation, ResourceLocation> bg = current.getNoItemIcon();
+    if (bg != null) {
+      neu.setBackground(bg.getFirst(), bg.getSecond());
+    }
+    if (activateWith == null) {
+      neu.deactivate();
+    } else {
+      neu.activate(activateWith);
+    }
+    this.getMenu().slots.set(listIndex, neu);
   }
 
   @Override
@@ -259,13 +307,16 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
       textField.setEditable(false);
       textField.setValue("");
       textField.visible = false;
-    } else if (!textField.isEditable()) {
-      textField.setEditable(true);
-      textField.setValue("");
-      textField.visible = true;
     } else {
-      // ensure the text matches
-      textField.setValue(tile.getItemName());
+      // EditBox#isEditable() is private in 1.21+; use visibility to detect first open after the field was hidden.
+      boolean reopening = !textField.visible;
+      textField.setEditable(true);
+      textField.visible = true;
+      if (reopening) {
+        textField.setValue("");
+      } else {
+        textField.setValue(tile.getItemName());
+      }
     }
 
     // if there is no result, use the input
@@ -390,10 +441,10 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
     x += this.centerBeam.drawScaledX(graphics, x, y, this.buttonsScreen.getImageWidth());
     this.rightBeam.draw(graphics, x, y);
 
-    x = tinkerInfo.leftPos - this.leftBeam.w;
+    x = this.tinkerInfo.getGuiLeft() - this.leftBeam.w;
     this.leftBeam.draw(graphics, x, y);
     x += this.leftBeam.w;
-    x += this.centerBeam.drawScaledX(graphics, x, y, this.tinkerInfo.imageWidth);
+    x += this.centerBeam.drawScaledX(graphics, x, y, this.tinkerInfo.getXSize());
     this.rightBeam.draw(graphics, x, y);
 
     // draw the decoration for the buttons
@@ -406,10 +457,10 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
     }
 
     // draw the decorations for the panels
-    this.panelDecorationL.draw(graphics, this.tinkerInfo.leftPos + 5, this.tinkerInfo.topPos - this.panelDecorationL.h);
-    this.panelDecorationR.draw(graphics, this.tinkerInfo.guiRight() - 5 - this.panelDecorationR.w, this.tinkerInfo.topPos - this.panelDecorationR.h);
-    this.panelDecorationL.draw(graphics, this.modifierInfo.leftPos + 5, this.modifierInfo.topPos - this.panelDecorationL.h);
-    this.panelDecorationR.draw(graphics, this.modifierInfo.guiRight() - 5 - this.panelDecorationR.w, this.modifierInfo.topPos - this.panelDecorationR.h);
+    this.panelDecorationL.draw(graphics, this.tinkerInfo.getGuiLeft() + 5, this.tinkerInfo.getGuiTop() - this.panelDecorationL.h);
+    this.panelDecorationR.draw(graphics, this.tinkerInfo.guiRight() - 5 - this.panelDecorationR.w, this.tinkerInfo.getGuiTop() - this.panelDecorationR.h);
+    this.panelDecorationL.draw(graphics, this.modifierInfo.getGuiLeft() + 5, this.modifierInfo.getGuiTop() - this.panelDecorationL.h);
+    this.panelDecorationR.draw(graphics, this.modifierInfo.guiRight() - 5 - this.panelDecorationR.w, this.modifierInfo.getGuiTop() - this.panelDecorationR.h);
 
     // render slot background icons
     for (int i = 0; i <= maxInputs; i++) {
@@ -458,11 +509,11 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
 
   @Override
   public boolean mouseDragged(double mouseX, double mouseY, int clickedMouseButton, double timeSinceLastClick, double unkowwn) {
-    if (this.tinkerInfo.handleMouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)) {
+    if (this.tinkerInfo.handleMouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick, unkowwn)) {
       return false;
     }
 
-    if (this.modifierInfo.handleMouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)) {
+    if (this.modifierInfo.handleMouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick, unkowwn)) {
       return false;
     }
 
@@ -470,16 +521,16 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
   }
 
   @Override
-  public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-    if (this.tinkerInfo.handleMouseScrolled(mouseX, mouseY, delta)) {
+  public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+    if (this.tinkerInfo.handleMouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
       return false;
     }
 
-    if (this.modifierInfo.handleMouseScrolled(mouseX, mouseY, delta)) {
+    if (this.modifierInfo.handleMouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
       return false;
     }
 
-    return super.mouseScrolled(mouseX, mouseY, delta);
+    return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
   }
 
   @Override
@@ -548,7 +599,7 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
     if (slotIn instanceof TinkerStationSlot && ((TinkerStationSlot) slotIn).isDormant() && !slotIn.hasItem()) {
       return false;
     }
-    return super.isHovering(slotIn, mouseX, mouseY);
+    return super.isHovering(slotIn.x, slotIn.y, 16, 16, mouseX, mouseY);
   }
 
   protected void wood() {
@@ -635,7 +686,6 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
   @Override
   public void containerTick() {
     super.containerTick();
-    this.textField.tick();
   }
 
   @Override

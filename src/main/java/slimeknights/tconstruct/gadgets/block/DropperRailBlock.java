@@ -6,7 +6,6 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RailBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.Hopper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -26,8 +25,8 @@ public class DropperRailBlock extends RailBlock {
     if (cartDown == null || !(cart instanceof Hopper)) {
       return;
     }
-    BlockEntity tileEntity = world.getBlockEntity(pos.below());
-    IItemHandler teDown = tileEntity != null ? tileEntity.getCapability(Capabilities.ItemHandler.BLOCK, Direction.DOWN) : null;
+    BlockPos below = pos.below();
+    IItemHandler teDown = world.getCapability(Capabilities.ItemHandler.BLOCK, below, Direction.DOWN);
     if (teDown == null) {
       return;
     }
@@ -36,7 +35,7 @@ public class DropperRailBlock extends RailBlock {
     if (itemHandlerCart == null) {
       itemHandlerCart = EmptyItemHandler.INSTANCE;
     }
-    IItemHandler itemHandlerTE = tileEntity.getCapability(Capabilities.ItemHandler.BLOCK, Direction.UP);
+    IItemHandler itemHandlerTE = world.getCapability(Capabilities.ItemHandler.BLOCK, below, Direction.UP);
     if (itemHandlerTE == null) {
       itemHandlerTE = EmptyItemHandler.INSTANCE;
     }

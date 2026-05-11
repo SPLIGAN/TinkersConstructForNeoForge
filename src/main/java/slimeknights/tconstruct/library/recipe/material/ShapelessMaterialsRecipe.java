@@ -38,15 +38,18 @@ public class ShapelessMaterialsRecipe extends ShapelessRecipe implements Materia
   /** List of additional materials to add beyond the parts */
   @Getter
   private final List<MaterialVariantId> extraMaterials;
+  @Getter
+  private final ResourceLocation recipeId;
 
   public ShapelessMaterialsRecipe(ResourceLocation id, String group, CraftingBookCategory category, ItemStack result, NonNullList<Ingredient> ingredients, int partCount, List<MaterialVariantId> extraMaterials) {
     super(group, category, result, ingredients);
+    this.recipeId = id;
     this.partCount = partCount;
     this.extraMaterials = extraMaterials;
   }
 
-  public ShapelessMaterialsRecipe(ShapelessRecipe recipe, int partCount, List<MaterialVariantId> extraMaterials) {
-    this(ResourceLocation.fromNamespaceAndPath("minecraft", "missingno"), recipe.getGroup(), recipe.category(), recipe.getResultItem(EMPTY_LOOKUP), recipe.getIngredients(), partCount, extraMaterials);
+  public ShapelessMaterialsRecipe(ResourceLocation recipeId, ShapelessRecipe recipe, int partCount, List<MaterialVariantId> extraMaterials) {
+    this(recipeId, recipe.getGroup(), recipe.category(), recipe.getResultItem(EMPTY_LOOKUP), recipe.getIngredients(), partCount, extraMaterials);
   }
 
   @Override
@@ -81,14 +84,14 @@ public class ShapelessMaterialsRecipe extends ShapelessRecipe implements Materia
       if (parts < 1 || parts > vanilla.getIngredients().size()) {
         throw new JsonSyntaxException("Parts must be between 1 and the number of ingredients " + vanilla.getIngredients().size());
       }
-      return new ShapelessMaterialsRecipe(vanilla, parts, MATERIAL_FIELD.get(json));
+      return new ShapelessMaterialsRecipe(recipeId, vanilla, parts, MATERIAL_FIELD.get(json));
     }
 
     @Override
     @Nullable
     public ShapelessMaterialsRecipe fromNetworkSafe(ResourceLocation recipeId, FriendlyByteBuf buffer) {
       ShapelessRecipe recipe = RecipeSerializer.SHAPELESS_RECIPE.streamCodec().decode((RegistryFriendlyByteBuf) buffer);
-      return recipe == null ? null : new ShapelessMaterialsRecipe(recipe, buffer.readByte(), MATERIAL_FIELD.decode(buffer));
+      return recipe == null ? null : new ShapelessMaterialsRecipe(recipeId, recipe, buffer.readByte(), MATERIAL_FIELD.decode(buffer));
     }
 
     @Override

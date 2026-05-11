@@ -14,7 +14,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.bus.api.Event;
-import net.neoforged.fml.ModLoader;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.IModBusEvent;
 import slimeknights.mantle.data.listener.IEarlySafeManagerReloadListener;
 import slimeknights.mantle.util.JsonHelper;
@@ -91,7 +91,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener {
   public void onReloadSafe(ResourceManager manager) {
     // fire an event so people can register loaders, was the easiest way to do so after modifiers are registered but before models load
     if (!eventFired) {
-      ModLoader.get().postEvent(new ModifierModelRegistrationEvent());
+      ModLoadingContext.get().getActiveContainer().getEventBus().post(new ModifierModelRegistrationEvent());
       eventFired = true;
     }
 
@@ -150,7 +150,7 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener {
    */
   @SuppressWarnings("removal")
   private static Material getModifierTexture(ResourceLocation modifierRoot, ResourceLocation modifierId, String suffix) {
-    return new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(modifierRoot.getNamespace(), modifierRoot.getPath() + modifierId.getNamespace() + "_" + modifierId.getPath() + suffix));
+    return new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.fromNamespaceAndPath(modifierRoot.getNamespace(), modifierRoot.getPath() + modifierId.getNamespace() + "_" + modifierId.getPath() + suffix));
   }
 
   /**
@@ -216,8 +216,8 @@ public class ModifierModelManager implements IEarlySafeManagerReloadListener {
       IUnbakedModifierModel model = entry.getValue();
       if (!skip.contains(id) && !blacklist.contains(model)) {
         IBakedModifierModel toolModel = model.forTool(
-          name -> getTexture(smallModifierRoots, validator, id, name),
-          name -> getTexture(largeModifierRoots, validator, id, name));
+          name -> getTexture(smallModifierRoots, validator, id.getLocation(), name),
+          name -> getTexture(largeModifierRoots, validator, id.getLocation(), name));
         if (toolModel != null) {
           modelMap.put(id, toolModel);
         }

@@ -11,6 +11,8 @@ import javax.annotation.Nullable;
 public class TriggeringBaseContainerMenu<TILE extends BlockEntity> extends BaseContainerMenu<TILE> {
   protected TriggeringBaseContainerMenu(MenuType<?> type, int id, @Nullable Inventory inv, @Nullable TILE tile) {
     super(type, id, inv, tile);
-    // Advancement criterion `BlockContainerOpenedTrigger` omitted from NeoForge migration build (see source set excludes).
+    if (BlockContainerOpenedTrigger.TRIGGER != null && tile != null && inv != null) {
+      BlockContainerOpenedTrigger.TRIGGER.trigger(tile, inv);
+    }
   }
 }

@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.gadgets.data;
 
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -37,11 +37,6 @@ public class GadgetRecipeProvider extends BaseRecipeProvider {
   }
 
   @Override
-  public String getName() {
-    return "Tinkers' Construct Gadget Recipes";
-  }
-
-  @Override
   protected void buildRecipes(RecipeOutput consumer) {
     // piggybackpack
     String folder = "gadgets/";
@@ -72,7 +67,7 @@ public class GadgetRecipeProvider extends BaseRecipeProvider {
                        .save(consumer, location("gadgets/frame/" + FrameType.DIAMOND.getSerializedName()));
     ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, TinkerGadgets.itemFrame.get(FrameType.CLEAR))
                        .define('e', Tags.Items.GLASS_PANES_COLORLESS)
-                       .define('M', Tags.Items.GLASS_COLORLESS)
+                       .define('M', Tags.Items.GLASS_BLOCKS_COLORLESS)
                        .pattern(" e ")
                        .pattern("eMe")
                        .pattern(" e ")
@@ -147,7 +142,7 @@ public class GadgetRecipeProvider extends BaseRecipeProvider {
                               .save(consumer, wrap(id(output), folder, "_campfire"));
     // furnace is 200 ticks
     ResourceLocation outputId = id(output);
-    InventoryChangeTrigger.TriggerInstance criteria = has(input);
+    Criterion<?> criteria = has(input);
     SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, experience, 200)
                               .unlockedBy("has_item", criteria)
                               .save(consumer, wrap(outputId, folder, "_furnace"));

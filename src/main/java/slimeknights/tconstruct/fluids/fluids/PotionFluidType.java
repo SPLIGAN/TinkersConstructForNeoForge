@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.fluids.fluids;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
@@ -77,9 +78,23 @@ public class PotionFluidType extends FluidType {
     return stack;
   }
 
+  /** Creates a fluid stack for the given potion (1.21+ registry holders). */
+  public static FluidStack potionFluid(Holder<Potion> potion, int size) {
+    FluidStack stack = new FluidStack(TinkerFluids.potion.get(), size);
+    if (!potion.is(Potions.WATER)) {
+      stack.set(DataComponents.POTION_CONTENTS, new PotionContents(potion));
+    }
+    return stack;
+  }
+
   /** Creates a fluid output for the given potion */
   @SuppressWarnings("deprecation")  // forge registries have nullable keys, like why would you want that?
   public static FluidOutput potionResult(Potion potion, int size) {
+    return FluidOutput.fromStack(potionFluid(potion, size));
+  }
+
+  /** Creates a fluid output for the given potion (1.21+ {@link Potions} fields are holders). */
+  public static FluidOutput potionResult(Holder<Potion> potion, int size) {
     return FluidOutput.fromStack(potionFluid(potion, size));
   }
 

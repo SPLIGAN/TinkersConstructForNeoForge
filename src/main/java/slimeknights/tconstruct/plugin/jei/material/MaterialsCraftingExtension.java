@@ -18,6 +18,7 @@ import slimeknights.mantle.plugin.jei.MantleJEIConstants;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipeCache;
 import slimeknights.tconstruct.library.recipe.material.MaterialsCraftingTableRecipe;
 import slimeknights.tconstruct.library.recipe.material.ShapelessMaterialsRecipe;
+import slimeknights.tconstruct.library.recipe.material.ShapedMaterialRecipe;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
@@ -83,7 +84,17 @@ public class MaterialsCraftingExtension<T extends CraftingRecipe & MaterialsCraf
 
   @Override
   public ResourceLocation getRegistryName() {
-    return recipe.getId();
+    return recipe.getRecipeId();
+  }
+
+  private static ResourceLocation recipeIdForLog(CraftingRecipe recipe) {
+    if (recipe instanceof MaterialsCraftingTableRecipe materialsRecipe) {
+      return materialsRecipe.getRecipeId();
+    }
+    if (recipe instanceof ShapedMaterialRecipe shapedMaterialRecipe) {
+      return shapedMaterialRecipe.getId();
+    }
+    return ResourceLocation.fromNamespaceAndPath("minecraft", "unknown");
   }
 
   /** Sets the recipe in the builder */
@@ -102,7 +113,7 @@ public class MaterialsCraftingExtension<T extends CraftingRecipe & MaterialsCraf
     List<IRecipeSlotBuilder> inputs = craftingGridHelper.createAndSetInputs(builder, VanillaTypes.ITEM_STACK, inputStacks, width, height);
     IRecipeSlotBuilder output = craftingGridHelper.createAndSetOutputs(builder, result);
     if (inputs.size() != 9) {
-      Mantle.logger.error("Failed to create focus link for {} as the layout {} is not 3x3", recipe.getId(), builder.getClass().getName());
+      Mantle.logger.error("Failed to create focus link for {} as the layout {} is not 3x3", recipeIdForLog(recipe), builder.getClass().getName());
     } else if (materialSlots != null) {
       // apply focus links
       int finalWidth = width;

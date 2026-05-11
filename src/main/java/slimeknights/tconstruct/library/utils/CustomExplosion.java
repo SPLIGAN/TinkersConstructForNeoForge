@@ -58,6 +58,19 @@ public class CustomExplosion extends Explosion {
   private final DamageSource explosionDamageSource;
   private final boolean explosionPlacesFire;
 
+  /** For subclasses (e.g. {@code EFLNExplosion}) that need vanilla-style block sampling without accessing private {@link Explosion} fields. */
+  protected Level explosionLevel() {
+    return explosionLevel;
+  }
+
+  protected ExplosionDamageCalculator explosionDamageCalculator() {
+    return explosionDamageCalculator;
+  }
+
+  protected boolean explosionPlacingFire() {
+    return explosionPlacesFire;
+  }
+
   public CustomExplosion(Level level, Vec3 location, float radius, @Nullable Entity sourceEntity, @Nullable Predicate<Entity> entityPredicate, float damage, @Nullable DamageSource damageSource, float knockback, @Nullable ExplosionDamageCalculator damageCalculator, boolean placeFire, BlockInteraction blockInteraction, boolean bypassInvulnerableTime) {
     super(
       level,

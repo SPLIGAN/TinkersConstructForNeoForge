@@ -11,6 +11,7 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
@@ -56,6 +57,15 @@ public abstract class AbstractArmorModel extends Model {
     }
   }
 
+  /** Packs normalized tint channels into ARGB for {@link Model#renderToBuffer}. */
+  public static int packArgb(float red, float green, float blue, float alpha) {
+    int a = (int)(Mth.clamp(alpha, 0, 1) * 255);
+    int r = (int)(Mth.clamp(red, 0, 1) * 255);
+    int g = (int)(Mth.clamp(green, 0, 1) * 255);
+    int b = (int)(Mth.clamp(blue, 0, 1) * 255);
+    return (a << 24) | (r << 16) | (g << 8) | b;
+  }
+
   /** Renders a colored model */
   public static void renderColored(Model model, PoseStack matrices, VertexConsumer buffer, int packedLightIn, int packedOverlayIn, int color, float red, float green, float blue, float alpha) {
     if (color != -1) {
@@ -64,7 +74,7 @@ public abstract class AbstractArmorModel extends Model {
       green *= (float)(color >> 8 & 255) / 255.0F;
       blue *= (float)(color & 255) / 255.0F;
     }
-    model.renderToBuffer(matrices, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    model.renderToBuffer(matrices, buffer, packedLightIn, packedOverlayIn, packArgb(red, green, blue, alpha));
   }
 
   /** Renders the wings layer */

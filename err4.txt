@@ -1,0 +1,2324 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Java: 21.0.9, JVM: 21.0.9+7-LTS-338 (Oracle Corporation), Arch: amd64, Version: 1.21.1-3.11.2.DEV.34a02df6c9
+
+> Task :generateEffectiveLombokConfig UP-TO-DATE
+> Task :neoFormListLibraries UP-TO-DATE
+> Task :cacheVersionManifest1.21.1 UP-TO-DATE
+> Task :cacheVersionExecutableClient1.21.1 UP-TO-DATE
+> Task :cacheVersionExecutableServer1.21.1 UP-TO-DATE
+> Task :cacheVersionExtractedServer1.21.1 UP-TO-DATE
+> Task :cacheVersionMappingsClient1.21.1 UP-TO-DATE
+> Task :create1.21.1ClientExtraJar UP-TO-DATE
+> Task :selectRawArtifactNg_dummy_ng.net.minecraft_client_1.21.1_client-extra UP-TO-DATE
+> Task :neoFormListTransformLibraries UP-TO-DATE
+> Task :neoFormStripClient UP-TO-DATE
+> Task :neoFormStripServer UP-TO-DATE
+> Task :neoFormMerge UP-TO-DATE
+> Task :neoFormMergeMappings UP-TO-DATE
+> Task :neoFormRename UP-TO-DATE
+> Task :neoFormDecompile UP-TO-DATE
+> Task :neoFormInject UP-TO-DATE
+> Task :neoFormPatch UP-TO-DATE
+> Task :neoFormPatchUserDev UP-TO-DATE
+> Task :neoFormTransformSource UP-TO-DATE
+> Task :neoFormRecompile UP-TO-DATE
+> Task :supplyRawJarForneoFormJoined1.21.1-20240808.144430 UP-TO-DATE
+> Task :selectRawArtifactNg_dummy_ng.net.neoforged_neoforge_21.1.219 UP-TO-DATE
+
+> Task :compileJava
+.\gradlew.bat : C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\lib
+rary\module\ModuleHook.java:16: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+発生場所 C:\Users\SPLIGAN\AppData\Local\Temp\ps-script-45520f40-276f-45dd-aee7-85ae730ab903.ps1:73 文字:79
++ ... tructForNeoForge"; .\gradlew.bat compileJava --no-daemon 2>&1 | Out-F ...
++                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\SPLIGA... already exists:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\module\Modu
+leHook.java:24: 隴ｦ蜻・ Not generating getDefaultInstance(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\f
+luid\FluidEffectContext.java:137: 隴ｦ蜻・ Not generating getLocation(): A method with that name already exists
+    @Getter
+    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\f
+luid\FluidEffectContext.java:193: 隴ｦ蜻・ Not generating getHitResult(): A method with that name already exists
+    @Getter
+    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\world\block\Foliage
+Type.java:40: 隴ｦ蜻・ Not generating getSerializedName(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\nbt\M
+odDataNBT.java:23: 隴ｦ蜻・ Not generating getData(): A method with that name already exists
+  @Getter(AccessLevel.PROTECTED)
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\capab
+ility\TinkerDataCapability.java:47: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+    @Getter
+    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\fluid\Empty
+FluidHandlerItem.java:15: 隴ｦ蜻・ Not generating getContainer(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\materials\d
+efinition\MaterialVariant.java:13: 隴ｦ蜻・ Not generating getVariant(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\nbt\M
+aterialNBT.java:37: 隴ｦ蜻・ Not generating getList(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\world\block\DirtTyp
+e.java:32: 隴ｦ蜻・ Not generating getSerializedName(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\nbt\M
+odifierNBT.java:40: 隴ｦ蜻・ Not generating getModifiers(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\block\SlimeT
+ype.java:41: 隴ｦ蜻・ Not generating getSerializedName(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\util\Constan
+tFluidContainerWrapper.java:19: 隴ｦ蜻・ Not generating getContainer(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\materials\d
+efinition\LazyMaterial.java:15: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\M
+odifierEntry.java:63: 隴ｦ蜻・ Not generating getLevel(): A method with that name already exists
+  @Getter @With
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\M
+odifierEntry.java:64: 隴ｦ蜻・ Not generating withLevel(): A method with that name already exists
+  protected final int level;
+                      ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\defin
+ition\ToolDefinition.java:23: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\defin
+ition\ToolDefinition.java:26: 隴ｦ蜻・ Not generating getData(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\u
+til\LazyModifier.java:18: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\f
+luid\entity\DamageFluidEffect.java:66: 隴ｦ蜻・ [removal] ToolAttackUtil縺ｮattackEntitySecondary(DamageSource,float,Entity,L
+ivingEntity,boolean)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    return ToolAttackUtil.attackEntitySecondary(source, thi
+s.damage * value, context.getTarget(), context.getLivingTarget(), true) ? value : 0;
+                         ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\common\data\tags\Fl
+uidTagProvider.java:229: 隴ｦ蜻・ [removal] Fluids縺ｮSOUP_TOOLTIPS縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    this.tag(Mantl
+eTags.Fluids.SOUP).addTag(TinkerFluids.meatSoup.getTag()).addOptionalTag(TinkerTags.Fluids.SOUP_TOOLTIPS.location());
+                                                                                                            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\Abstra
+ctTagProvider.java:240: 隴ｦ蜻・ [removal] ITagBuilderExtension縺ｮremoveElement(ResourceLocation,String)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯
+､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      internalBuilder.removeElement(location, modID);
+                     ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\Abstra
+ctTagProvider.java:263: 隴ｦ蜻・ [removal] ITagBuilderExtension縺ｮremoveTag(ResourceLocation,String)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺
+ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      internalBuilder.removeTag(tag.location(), modID);
+                     ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\common\TinkerEffect
+.java:46: 隴ｦ蜻・ [removal] MobEffect縺ｮinitializeClient(Consumer<IClientMobEffectExtensions>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧
+ｯ縺輔ｌ縺ｦ縺・∪縺・  public void initializeClient(Consumer<IClientMobEffectExtensions> consumer) {
+              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modid 
+= TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                          ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modid 
+= TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                          ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modid 
+= TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                          ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modid 
+= TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                          ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClientE
+vents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modid 
+= TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                          ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\fluids\Potio
+nFluidType.java:43: 隴ｦ蜻・ [removal] FluidType縺ｮinitializeClient(Consumer<IClientFluidTypeExtensions>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎
+髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(mo
+did=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(mo
+did=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(mo
+did=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(mo
+did=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(mo
+did=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetClien
+tEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・@EventBusSubscriber(modi
+d=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\PiggyB
+ackPackItem.java:161: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+  @Override
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\PiggyB
+ackPackItem.java:210: 繧ｨ繝ｩ繝ｼ: getSprite(ResourceLocation)縺ｯTextureAtlasHolder縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・          graphi
+cs.blit(x, y, 0, 18, 18, mc.getMobEffectTextures().getSprite(ICONS[amplifier]));
+                                                                  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\ShootP
+rojectileDispenserBehavior.java:28: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    Level level = source.getLevel();
+                        ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getLevel()
+  蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 source
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\ShootP
+rojectileDispenserBehavior.java:32: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
+                                  ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getBlockState()
+  蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 source
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\ShootP
+rojectileDispenserBehavior.java:44: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    pSource.getLevel().levelEvent(LevelEvent.SOUND_DISPENSER_PROJECTILE_LAUNCH, pSource.getPos(), 0);
+           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getLevel()
+  蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 pSource
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\ShootP
+rojectileDispenserBehavior.java:44: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    pSource.getLevel().levelEvent(LevelEvent.SOUND_DISPENSER_PROJECTILE_LAUNCH, pSource.getPos(), 0);
+                                                                                       ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getPos()
+  蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 pSource
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGadge
+ts.java:103: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      .setCustomClientFactory((spawnEntity, world) -> new FancyItemFrameEntity(TinkerGadgets.itemFrameEntity.get(), wor
+ld))
+      ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<FancyItemFrameEntity>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGadge
+ts.java:112: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      .setCustomClientFactory((spawnEntity, world) -> new GlowballEntity(TinkerGadgets.glowBallEntity.get(), world))
+      ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<GlowballEntity>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGadge
+ts.java:121: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      .setCustomClientFactory((spawnEntity, world) -> new EFLNEntity(TinkerGadgets.eflnEntity.get(), world))
+      ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<EFLNEntity>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGadge
+ts.java:129: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      .setCustomClientFactory((spawnEntity, world) -> new QuartzShurikenEntity(TinkerGadgets.quartzShurikenEntity.get()
+, world))
+      ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<QuartzShurikenEntity>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGadge
+ts.java:138: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      .setCustomClientFactory((spawnEntity, world) -> new FlintShurikenEntity(TinkerGadgets.flintShurikenEntity.get(), 
+world))
+      ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<FlintShurikenEntity>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\armo
+r\texture\TintedArmorTexture.java:50: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ ItemRenderer縺ｮ繝｡繧ｽ繝・ラ getArmorFoilBuffer縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲
+・    VertexConsumer buffer = ItemRenderer.getArmorFoilBuffer(bufferSource, RenderType.armorCutoutNoCull(texture), false
+, hasGlint);
+                                        ^
+  譛溷ｾ・､: MultiBufferSource,RenderType,boolean
+  讀懷・蛟､:    MultiBufferSource,RenderType,boolean,boolean
+  逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\armo
+r\texture\MaterialArmorTextureSupplier.java:150: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      CompoundTag tag = stack.getTag();
+                             ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+  蝣ｴ謇: 繧ｿ繧､繝悠temStack縺ｮ螟画焚 stack
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\armo
+r\texture\MaterialHasFallbackTextureSupplier.java:62: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    CompoundTag tag = stack.getTag();
+                           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+  蝣ｴ謇: 繧ｿ繧､繝悠temStack縺ｮ螟画焚 stack
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\armo
+r\texture\TrimArmorTextureSupplier.java:124: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ Sheets縺ｮ繝｡繧ｽ繝・ラ armorTrimsSheet縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲・ 
+     VertexConsumer buffer = trimSprite.wrap(bufferSource.getBuffer(Sheets.armorTrimsSheet()));
+                                                                           ^
+  譛溷ｾ・､: boolean
+  讀懷・蛟､:    蠑墓焚縺後≠繧翫∪縺帙ｓ
+  逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\book
+\content\AbstractMaterialContent.java:150: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ RecipeHelper縺ｮ繝｡繧ｽ繝・ラ getUIRecipes縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲・
+      repairStacks = RecipeHelper.getUIRecipes(world.getRecipeManager(), TinkerRecipeTypes.MATERIAL.get(), MaterialReci
+pe.class, recipe -> material.matchesVariant(recipe.getMaterial()))
+                                 ^
+  譛溷ｾ・､: RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>
+  讀懷・蛟､:    RecipeManager,RecipeType<CAP#1>,Class<MaterialRecipe>,(recipe)->[...]al())
+  逅・罰: 謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・    遲我ｾ｡蛻ｶ邏・ CAP#2
+    荳企剞: Recipe<I>
+  T,I,C縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <I,T,C>getUIRecipes(RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Recip
+e<I>
+    繝｡繧ｽ繝・ラ <I,T,C>getUIRecipes(RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends Recip
+eInput
+    繝｡繧ｽ繝・ラ <I,T,C>getUIRecipes(RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC extends T
+  CAP#1,CAP#2縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+    ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+    ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#2 extends Recipe<?>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\book
+\content\ContentMaterialSkull.java:69: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ RecipeManager縺ｮ繝｡繧ｽ繝・ラ getAllRecipesFor縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲
+・      skullRecipe = world.getRecipeManager().getAllRecipesFor(TinkerRecipeTypes.CASTING_BASIN.get()).stream()
+                                            ^
+  譛溷ｾ・､: RecipeType<T>
+  讀懷・蛟､:    RecipeType<CAP#1>
+  逅・罰: 謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・    遲我ｾ｡蛻ｶ邏・ CAP#2
+    荳企剞: Recipe<I>
+  T,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Recipe<I>
+    繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends RecipeInput
+  CAP#1,CAP#2縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+    ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+    ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#2 extends Recipe<?>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\book
+\content\ContentModifier.java:138: 繧ｨ繝ｩ繝ｼ: getJEIRecipes縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(RegistryAccess,RecipeManager,Recipe
+Type<CAP#1>,Class<IDisplayModifierRecipe>)
+        this.recipes = RecipeHelper.getJEIRecipes(level.registryAccess(), level.getRecipeManager(), TinkerRecipeTypes.T
+INKER_STATION.get(), IDisplayModifierRecipe.class).stream()
+                                   ^
+    繝｡繧ｽ繝・ラ RecipeHelper.<C#1>getJEIRecipes(RegistryAccess,Stream<? extends Recipe<?>>,Class<C#1>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚C#1繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    繝｡繧ｽ繝・ラ RecipeHelper.<I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・        遲我ｾ｡蛻ｶ邏・ CAP#2
+        荳企剞: Recipe<I>)
+  C#1,I,T,C#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <C#1>getJEIRecipes(RegistryAccess,Stream<? extends Recipe<?>>,Class<C#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC#1 extends Object
+    繝｡繧ｽ繝・ラ <I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends Recipe
+Input
+    繝｡繧ｽ繝・ラ <I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Recipe
+<I>
+    繝｡繧ｽ繝・ラ <I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC#2 extends Obje
+ct
+  CAP#1,CAP#2縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+    ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+    ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#2 extends Recipe<?>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\book
+\TinkerBook.java:65: 繧ｨ繝ｩ繝ｼ: Serializer()縺ｯSerializer縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    BookLoader.registerGsonTypeAdapter(Com
+ponent.class, new Component.Serializer());
+                                                        ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\GuiU
+til.java:142: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    BufferBuilder builder = Tesselator.getInstance().getBuilder();
+                                                    ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getBuilder()
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Tesselator
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\GuiU
+til.java:143: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    builder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ begin(Mode,VertexFormat)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\GuiU
+til.java:180: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    BufferUploader.drawWithShader(builder.end());
+                                         ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ end()
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\GuiU
+til.java:199: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    builder.vertex(matrix, x1, y2, z).uv(u1, v2).endVertex();
+           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\GuiU
+til.java:200: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    builder.vertex(matrix, x2, y2, z).uv(u2, v2).endVertex();
+           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\GuiU
+til.java:201: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    builder.vertex(matrix, x2, y1, z).uv(u2, v1).endVertex();
+           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\GuiU
+til.java:202: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    builder.vertex(matrix, x1, y1, z).uv(u1, v1).endVertex();
+           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mode
+l\TinkerItemProperties.java:36: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    CompoundTag nbt = stack.getTag();
+                           ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+  蝣ｴ謇: 繧ｿ繧､繝悠temStack縺ｮ螟画焚 stack
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mode
+l\TinkerItemProperties.java:78: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ ItemStack縺ｮ繝｡繧ｽ繝・ラ getUseDuration縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲・    return d
+rawtime == -1 ? 0 : (float)(stack.getUseDuration() - holder.getUseItemRemainingTicks()) / drawtime;
+                                             ^
+  譛溷ｾ・､: LivingEntity
+  讀懷・蛟､:    蠑墓焚縺後≠繧翫∪縺帙ｓ
+  逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\modi
+fiers\IUnbakedModifierModel.java:15: 隴ｦ蜻・ [dep-ann] 謗ｨ螂ｨ縺輔ｌ縺ｪ縺・・岼縺ｯ@Deprecated縺ｧ豕ｨ驥医′莉倥￠繧峨ｌ縺ｦ縺・∪縺帙ｓ
+public interface IUnbakedModifierModel {
+       ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\modi
+fiers\model\FluidModifierModel.java:58: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      return new CacheKey(fluid.getFluid(), fluid.getTag());
+                                                 ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+  蝣ｴ謇: 繧ｿ繧､繝友luidStack縺ｮ螟画焚 fluid
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\modi
+fiers\model\TankModifierModel.java:69: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      return new CacheKey(fluid.getFluid(), fluid.getTag(), fluid.getAmount() + tolerance < helper.getCapacity(tool));
+                                                 ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+  蝣ｴ謇: 繧ｿ繧､繝友luidStack縺ｮ螟画焚 fluid
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\modi
+fiers\ModifierModelManager.java:94: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      ModLoader.get().postEvent(new ModifierModelRegistrationEvent());
+               ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ get()
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ ModLoader
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\Abstra
+ctStructureRepalleter.java:71: 繧ｨ繝ｩ繝ｼ: readCompressed縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(InputStream)
+        CompoundTag inputNBT = NbtIo.readCompressed(io);
+                                    ^
+    繝｡繧ｽ繝・ラ NbtIo.readCompressed(Path,NbtAccounter)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+    繝｡繧ｽ繝・ラ NbtIo.readCompressed(InputStream,NbtAccounter)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\materi
+al\AbstractMaterialDataProvider.java:83: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,MaterialId,MaterialJs
+on)
+    return allOf(allMaterials.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), convert(entry.getValue()
+))));
+                                                               ^
+    繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: MaterialId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\materi
+al\AbstractMaterialStatsDataProvider.java:55: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,MaterialId,Mater
+ialStatJson)
+    return allOf(allMaterialStats.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), entry.getValue().ser
+ialize())));
+                                                                   ^
+    繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: MaterialId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\materi
+al\AbstractMaterialTraitDataProvider.java:57: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,MaterialId,Mater
+ialTraitsJson)
+    return allOf(allMaterialTraits.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), entry.getValue().bu
+ild())));
+                                                                    ^
+    繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: MaterialId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\recipe
+\ICastCreationHelper.java:68: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+                         .setPatternItem(Ingredient.of(Tags.Items.SAND_COLORLESS))
+                                                                 ^
+  繧ｷ繝ｳ繝懊Ν:   螟画焚 SAND_COLORLESS
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Items
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\recipe
+\ICastCreationHelper.java:71: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+                         .setPatternItem(Ingredient.of(Tags.Items.SAND_RED))
+                                                                 ^
+  繧ｷ繝ｳ繝懊Ν:   螟画焚 SAND_RED
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Items
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\tinker
+ing\AbstractModifierProvider.java:94: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,ModifierId,JsonObject)
+    return allOf(composableModifiers.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), entry.getValue().
+serialize())));
+                                                                      ^
+    繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: ModifierId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\tinker
+ing\AbstractStationSlotLayoutProvider.java:74: 繧ｨ繝ｩ繝ｼ: define縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Pattern)
+    return define(id).icon(id);
+           ^
+    繝｡繧ｽ繝・ラ AbstractStationSlotLayoutProvider.define(ResourceLocation)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Pattern繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繝｡繧ｽ繝・ラ AbstractStationSlotLayoutProvider.define(ResourceLocation,ICondition...)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Pattern繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繝｡繧ｽ繝・ラ AbstractStationSlotLayoutProvider.define(ItemLike)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Pattern繧棚temLike縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\m
+odules\armor\EffectImmunityModule.java:76: 隴ｦ蜻・ [removal] EquipmentContext縺ｮgetDataHolder()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・
+繧ｯ縺輔ｌ縺ｦ縺・∪縺・      TinkerDataCapability.Holder data = context.getDataHolder();
+                                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers\m
+odules\armor\EffectImmunityModule.java:86: 隴ｦ蜻・ [removal] EquipmentContext縺ｮgetDataHolder()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・
+繧ｯ縺輔ｌ縺ｦ縺・∪縺・      TinkerDataCapability.Holder data = context.getDataHolder();
+                                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\item\
+ModifiableItem.java:510: 隴ｦ蜻・ [removal] Item縺ｮinitializeClient(Consumer<IClientItemExtensions>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺
+ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\item\
+ranged\ModifiableLauncherItem.java:371: 隴ｦ蜻・ [removal] Item縺ｮinitializeClient(Consumer<IClientItemExtensions>)縺ｯ謗ｨ螂ｨ縺輔ｌ
+縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveEng
+ineeringPlugin.java:84: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+    @Override
+    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveEng
+ineeringPlugin.java:105: 繧ｨ繝ｩ繝ｼ: FluidStack縺ｫ驕ｩ蛻・↑繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(FluidStack,int)
+        float consumed = recipe.applyToEntity(new FluidStack(fluid, amount), 1,
+                                              ^
+    繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Holder<Fluid>,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧辿older<Fluid>縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Fluid,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧巽luid縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveEng
+ineeringPlugin.java:117: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+    @Override
+    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveEng
+ineeringPlugin.java:145: 繧ｨ繝ｩ繝ｼ: FluidStack縺ｫ驕ｩ蛻・↑繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(FluidStack,int)
+        float consumed = recipe.applyToBlock(new FluidStack(fluid, amount), 1,
+                                             ^
+    繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Holder<Fluid>,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧辿older<Fluid>縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+    繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Fluid,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧巽luid縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:61: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:110: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭
+・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public static <T> int drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x,
+ int y, int totalWidth, int height, List<T> fluids, int minAmount, Function<T,List<FluidStack>> mapper, Function<T,IRec
+ipeSlotTooltipCallback> tooltip) {
+                                                                                                                       
+                                                                                                      ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:110: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭
+・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public static <T> int drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x,
+ int y, int totalWidth, int height, List<T> fluids, int minAmount, Function<T,List<FluidStack>> mapper, Function<T,IRec
+ipeSlotTooltipCallback> tooltip) {
+                                                                                                                       
+                                                                                                      ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:110: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭
+・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public static <T> int drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x,
+ int y, int totalWidth, int height, List<T> fluids, int minAmount, Function<T,List<FluidStack>> mapper, Function<T,IRec
+ipeSlotTooltipCallback> tooltip) {
+                                                                                                                       
+                                                                                                      ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:110: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭
+・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public static <T> int drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x,
+ int y, int totalWidth, int height, List<T> fluids, int minAmount, Function<T,List<FluidStack>> mapper, Function<T,IRec
+ipeSlotTooltipCallback> tooltip) {
+                                                                                                                       
+                                                                                                      ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:110: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭
+・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public static <T> int drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, int x,
+ int y, int totalWidth, int height, List<T> fluids, int minAmount, Function<T,List<FluidStack>> mapper, Function<T,IRec
+ipeSlotTooltipCallback> tooltip) {
+                                                                                                                       
+                                                                                                      ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:129: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹
+∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・               .addTooltipCallback(tooltip.apply(ingredient))
+               ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:137: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹
+∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・             .addTooltipCallback(tooltip.apply(ingredient))
+             ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:153: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹
+∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・           .addTooltipCallback(FluidTooltipCallback.UNITS)
+           ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyRec
+ipeCategory.java:159: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹
+∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・           .addTooltipCallback(FUEL_TOOLTIP)
+           ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\Flu
+idTooltipCallback.java:17: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕
+ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・public interface FluidTooltipCallback extends IRecipeSlotTooltipCallback {
+                                              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\Flu
+idTooltipCallback.java:17: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕
+ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・public interface FluidTooltipCallback extends IRecipeSlotTooltipCallback {
+                                              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\Flu
+idTooltipCallback.java:17: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕
+ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・public interface FluidTooltipCallback extends IRecipeSlotTooltipCallback {
+                                              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\Flu
+idTooltipCallback.java:17: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕
+ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・public interface FluidTooltipCallback extends IRecipeSlotTooltipCallback {
+                                              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\Flu
+idTooltipCallback.java:17: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕
+ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・public interface FluidTooltipCallback extends IRecipeSlotTooltipCallback {
+                                              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\Flu
+idTooltipCallback.java:27: 隴ｦ蜻・ [removal] IRecipeSlotTooltipCallback縺ｮonTooltip(IRecipeSlotView,List<Component>)縺ｯ謗ｨ螂ｨ縺
+輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  default void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
+               ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\casting\
+AbstractCastingCategory.java:86: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetTooltipStrings(T,IRecipeSlotsView,double,double)縺ｯ謗
+ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public List<Component> getTooltipStrings(IDisplayableCastingRecipe recipe, IReci
+peSlotsView recipeSlotsView, double mouseX, double mouseY) {
+                         ^
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ IRecipeCategory縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\casting\
+AbstractCastingCategory.java:45: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺
+・  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\casting\
+AbstractCastingCategory.java:112: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ
+螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・           .addTooltipCallback(FluidTooltipCallback.UNITS)
+           ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\casting\
+AbstractCastingCategory.java:122: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ
+螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・           .addTooltipCallback(FluidTooltipCallback.UNITS)
+           ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity\E
+ntityMeltingRecipeCategory.java:49: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺
+・∪縺・  @Getter
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity\E
+ntityMeltingRecipeCategory.java:98: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ
+謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・           .addTooltipCallback(new FluidTooltip(recipe.getDamage())) // object is
+ cheap, no need to cache
+           ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity\E
+ntityMeltingRecipeCategory.java:105: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺
+ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・           .addTooltipCallback(FluidTooltipCallback.NO_AMOUNT)
+           ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity\S
+everingCategory.java:30: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  @Gett
+er
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:183: 隴ｦ蜻・ [removal] IModIngredientRegistration縺ｮ<V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V
+>,IIngredientRenderer<V>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registration.register(TConstructJEIConstants.MODIF
+IER_TYPE, modifiers, new ModifierIngredientHelper(), ModifierBookmarkIngredientRenderer.INSTANCE);
+                ^
+  V縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V>,IIngredientRenderer<V>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋV ex
+tends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:184: 隴ｦ蜻・ [removal] IModIngredientRegistration縺ｮ<V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V
+>,IIngredientRenderer<V>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registration.register(TConstructJEIConstants.PATTE
+RN_TYPE, Collections.emptyList(), new PatternIngredientHelper(), PatternIngredientRenderer.INSTANCE);
+                ^
+  V縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V>,IIngredientRenderer<V>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋV ex
+tends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:187: 隴ｦ蜻・ [removal] IModIngredientRegistration縺ｮ<V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V
+>,IIngredientRenderer<V>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registration.register(TConstructJEIConstants.SLOT_
+TYPE, slots, new SlotIngredientHelper(), SlotIngredientRenderer.INGREDIENT);
+                ^
+  V縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V>,IIngredientRenderer<V>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋV ex
+tends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:357: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・
+繧ｯ縺輔ｌ縺ｦ縺・∪縺・    IIngredientSubtypeInterpreter<ItemStack> tables = (stack, context) -> {
+    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:357: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮapply(T,UidContext)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  
+  IIngredientSubtypeInterpreter<ItemStack> tables = (stack, context) -> {
+                                                      ^
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ IIngredientSubtypeInterpreter縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:361: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・
+繧ｯ縺輔ｌ縺ｦ縺・∪縺・      return IIngredientSubtypeInterpreter.NONE;
+             ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:361: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮNONE縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      return IIng
+redientSubtypeInterpreter.NONE;
+                                          ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:363: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerTables.craftingStation.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:364: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerTables.partBuilder.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:365: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerTables.tinkerStation.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:366: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerTables.modifierWorktable.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:367: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.smelteryController.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:368: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.searedDrain.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:369: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.searedDuct.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:370: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.searedChute.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:371: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.foundryController.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:372: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.scorchedDrain.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:373: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.scorchedDuct.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:374: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerSmeltery.scorchedChute.asItem(), tables);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:377: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・
+繧ｯ縺輔ｌ縺ｦ縺・∪縺・    IIngredientSubtypeInterpreter<ItemStack> anvils = (stack, context) -> {
+    ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:377: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮapply(T,UidContext)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  
+  IIngredientSubtypeInterpreter<ItemStack> anvils = (stack, context) -> {
+                                                      ^
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ IIngredientSubtypeInterpreter縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:385: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・
+繧ｯ縺輔ｌ縺ｦ縺・∪縺・      return IIngredientSubtypeInterpreter.NONE;
+             ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:385: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮNONE縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      return IIng
+redientSubtypeInterpreter.NONE;
+                                          ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:387: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerTables.tinkersAnvil.asItem(), anvils);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlugi
+n.java:388: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIn
+gredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    registry.registerSubtypeInterpreter(VanillaTy
+pes.ITEM_STACK, TinkerTables.scorchedAnvil.asItem(), anvils);
+            ^
+  B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋB extends Object
+    繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險縺
+輔ｌ縺ｦ縺・ｋI extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\material
+\MaterialsCraftingExtension.java:86: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    return recipe.getId();
+                 ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getId()
+  蝣ｴ謇: 繧ｿ繧､繝裕縺ｮ螟画焚 recipe
+  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繧ｯ繝ｩ繧ｹ MaterialsCraftingExtension縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends CraftingRecipe,MaterialsCraftingTableRecipe
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\material
+\MaterialsCraftingExtension.java:105: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      Mantle.logger.error("Failed to create focus link for {} as the layout {} is not 3x3", recipe.getId(), builder.get
+Class().getName());
+                                                                                                  ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getId()
+  蝣ｴ謇: 繧ｿ繧､繝佑raftingRecipe縺ｮ螟画焚 recipe
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\subc
+ommand\GenerateHiddenFluidsCommand.java:52: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    Path tagPath = pack.resolve(PackType.SERVER_DATA.getDirectory() + '/' + tag.getNamespace() + '/' + TagManager.getTa
+gDir(Registries.FLUID) + '/' + tag.getPath() + ".json");
+                                                                                                                 ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTagDir(ResourceKey<Registry<Fluid>>)
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ TagManager
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\subc
+ommand\GenerateMeltingRecipesCommand.java:165: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ RecipeManager縺ｮ繝｡繧ｽ繝・ラ getAllRecipesFor縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺
+ｧ縺阪∪縺帙ｓ縲・    for (RecipeHolder<?> holder : level.getRecipeManager().getAllRecipesFor(resolvedType)) {
+                                                          ^
+  譛溷ｾ・､: RecipeType<T>
+  讀懷・蛟､:    RecipeType<CAP#1>
+  逅・罰: 謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・    遲我ｾ｡蛻ｶ邏・ CAP#1
+    荳企剞: Recipe<I>
+  T,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Recipe<I>
+    繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends RecipeInput
+  CAP#1縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+    ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\subc
+ommand\GenerateMeltingRecipesCommand.java:168: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      if (skipRecipes.contains(holder.id().location())) {
+                                          ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ location()
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ ResourceLocation
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\subc
+ommand\GenerateMeltingRecipesCommand.java:475: 繧ｨ繝ｩ繝ｼ: getCapability縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Capability<IFluidHandle
+rItem>)
+        IFluidHandlerItem capability = LogicHelper.orElseNull(stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM)
+);
+                                                                   ^
+    繝｡繧ｽ繝・ラ IItemStackExtension.<T#1,C>getCapability(ItemCapability<T#1,C>,C)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚T#1,C繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    繝｡繧ｽ繝・ラ IItemStackExtension.<T#2>getCapability(ItemCapability<T#2,Void>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚T#2繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Capability<IFluidHandlerItem>繧棚temCapability<T#2,Void>縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:))
+  T#1,C,T#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <T#1,C>getCapability(ItemCapability<T#1,C>,C)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#1 extends Object
+    繝｡繧ｽ繝・ラ <T#1,C>getCapability(ItemCapability<T#1,C>,C)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC extends Object
+    繝｡繧ｽ繝・ラ <T#2>getCapability(ItemCapability<T#2,Void>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#2 extends Object
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\subc
+ommand\ModifierPriorityCommand.java:64: 繧ｨ繝ｩ繝ｼ: thenComparing縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Modifier::getId)
+    List<Modifier> list = modifiers.sorted(Comparator.comparingInt(Modifier::getPriority).reversed().thenComparing(Modi
+fier::getId)).toList();
+                                                                                                    ^
+    繝｡繧ｽ繝・ラ Comparator.thenComparing(Comparator<? super Modifier>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蠑墓焚縺ｮ荳堺ｸ閾ｴ: 繝｡繧ｽ繝・ラ蜿ら・縺檎┌蜉ｹ縺ｧ縺・          繧ｯ繝ｩ繧ｹ Modifier縺ｮ繝｡繧ｽ繝・ラ getId縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ
+            譛溷ｾ・､: 蠑墓焚縺後≠繧翫∪縺帙ｓ
+            讀懷・蛟､:    Modifier,Modifier
+            逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+    繝｡繧ｽ繝・ラ Comparator.<U#1>thenComparing(Function<? super Modifier,? extends U#1>,Comparator<? super U#1>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺
+帙ｓ
+      (蝙句､画焚U#1繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    繝｡繧ｽ繝・ラ Comparator.<U#2>thenComparing(Function<? super Modifier,? extends U#2>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (謗ｨ隲門､画焚U#2縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・        荳企剞: Comparable<? super U#2>
+        荳矩剞: ModifierId)
+  U#1,T,U#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <U#1>thenComparing(Function<? super T,? extends U#1>,Comparator<? super U#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#1 extends Obje
+ct
+    繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ Comparator縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+    繝｡繧ｽ繝・ラ <U#2>thenComparing(Function<? super T,? extends U#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#2 extends Comparable<? super U#2>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\subc
+ommand\ModifierUsageCommand.java:145: 繧ｨ繝ｩ繝ｼ: comparing縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Modifier::getId)
+    Collection<Modifier> finalList = modifierStream.sorted(Comparator.comparing(Modifier::getId)).toList();
+                                                                     ^
+    繝｡繧ｽ繝・ラ Comparator.<T#1,U#1>comparing(Function<? super T#1,? extends U#1>,Comparator<? super U#1>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (蝙句､画焚T#1,U#1繧呈耳隲悶〒縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    繝｡繧ｽ繝・ラ Comparator.<T#2,U#2>comparing(Function<? super T#2,? extends U#2>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+      (謗ｨ隲門､画焚U#2縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・        荳企剞: Comparable<? super U#2>
+        荳矩剞: ModifierId)
+  T#1,U#1,T#2,U#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繝｡繧ｽ繝・ラ <T#1,U#1>comparing(Function<? super T#1,? extends U#1>,Comparator<? super U#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#1 extends Ob
+ject
+    繝｡繧ｽ繝・ラ <T#1,U#1>comparing(Function<? super T#1,? extends U#1>,Comparator<? super U#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#1 extends Ob
+ject
+    繝｡繧ｽ繝・ラ <T#2,U#2>comparing(Function<? super T#2,? extends U#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#2 extends Object
+    繝｡繧ｽ繝・ラ <T#2,U#2>comparing(Function<? super T#2,? extends U#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#2 extends Comparable<? super U#2>
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\CommonsClien
+tEvents.java:55: 繧ｨ繝ｩ繝ｼ: fontManager縺ｯMinecraft縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        FontManager resourceManager = Minecraft.
+getInstance().fontManager;
+                                                             ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\CommonsClien
+tEvents.java:56: 繧ｨ繝ｩ繝ｼ: fontSets縺ｯFontManager縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        return resourceManager.fontSets.get(Minec
+raft.UNIFORM_FONT);
+                              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClient
+.java:132: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+                                                              ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getBuilder()
+  蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Tesselator
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClient
+.java:148: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                     ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ begin(Mode,VertexFormat)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClient
+.java:150: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        bufferbuilder.vertex(matrix4f, -1, -1, -0.5f).uv(u1, v1).endVertex();
+                     ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClient
+.java:151: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        bufferbuilder.vertex(matrix4f, 1, -1, -0.5f).uv(u0, v1).endVertex();
+                     ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClient
+.java:152: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        bufferbuilder.vertex(matrix4f, 1, 1, -0.5f).uv(u0, v0).endVertex();
+                     ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClient
+.java:153: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        bufferbuilder.vertex(matrix4f, -1, 1, -0.5f).uv(u1, v0).endVertex();
+                     ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClient
+.java:154: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        BufferUploader.drawWithShader(bufferbuilder.end());
+                                                   ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ end()
+  蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\ren
+der\HeatingStructureBlockEntityRenderer.java:59: 繧ｨ繝ｩ繝ｼ: renderShape(PoseStack,VertexConsumer,VoxelShape,double,double,
+double,float,float,float,float)縺ｯLevelRenderer縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・          LevelRenderer.renderShape(matrices, ver
+texBuilder, Shapes.block(), errorPos.getX() - pos.getX(), errorPos.getY() - pos.getY(), errorPos.getZ() - pos.getZ(), 1
+f, structureValid ? 1f : 0f, 0f, 0.5f);
+                       ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\AlloyerScreen.java:70: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ AbstractContainerScreen<T>縺ｮ繝｡繧ｽ繝・ラ renderBackground縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ
+縲・    this.renderBackground(graphics);
+        ^
+  譛溷ｾ・､: GuiGraphics,int,int,float
+  讀懷・蛟､:    GuiGraphics
+  逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繧ｯ繝ｩ繧ｹ AbstractContainerScreen縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends AbstractContainerMenu
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiFuelModule.java:98: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      fire.drawScal
+edYUp(graphics, fireX + screen.leftPos, fireY + screen.topPos, 14 * fuel / fuelQuality);
+                                                 ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiFuelModule.java:98: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      fire.drawScale
+dYUp(graphics, fireX + screen.leftPos, fireY + screen.topPos, 14 * fuel / fuelQuality);
+                                                                         ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiFuelModule.java:138: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkX = m
+ouseX - screen.leftPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiFuelModule.java:139: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkY = mo
+useY - screen.topPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiFuelModule.java:174: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      graphics.renderComponentTooltip(
+screen.font, tooltip, mouseX, mouseY);
+                                            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiTankModule.java:145: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkX = m
+ouseX - screen.leftPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiTankModule.java:146: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkY = mo
+useY - screen.topPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiTankModule.java:182: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      graphics.renderComponentTooltip(
+screen.font, tooltip, mouseX, mouseY);
+                                            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:108: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+  @Override
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:110: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ AbstractContainerScreen<T>縺ｮ繝｡繧ｽ繝・ラ isHovering縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕
+ｨ縺ｧ縺阪∪縺帙ｓ縲・    return super.isHovering(slotIn, mouseX, mouseY) && this.shouldDrawSlot(slotIn);
+                ^
+  譛溷ｾ・､: int,int,int,int,double,double
+  讀懷・蛟､:    Slot,double,double
+  逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繧ｯ繝ｩ繧ｹ AbstractContainerScreen縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends AbstractContainerMenu
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:231: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+        slot.x = xd + x + 1;
+            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:232: 繧ｨ繝ｩ繝ｼ: final螟画焚y縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+        slot.y = yd + y + 1;
+            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:235: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+          slot.x += this.parent.realWidth;
+              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:238: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+          slot.x -= this.imageWidth;
+              ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:242: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+        slot.x = 0;
+            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\module\SideInventoryScreen.java:243: 繧ｨ繝ｩ繝ｼ: final螟画焚y縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+        slot.y = 0;
+            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiSmelteryTank.java:129: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkX =
+ mouseX - parent.leftPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiSmelteryTank.java:130: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkY = 
+mouseY - parent.topPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiSmelteryTank.java:157: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkX =
+ mouseX - parent.leftPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiSmelteryTank.java:158: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkY = 
+mouseY - parent.topPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiSmelteryTank.java:184: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      graphics.renderComponentToolti
+p(parent.font, tooltip, mouseX, mouseY);
+                                            ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiMeltingModule.java:82: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkX =
+ mouseX - screen.leftPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiMeltingModule.java:83: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    int checkY = 
+mouseY - screen.topPos;
+                                ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\module\GuiMeltingModule.java:110: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・            graphics.renderTooltip(
+screen.font, tooltip, mouseX, mouseY);
+                                         ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\widget\BorderWidget.java:47: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    gui.leftPos -= 
+this.borderLeft.w;
+       ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\widget\BorderWidget.java:48: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    gui.topPos -= th
+is.borderTop.h;
+       ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\widget\BorderWidget.java:50: 繧ｨ繝ｩ繝ｼ: imageWidth縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    gui.imageWid
+th += this.borderLeft.w + this.borderRight.w;
+       ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inven
+tory\widget\BorderWidget.java:51: 繧ｨ繝ｩ繝ｼ: imageHeight縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    gui.imageHe
+ight += this.borderTop.h + this.borderBottom.h;
+       ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\scr
+een\MelterScreen.java:44: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ AbstractContainerScreen<T>縺ｮ繝｡繧ｽ繝・ラ renderBackground縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲
+・    this.renderBackground(graphics);
+        ^
+  譛溷ｾ・､: GuiGraphics,int,int,float
+  讀懷・蛟､:    GuiGraphics
+  逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・  T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+    繧ｯ繝ｩ繧ｹ AbstractContainerScreen縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends AbstractContainerMenu
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\CastingItemRenderTypeBuffer.java:44: 繧ｨ繝ｩ繝ｼ: state縺ｯCompositeRenderType縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・    if (alpha < 255 &&
+ MAKE_TRANSPARENT.contains(type.name) && type instanceof RenderType.CompositeRenderType composite && composite.state.te
+xtureState instanceof TextureStateShard textureState) {
+                                                                                                                       
+             ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\CastingItemRenderTypeBuffer.java:44: 繧ｨ繝ｩ繝ｼ: CompositeState縺ｮtextureState縺ｯpublic縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ縲ゅヱ繝・こ繝ｼ繧ｸ螟悶°繧峨・繧｢繧ｯ繧ｻ繧ｹ
+縺ｧ縺阪∪縺帙ｓ
+    if (alpha < 255 && MAKE_TRANSPARENT.contains(type.name) && type instanceof RenderType.CompositeRenderType composite
+ && composite.state.textureState instanceof TextureStateShard textureState) {
+                                                                                                                       
+                   ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\CastingItemRenderTypeBuffer.java:45: 繧ｨ繝ｩ繝ｼ: texture縺ｯTextureStateShard縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      ResourceLocation
+ texture = textureState.texture.orElse(InventoryMenu.BLOCK_ATLAS);
+                                             ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\TintedVertexBuilder.java:10: 繧ｨ繝ｩ繝ｼ: TintedVertexBuilder縺ｯabstract縺ｧ縺ｪ縺上〃ertexConsumer蜀・・abstract繝｡繧ｽ繝・ラsetNormal(fl
+oat,float,float)繧偵が繝ｼ繝舌・繝ｩ繧､繝峨＠縺ｾ縺帙ｓ
+public class TintedVertexBuilder implements VertexConsumer {
+       ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\TintedVertexBuilder.java:16: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+  @Override
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\TintedVertexBuilder.java:18: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    return inner.vertex(x, y, z);
+                ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(double,double,double)
+  蝣ｴ謇: 繧ｿ繧､繝遊ertexConsumer縺ｮ螟画焚 inner
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\TintedVertexBuilder.java:21: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+  @Override
+  ^
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\TintedVertexBuilder.java:23: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+    return inner.color((red * tintRed) / 0xFF, (green * tintGreen) / 0xFF, (blue * tintBlue) / 0xFF, (alpha * tintAlpha
+) / 0xFF);
+                ^
+  繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ color(int,int,int,int)
+  蝣ｴ謇: 繧ｿ繧､繝遊ertexConsumer縺ｮ螟画焚 inner
+C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\uti
+l\TintedVertexBuilder.java:26: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+  @Override
+  ^
+繝弱・繝・ 荳驛ｨ縺ｮ蜈･蜉帙ヵ繧｡繧､繝ｫ縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｪ縺БPI繧剃ｽｿ逕ｨ縺ｾ縺溘・繧ｪ繝ｼ繝舌・繝ｩ繧､繝峨＠縺ｦ縺・∪縺吶・
+繝弱・繝・ 隧ｳ邏ｰ縺ｯ縲・Xlint:deprecation繧ｪ繝励す繝ｧ繝ｳ繧呈欠螳壹＠縺ｦ蜀阪さ繝ｳ繝代う繝ｫ縺励※縺上□縺輔＞縲・
+繝弱・繝・ 荳驛ｨ縺ｮ蜈･蜉帙ヵ繧｡繧､繝ｫ縺ｯ縲∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺滓耳螂ｨ縺輔ｌ縺ｪ縺БPI繧定ｿｽ蜉菴ｿ逕ｨ縺ｾ縺溘・繧ｪ繝ｼ繝舌・繝ｩ繧､繝峨＠縺ｦ縺・∪縺吶・
+繝弱・繝・ 蜈･蜉帙ヵ繧｡繧､繝ｫ縺ｮ謫堺ｽ懊・縺・■縲∵悴繝√ぉ繝・け縺ｾ縺溘・螳牙・縺ｧ縺ｯ縺ｪ縺・ｂ縺ｮ縺後≠繧翫∪縺吶・
+繝弱・繝・ 隧ｳ邏ｰ縺ｯ縲・Xlint:unchecked繧ｪ繝励す繝ｧ繝ｳ繧呈欠螳壹＠縺ｦ蜀阪さ繝ｳ繝代う繝ｫ縺励※縺上□縺輔＞縲・
+繝弱・繝・ 荳驛ｨ縺ｮ繝｡繝・そ繝ｼ繧ｸ縺ｯ邁｡逡･蛹悶＆繧後※縺・∪縺吶・Xdiags:verbose縺ｧ蜀阪さ繝ｳ繝代う繝ｫ縺励※螳悟・縺ｪ蜃ｺ蜉帙ｒ蜿門ｾ励＠縺ｦ縺上□縺輔＞
+繧ｨ繝ｩ繝ｼ100蛟・
+隴ｦ蜻・00蛟・
+
+> Task :compileJava FAILED
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+[Incubating] Problems report is available at: file:///C:/Users/SPLIGAN/Documents/GitHub/TinkersConstructForNeoForge/build/reports/problems/problems-report.html
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\ar
+mor\texture\TintedArmorTexture.java:50: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ ItemRenderer縺ｮ繝｡繧ｽ繝・ラ getArmorFoilBuffer縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙
+ｓ縲・      VertexConsumer buffer = ItemRenderer.getArmorFoilBuffer(bufferSource, RenderType.armorCutoutNoCull(texture), f
+alse, hasGlint);
+                                          ^
+    譛溷ｾ・､: MultiBufferSource,RenderType,boolean
+    讀懷・蛟､:    MultiBufferSource,RenderType,boolean,boolean
+    逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\ar
+mor\texture\TrimArmorTextureSupplier.java:124: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ Sheets縺ｮ繝｡繧ｽ繝・ラ armorTrimsSheet縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲
+・        VertexConsumer buffer = trimSprite.wrap(bufferSource.getBuffer(Sheets.armorTrimsSheet()));
+                                                                             ^
+    譛溷ｾ・､: boolean
+    讀懷・蛟､:    蠑墓焚縺後≠繧翫∪縺帙ｓ
+    逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\bo
+ok\content\AbstractMaterialContent.java:150: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ RecipeHelper縺ｮ繝｡繧ｽ繝・ラ getUIRecipes縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ
+縲・        repairStacks = RecipeHelper.getUIRecipes(world.getRecipeManager(), TinkerRecipeTypes.MATERIAL.get(), Material
+Recipe.class, recipe -> material.matchesVariant(recipe.getMaterial()))
+                                   ^
+    譛溷ｾ・､: RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>
+    讀懷・蛟､:    RecipeManager,RecipeType<CAP#1>,Class<MaterialRecipe>,(recipe)->[...]al())
+    逅・罰: 謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・      遲我ｾ｡蛻ｶ邏・ CAP#2
+      荳企剞: Recipe<I>
+    T,I,C縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <I,T,C>getUIRecipes(RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Rec
+ipe<I>
+      繝｡繧ｽ繝・ラ <I,T,C>getUIRecipes(RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends Rec
+ipeInput
+      繝｡繧ｽ繝・ラ <I,T,C>getUIRecipes(RecipeManager,RecipeType<T>,Class<C>,Predicate<? super C>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC extends T
+    CAP#1,CAP#2縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+      ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+      ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#2 extends Recipe<?>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\bo
+ok\content\ContentMaterialSkull.java:69: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ RecipeManager縺ｮ繝｡繧ｽ繝・ラ getAllRecipesFor縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙
+ｓ縲・        skullRecipe = world.getRecipeManager().getAllRecipesFor(TinkerRecipeTypes.CASTING_BASIN.get()).stream()
+                                              ^
+    譛溷ｾ・､: RecipeType<T>
+    讀懷・蛟､:    RecipeType<CAP#1>
+    逅・罰: 謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・      遲我ｾ｡蛻ｶ邏・ CAP#2
+      荳企剞: Recipe<I>
+    T,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Recipe<I>
+      繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends RecipeInput
+    CAP#1,CAP#2縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+      ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+      ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#2 extends Recipe<?>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mo
+del\TinkerItemProperties.java:78: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ ItemStack縺ｮ繝｡繧ｽ繝・ラ getUseDuration縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲・      retu
+rn drawtime == -1 ? 0 : (float)(stack.getUseDuration() - holder.getUseItemRemainingTicks()) / drawtime;
+                                               ^
+    譛溷ｾ・､: LivingEntity
+    讀懷・蛟､:    蠑墓焚縺後≠繧翫∪縺帙ｓ
+    逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\su
+bcommand\GenerateMeltingRecipesCommand.java:165: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ RecipeManager縺ｮ繝｡繧ｽ繝・ラ getAllRecipesFor縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕
+ｨ縺ｧ縺阪∪縺帙ｓ縲・      for (RecipeHolder<?> holder : level.getRecipeManager().getAllRecipesFor(resolvedType)) {
+                                                            ^
+    譛溷ｾ・､: RecipeType<T>
+    讀懷・蛟､:    RecipeType<CAP#1>
+    逅・罰: 謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・      遲我ｾ｡蛻ｶ邏・ CAP#1
+      荳企剞: Recipe<I>
+    T,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Recipe<I>
+      繝｡繧ｽ繝・ラ <I,T>getAllRecipesFor(RecipeType<T>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends RecipeInput
+    CAP#1縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+      ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\AlloyerScreen.java:70: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ AbstractContainerScreen<T>縺ｮ繝｡繧ｽ繝・ラ renderBackground縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺
+帙ｓ縲・      this.renderBackground(graphics);
+          ^
+    譛溷ｾ・､: GuiGraphics,int,int,float
+    讀懷・蛟､:    GuiGraphics
+    逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繧ｯ繝ｩ繧ｹ AbstractContainerScreen縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends AbstractContainerMenu
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:110: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ AbstractContainerScreen<T>縺ｮ繝｡繧ｽ繝・ラ isHovering縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕
+ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ縲・      return super.isHovering(slotIn, mouseX, mouseY) && this.shouldDrawSlot(slotIn);
+                  ^
+    譛溷ｾ・､: int,int,int,int,double,double
+    讀懷・蛟､:    Slot,double,double
+    逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繧ｯ繝ｩ繧ｹ AbstractContainerScreen縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends AbstractContainerMenu
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\MelterScreen.java:44: 繧ｨ繝ｩ繝ｼ: 繧ｯ繝ｩ繧ｹ AbstractContainerScreen<T>縺ｮ繝｡繧ｽ繝・ラ renderBackground縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙
+ｓ縲・      this.renderBackground(graphics);
+          ^
+    譛溷ｾ・､: GuiGraphics,int,int,float
+    讀懷・蛟､:    GuiGraphics
+    逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繧ｯ繝ｩ繧ｹ AbstractContainerScreen縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends AbstractContainerMenu
+  繝弱・繝・ 荳驛ｨ縺ｮ蜈･蜉帙ヵ繧｡繧､繝ｫ縺ｯ縲∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺滓耳螂ｨ縺輔ｌ縺ｪ縺БPI繧定ｿｽ蜉菴ｿ逕ｨ縺ｾ縺溘・繧ｪ繝ｼ繝舌・繝ｩ繧､繝峨＠縺ｦ縺・∪縺吶・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\bo
+ok\content\ContentModifier.java:138: 繧ｨ繝ｩ繝ｼ: getJEIRecipes縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(RegistryAccess,RecipeManager,Reci
+peType<CAP#1>,Class<IDisplayModifierRecipe>)
+          this.recipes = RecipeHelper.getJEIRecipes(level.registryAccess(), level.getRecipeManager(), TinkerRecipeTypes
+.TINKER_STATION.get(), IDisplayModifierRecipe.class).stream()
+                                     ^
+      繝｡繧ｽ繝・ラ RecipeHelper.<C#1>getJEIRecipes(RegistryAccess,Stream<? extends Recipe<?>>,Class<C#1>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚C#1繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+      繝｡繧ｽ繝・ラ RecipeHelper.<I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (謗ｨ隲門､画焚T縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・          遲我ｾ｡蛻ｶ邏・ CAP#2
+          荳企剞: Recipe<I>)
+    C#1,I,T,C#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <C#1>getJEIRecipes(RegistryAccess,Stream<? extends Recipe<?>>,Class<C#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC#1 extends Object
+      繝｡繧ｽ繝・ラ <I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋI extends Reci
+peInput
+      繝｡繧ｽ繝・ラ <I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Reci
+pe<I>
+      繝｡繧ｽ繝・ラ <I,T,C#2>getJEIRecipes(RegistryAccess,RecipeManager,RecipeType<T>,Class<C#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC#2 extends Ob
+ject
+    CAP#1,CAP#2縺梧眠縺励＞蝙句､画焚縺ｮ蝣ｴ蜷・
+      ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#1 extends Recipe<?>
+      ?縺ｮ繧ｭ繝｣繝励メ繝｣縺九ｉ縺ｮCAP#2 extends Recipe<?>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\Abst
+ractStructureRepalleter.java:71: 繧ｨ繝ｩ繝ｼ: readCompressed縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(InputStream)
+          CompoundTag inputNBT = NbtIo.readCompressed(io);
+                                      ^
+      繝｡繧ｽ繝・ラ NbtIo.readCompressed(Path,NbtAccounter)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+      繝｡繧ｽ繝・ラ NbtIo.readCompressed(InputStream,NbtAccounter)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\mate
+rial\AbstractMaterialDataProvider.java:83: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,MaterialId,Material
+Json)
+      return allOf(allMaterials.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), convert(entry.getValue
+()))));
+                                                                 ^
+      繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: MaterialId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\mate
+rial\AbstractMaterialStatsDataProvider.java:55: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,MaterialId,Mat
+erialStatJson)
+      return allOf(allMaterialStats.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), entry.getValue().s
+erialize())));
+                                                                     ^
+      繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: MaterialId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\mate
+rial\AbstractMaterialTraitDataProvider.java:57: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,MaterialId,Mat
+erialTraitsJson)
+      return allOf(allMaterialTraits.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), entry.getValue().
+build())));
+                                                                      ^
+      繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: MaterialId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\tink
+ering\AbstractModifierProvider.java:94: 繧ｨ繝ｩ繝ｼ: saveJson縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(CachedOutput,ModifierId,JsonObject)
+      return allOf(composableModifiers.entrySet().stream().map(entry -> saveJson(cache, entry.getKey(), entry.getValue(
+).serialize())));
+                                                                        ^
+      繝｡繧ｽ繝・ラ GenericDataProvider.saveJson(CachedOutput,ResourceLocation,Object)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: ModifierId繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繝｡繧ｽ繝・ラ GenericDataProvider.<T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚T繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <T>saveJson(CachedOutput,ResourceLocation,Codec<T>,T)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\tink
+ering\AbstractStationSlotLayoutProvider.java:74: 繧ｨ繝ｩ繝ｼ: define縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Pattern)
+      return define(id).icon(id);
+             ^
+      繝｡繧ｽ繝・ラ AbstractStationSlotLayoutProvider.define(ResourceLocation)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Pattern繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繝｡繧ｽ繝・ラ AbstractStationSlotLayoutProvider.define(ResourceLocation,ICondition...)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Pattern繧坦esourceLocation縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繝｡繧ｽ繝・ラ AbstractStationSlotLayoutProvider.define(ItemLike)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Pattern繧棚temLike縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveE
+ngineeringPlugin.java:105: 繧ｨ繝ｩ繝ｼ: FluidStack縺ｫ驕ｩ蛻・↑繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(FluidStack,int)
+          float consumed = recipe.applyToEntity(new FluidStack(fluid, amount), 1,
+                                                ^
+      繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Holder<Fluid>,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧辿older<Fluid>縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Fluid,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧巽luid縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveE
+ngineeringPlugin.java:145: 繧ｨ繝ｩ繝ｼ: FluidStack縺ｫ驕ｩ蛻・↑繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(FluidStack,int)
+          float consumed = recipe.applyToBlock(new FluidStack(fluid, amount), 1,
+                                               ^
+      繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Holder<Fluid>,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧辿older<Fluid>縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+      繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ FluidStack.FluidStack(Fluid,int)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: FluidStack繧巽luid縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:)
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\su
+bcommand\GenerateMeltingRecipesCommand.java:475: 繧ｨ繝ｩ繝ｼ: getCapability縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Capability<IFluidHand
+lerItem>)
+          IFluidHandlerItem capability = LogicHelper.orElseNull(stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITE
+M));
+                                                                     ^
+      繝｡繧ｽ繝・ラ IItemStackExtension.<T#1,C>getCapability(ItemCapability<T#1,C>,C)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚T#1,C繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+      繝｡繧ｽ繝・ラ IItemStackExtension.<T#2>getCapability(ItemCapability<T#2,Void>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚T#2繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (蠑墓焚縺ｮ荳堺ｸ閾ｴ: Capability<IFluidHandlerItem>繧棚temCapability<T#2,Void>縺ｫ螟画鋤縺ｧ縺阪∪縺帙ｓ:))
+    T#1,C,T#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <T#1,C>getCapability(ItemCapability<T#1,C>,C)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#1 extends Object
+      繝｡繧ｽ繝・ラ <T#1,C>getCapability(ItemCapability<T#1,C>,C)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋC extends Object
+      繝｡繧ｽ繝・ラ <T#2>getCapability(ItemCapability<T#2,Void>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#2 extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\su
+bcommand\ModifierPriorityCommand.java:64: 繧ｨ繝ｩ繝ｼ: thenComparing縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Modifier::getId)
+      List<Modifier> list = modifiers.sorted(Comparator.comparingInt(Modifier::getPriority).reversed().thenComparing(Mo
+difier::getId)).toList();
+                                                                                                      ^
+      繝｡繧ｽ繝・ラ Comparator.thenComparing(Comparator<? super Modifier>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蠑墓焚縺ｮ荳堺ｸ閾ｴ: 繝｡繧ｽ繝・ラ蜿ら・縺檎┌蜉ｹ縺ｧ縺・            繧ｯ繝ｩ繧ｹ Modifier縺ｮ繝｡繧ｽ繝・ラ getId縺ｯ謖・ｮ壹＆繧後◆蝙九↓驕ｩ逕ｨ縺ｧ縺阪∪縺帙ｓ
+              譛溷ｾ・､: 蠑墓焚縺後≠繧翫∪縺帙ｓ
+              讀懷・蛟､:    Modifier,Modifier
+              逅・罰: 螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・
+      繝｡繧ｽ繝・ラ Comparator.<U#1>thenComparing(Function<? super Modifier,? extends U#1>,Comparator<? super U#1>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪
+∪縺帙ｓ
+        (蝙句､画焚U#1繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+      繝｡繧ｽ繝・ラ Comparator.<U#2>thenComparing(Function<? super Modifier,? extends U#2>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (謗ｨ隲門､画焚U#2縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・          荳企剞: Comparable<? super U#2>
+          荳矩剞: ModifierId)
+    U#1,T,U#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <U#1>thenComparing(Function<? super T,? extends U#1>,Comparator<? super U#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#1 extends Ob
+ject
+      繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ Comparator縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+      繝｡繧ｽ繝・ラ <U#2>thenComparing(Function<? super T,? extends U#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#2 extends Comparable<? super U#2>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\su
+bcommand\ModifierUsageCommand.java:145: 繧ｨ繝ｩ繝ｼ: comparing縺ｫ驕ｩ蛻・↑繝｡繧ｽ繝・ラ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ(Modifier::getId)
+      Collection<Modifier> finalList = modifierStream.sorted(Comparator.comparing(Modifier::getId)).toList();
+                                                                       ^
+      繝｡繧ｽ繝・ラ Comparator.<T#1,U#1>comparing(Function<? super T#1,? extends U#1>,Comparator<? super U#1>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (蝙句､画焚T#1,U#1繧呈耳隲悶〒縺阪∪縺帙ｓ
+          (螳溷ｼ墓焚繝ｪ繧ｹ繝医→莉ｮ蠑墓焚繝ｪ繧ｹ繝医・髟ｷ縺輔′逡ｰ縺ｪ繧翫∪縺・)
+      繝｡繧ｽ繝・ラ Comparator.<T#2,U#2>comparing(Function<? super T#2,? extends U#2>)縺ｯ菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ
+        (謗ｨ隲門､画焚U#2縺ｫ縺ｯ縲∽ｸ埼←蜷医↑蠅・阜縺後≠繧翫∪縺・          荳企剞: Comparable<? super U#2>
+          荳矩剞: ModifierId)
+    T#1,U#1,T#2,U#2縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <T#1,U#1>comparing(Function<? super T#1,? extends U#1>,Comparator<? super U#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#1 extends 
+Object
+      繝｡繧ｽ繝・ラ <T#1,U#1>comparing(Function<? super T#1,? extends U#1>,Comparator<? super U#1>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#1 extends 
+Object
+      繝｡繧ｽ繝・ラ <T#2,U#2>comparing(Function<? super T#2,? extends U#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT#2 extends Object
+      繝｡繧ｽ繝・ラ <T#2,U#2>comparing(Function<? super T#2,? extends U#2>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋU#2 extends Comparable<? super U#2>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:231: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+          slot.x = xd + x + 1;
+              ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:232: 繧ｨ繝ｩ繝ｼ: final螟画焚y縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+          slot.y = yd + y + 1;
+              ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:235: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+            slot.x += this.parent.realWidth;
+                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:238: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+            slot.x -= this.imageWidth;
+                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:242: 繧ｨ繝ｩ繝ｼ: final螟画焚x縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+          slot.x = 0;
+              ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:243: 繧ｨ繝ｩ繝ｼ: final螟画焚y縺ｫ蛟､繧貞牡繧雁ｽ薙※繧九％縺ｨ縺ｯ縺ｧ縺阪∪縺帙ｓ
+          slot.y = 0;
+              ^
+  繝弱・繝・ 隧ｳ邏ｰ縺ｯ縲・Xlint:deprecation繧ｪ繝励す繝ｧ繝ｳ繧呈欠螳壹＠縺ｦ蜀阪さ繝ｳ繝代う繝ｫ縺励※縺上□縺輔＞縲・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mo
+difiers\IUnbakedModifierModel.java:15: 隴ｦ蜻・ [dep-ann] 謗ｨ螂ｨ縺輔ｌ縺ｪ縺・・岼縺ｯ@Deprecated縺ｧ豕ｨ驥医′莉倥￠繧峨ｌ縺ｦ縺・∪縺帙ｓ
+  public interface IUnbakedModifierModel {
+         ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\reci
+pe\ICastCreationHelper.java:68: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+                           .setPatternItem(Ingredient.of(Tags.Items.SAND_COLORLESS))
+                                                                   ^
+    繧ｷ繝ｳ繝懊Ν:   螟画焚 SAND_COLORLESS
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Items
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\reci
+pe\ICastCreationHelper.java:71: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+                           .setPatternItem(Ingredient.of(Tags.Items.SAND_RED))
+                                                                   ^
+    繧ｷ繝ｳ繝懊Ν:   螟画焚 SAND_RED
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Items
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\Pigg
+yBackPackItem.java:210: 繧ｨ繝ｩ繝ｼ: getSprite(ResourceLocation)縺ｯTextureAtlasHolder縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・            gr
+aphics.blit(x, y, 0, 18, 18, mc.getMobEffectTextures().getSprite(ICONS[amplifier]));
+                                                                    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\bo
+ok\TinkerBook.java:65: 繧ｨ繝ｩ繝ｼ: Serializer()縺ｯSerializer縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      BookLoader.registerGsonTypeAdapter
+(Component.class, new Component.Serializer());
+                                                          ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\CommonsCli
+entEvents.java:55: 繧ｨ繝ｩ繝ｼ: fontManager縺ｯMinecraft縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・          FontManager resourceManager = Minecr
+aft.getInstance().fontManager;
+                                                               ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\CommonsCli
+entEvents.java:56: 繧ｨ繝ｩ繝ｼ: fontSets縺ｯFontManager縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・          return resourceManager.fontSets.get(M
+inecraft.UNIFORM_FONT);
+                                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\r
+ender\HeatingStructureBlockEntityRenderer.java:59: 繧ｨ繝ｩ繝ｼ: renderShape(PoseStack,VertexConsumer,VoxelShape,double,doubl
+e,double,float,float,float,float)縺ｯLevelRenderer縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・            LevelRenderer.renderShape(matrices,
+ vertexBuilder, Shapes.block(), errorPos.getX() - pos.getX(), errorPos.getY() - pos.getY(), errorPos.getZ() - pos.getZ(
+), 1f, structureValid ? 1f : 0f, 0f, 0.5f);
+                         ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiFuelModule.java:98: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        fire.draw
+ScaledYUp(graphics, fireX + screen.leftPos, fireY + screen.topPos, 14 * fuel / fuelQuality);
+                                                   ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiFuelModule.java:98: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        fire.drawS
+caledYUp(graphics, fireX + screen.leftPos, fireY + screen.topPos, 14 * fuel / fuelQuality);
+                                                                           ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiFuelModule.java:138: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int checkX
+ = mouseX - screen.leftPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiFuelModule.java:139: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int checkY 
+= mouseY - screen.topPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiFuelModule.java:174: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        graphics.renderComponentTool
+tip(screen.font, tooltip, mouseX, mouseY);
+                                              ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiTankModule.java:145: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int checkX
+ = mouseX - screen.leftPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiTankModule.java:146: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int checkY 
+= mouseY - screen.topPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiTankModule.java:182: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        graphics.renderComponentTool
+tip(screen.font, tooltip, mouseX, mouseY);
+                                              ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiSmelteryTank.java:129: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int chec
+kX = mouseX - parent.leftPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiSmelteryTank.java:130: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int check
+Y = mouseY - parent.topPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiSmelteryTank.java:157: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int chec
+kX = mouseX - parent.leftPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiSmelteryTank.java:158: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int check
+Y = mouseY - parent.topPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiSmelteryTank.java:184: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        graphics.renderComponentTo
+oltip(parent.font, tooltip, mouseX, mouseY);
+                                              ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiMeltingModule.java:82: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int chec
+kX = mouseX - screen.leftPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiMeltingModule.java:83: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      int check
+Y = mouseY - screen.topPos;
+                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\s
+creen\module\GuiMeltingModule.java:110: 繧ｨ繝ｩ繝ｼ: font縺ｯScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・              graphics.renderTool
+tip(screen.font, tooltip, mouseX, mouseY);
+                                           ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\widget\BorderWidget.java:47: 繧ｨ繝ｩ繝ｼ: leftPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      gui.leftPos
+ -= this.borderLeft.w;
+         ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\widget\BorderWidget.java:48: 繧ｨ繝ｩ繝ｼ: topPos縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      gui.topPos -
+= this.borderTop.h;
+         ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\widget\BorderWidget.java:50: 繧ｨ繝ｩ繝ｼ: imageWidth縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      gui.imag
+eWidth += this.borderLeft.w + this.borderRight.w;
+         ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\widget\BorderWidget.java:51: 繧ｨ繝ｩ繝ｼ: imageHeight縺ｯAbstractContainerScreen縺ｧprotected繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      gui.ima
+geHeight += this.borderTop.h + this.borderBottom.h;
+         ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\CastingItemRenderTypeBuffer.java:44: 繧ｨ繝ｩ繝ｼ: state縺ｯCompositeRenderType縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・      if (alpha < 25
+5 && MAKE_TRANSPARENT.contains(type.name) && type instanceof RenderType.CompositeRenderType composite && composite.stat
+e.textureState instanceof TextureStateShard textureState) {
+                                                                                                                       
+               ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\CastingItemRenderTypeBuffer.java:45: 繧ｨ繝ｩ繝ｼ: texture縺ｯTextureStateShard縺ｧprivate繧｢繧ｯ繧ｻ繧ｹ縺輔ｌ縺ｾ縺・        ResourceLoca
+tion texture = textureState.texture.orElse(InventoryMenu.BLOCK_ATLAS);
+                                               ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\CastingItemRenderTypeBuffer.java:44: 繧ｨ繝ｩ繝ｼ: CompositeState縺ｮtextureState縺ｯpublic縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ縲ゅヱ繝・こ繝ｼ繧ｸ螟悶°繧峨・繧｢繧ｯ繧ｻ
+繧ｹ縺ｧ縺阪∪縺帙ｓ
+      if (alpha < 255 && MAKE_TRANSPARENT.contains(type.name) && type instanceof RenderType.CompositeRenderType composi
+te && composite.state.textureState instanceof TextureStateShard textureState) {
+                                                                                                                       
+                     ^
+  繝弱・繝・ 隧ｳ邏ｰ縺ｯ縲・Xlint:unchecked繧ｪ繝励す繝ｧ繝ｳ繧呈欠螳壹＠縺ｦ蜀阪さ繝ｳ繝代う繝ｫ縺励※縺上□縺輔＞縲・
+  繝弱・繝・ 荳驛ｨ縺ｮ蜈･蜉帙ヵ繧｡繧､繝ｫ縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｪ縺БPI繧剃ｽｿ逕ｨ縺ｾ縺溘・繧ｪ繝ｼ繝舌・繝ｩ繧､繝峨＠縺ｦ縺・∪縺吶・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\Pigg
+yBackPackItem.java:161: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+    @Override
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveE
+ngineeringPlugin.java:84: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+      @Override
+      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\ImmersiveE
+ngineeringPlugin.java:117: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+      @Override
+      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\tables\client\inv
+entory\module\SideInventoryScreen.java:108: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+    @Override
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\TintedVertexBuilder.java:16: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+    @Override
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\TintedVertexBuilder.java:21: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+    @Override
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\TintedVertexBuilder.java:26: 繧ｨ繝ｩ繝ｼ: 繝｡繧ｽ繝・ラ縺ｯ繧ｹ繝ｼ繝代・繧ｿ繧､繝励・繝｡繧ｽ繝・ラ繧偵が繝ｼ繝舌・繝ｩ繧､繝峨∪縺溘・螳溯｣・＠縺ｾ縺帙ｓ
+    @Override
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\fluid\entity\DamageFluidEffect.java:66: 隴ｦ蜻・ [removal] ToolAttackUtil縺ｮattackEntitySecondary(DamageSource,float,Entity
+,LivingEntity,boolean)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      return ToolAttackUtil.attackEntitySecondary(source,
+ this.damage * value, context.getTarget(), context.getLivingTarget(), true) ? value : 0;
+                           ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\common\data\tags\
+FluidTagProvider.java:229: 隴ｦ蜻・ [removal] Fluids縺ｮSOUP_TOOLTIPS縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      this.tag(M
+antleTags.Fluids.SOUP).addTag(TinkerFluids.meatSoup.getTag()).addOptionalTag(TinkerTags.Fluids.SOUP_TOOLTIPS.location()
+);
+                                                                                                              ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\Abst
+ractTagProvider.java:240: 隴ｦ蜻・ [removal] ITagBuilderExtension縺ｮremoveElement(ResourceLocation,String)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝
+炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        internalBuilder.removeElement(location, modID);
+                       ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\data\Abst
+ractTagProvider.java:263: 隴ｦ蜻・ [removal] ITagBuilderExtension縺ｮremoveTag(ResourceLocation,String)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕
+ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        internalBuilder.removeTag(tag.location(), modID);
+                       ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\common\TinkerEffe
+ct.java:46: 隴ｦ蜻・ [removal] MobEffect縺ｮinitializeClient(Consumer<IClientMobEffectExtensions>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭
+・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    public void initializeClient(Consumer<IClientMobEffectExtensions> consumer) {
+                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClien
+tEvents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  @EventBusSubscriber(
+modid = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\FluidClien
+tEvents.java:18: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  @EventBusSubscriber(mo
+did = TConstruct.MOD_ID, value = Dist.CLIENT, bus = Bus.MOD)
+                                                                            ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\fluids\Pot
+ionFluidType.java:43: 隴ｦ蜻・ [removal] FluidType縺ｮinitializeClient(Consumer<IClientFluidTypeExtensions>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹
+∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetCli
+entEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮbus()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  @EventBusSubscribe
+r(modid=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\GadgetCli
+entEvents.java:20: 隴ｦ蜻・ [removal] EventBusSubscriber縺ｮBus縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  @EventBusSubscriber(
+modid=TConstruct.MOD_ID, value=Dist.CLIENT, bus=Bus.MOD)
+                                                                      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\modules\armor\EffectImmunityModule.java:76: 隴ｦ蜻・ [removal] EquipmentContext縺ｮgetDataHolder()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝
+槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        TinkerDataCapability.Holder data = context.getDataHolder();
+                                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\modules\armor\EffectImmunityModule.java:86: 隴ｦ蜻・ [removal] EquipmentContext縺ｮgetDataHolder()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝
+槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        TinkerDataCapability.Holder data = context.getDataHolder();
+                                                  ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\ite
+m\ModifiableItem.java:510: 隴ｦ蜻・ [removal] Item縺ｮinitializeClient(Consumer<IClientItemExtensions>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕
+ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\ite
+m\ranged\ModifiableLauncherItem.java:371: 隴ｦ蜻・ [removal] Item縺ｮinitializeClient(Consumer<IClientItemExtensions>)縺ｯ謗ｨ螂ｨ縺
+輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyR
+ecipeCategory.java:61: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    @Gett
+er
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyR
+ecipeCategory.java:110: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ
+繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    public static <T> int drawVariableFluids(IRecipeLayoutBuilder builder, RecipeIngredientRole role, in
+t x, int y, int totalWidth, int height, List<T> fluids, int minAmount, Function<T,List<FluidStack>> mapper, Function<T,
+IRecipeSlotTooltipCallback> tooltip) {
+                                                                                                                       
+                                                                                                        ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyR
+ecipeCategory.java:129: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ
+縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・                 .addTooltipCallback(tooltip.apply(ingredient))
+                 ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyR
+ecipeCategory.java:137: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ
+縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・               .addTooltipCallback(tooltip.apply(ingredient))
+               ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyR
+ecipeCategory.java:153: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ
+縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・             .addTooltipCallback(FluidTooltipCallback.UNITS)
+             ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\AlloyR
+ecipeCategory.java:159: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ
+縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・             .addTooltipCallback(FUEL_TOOLTIP)
+             ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\F
+luidTooltipCallback.java:17: 隴ｦ蜻・ [removal] mezz.jei.api.gui.ingredient縺ｮIRecipeSlotTooltipCallback縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯
+､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・  public interface FluidTooltipCallback extends IRecipeSlotTooltipCallback {
+                                                ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\util\F
+luidTooltipCallback.java:27: 隴ｦ蜻・ [removal] IRecipeSlotTooltipCallback縺ｮonTooltip(IRecipeSlotView,List<Component>)縺ｯ謗ｨ螂
+ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    default void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) 
+{
+                 ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\castin
+g\AbstractCastingCategory.java:86: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetTooltipStrings(T,IRecipeSlotsView,double,double)縺
+ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    public List<Component> getTooltipStrings(IDisplayableCastingRecipe recipe, I
+RecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+                           ^
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ IRecipeCategory縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\castin
+g\AbstractCastingCategory.java:45: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・
+∪縺・    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\castin
+g\AbstractCastingCategory.java:112: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ
+謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・             .addTooltipCallback(FluidTooltipCallback.UNITS)
+             ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\castin
+g\AbstractCastingCategory.java:122: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)縺ｯ
+謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・             .addTooltipCallback(FluidTooltipCallback.UNITS)
+             ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity
+\EntityMeltingRecipeCategory.java:49: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺
+ｦ縺・∪縺・    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity
+\EntityMeltingRecipeCategory.java:98: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback)
+縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・             .addTooltipCallback(new FluidTooltip(recipe.getDamage())) // objec
+t is cheap, no need to cache
+             ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity
+\EntityMeltingRecipeCategory.java:105: 隴ｦ蜻・ [removal] IRecipeSlotBuilder縺ｮaddTooltipCallback(IRecipeSlotTooltipCallback
+)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・             .addTooltipCallback(FluidTooltipCallback.NO_AMOUNT)
+             ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\entity
+\SeveringCategory.java:30: 隴ｦ蜻・ [removal] IRecipeCategory縺ｮgetBackground()縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・    @
+Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:183: 隴ｦ蜻・ [removal] IModIngredientRegistration縺ｮ<V>register(IIngredientType<V>,Collection<V>,IIngredientHelper
+<V>,IIngredientRenderer<V>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registration.register(TConstructJEIConstants.M
+ODIFIER_TYPE, modifiers, new ModifierIngredientHelper(), ModifierBookmarkIngredientRenderer.INSTANCE);
+                  ^
+    V縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V>,IIngredientRenderer<V>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋV 
+extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:184: 隴ｦ蜻・ [removal] IModIngredientRegistration縺ｮ<V>register(IIngredientType<V>,Collection<V>,IIngredientHelper
+<V>,IIngredientRenderer<V>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registration.register(TConstructJEIConstants.P
+ATTERN_TYPE, Collections.emptyList(), new PatternIngredientHelper(), PatternIngredientRenderer.INSTANCE);
+                  ^
+    V縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V>,IIngredientRenderer<V>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋV 
+extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:187: 隴ｦ蜻・ [removal] IModIngredientRegistration縺ｮ<V>register(IIngredientType<V>,Collection<V>,IIngredientHelper
+<V>,IIngredientRenderer<V>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registration.register(TConstructJEIConstants.S
+LOT_TYPE, slots, new SlotIngredientHelper(), SlotIngredientRenderer.INGREDIENT);
+                  ^
+    V縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <V>register(IIngredientType<V>,Collection<V>,IIngredientHelper<V>,IIngredientRenderer<V>)縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋV 
+extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:357: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝
+槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      IIngredientSubtypeInterpreter<ItemStack> tables = (stack, context) -> {
+      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:357: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮapply(T,UidContext)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・
+      IIngredientSubtypeInterpreter<ItemStack> tables = (stack, context) -> {
+                                                        ^
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ IIngredientSubtypeInterpreter縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:361: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝
+槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        return IIngredientSubtypeInterpreter.NONE;
+               ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:361: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮNONE縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        return 
+IIngredientSubtypeInterpreter.NONE;
+                                            ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:363: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerTables.craftingStation.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:364: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerTables.partBuilder.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:365: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerTables.tinkerStation.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:366: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerTables.modifierWorktable.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:367: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.smelteryController.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:368: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.searedDrain.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:369: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.searedDuct.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:370: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.searedChute.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:371: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.foundryController.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:372: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.scorchedDrain.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:373: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.scorchedDuct.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:374: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerSmeltery.scorchedChute.asItem(), tables);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:377: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝
+槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      IIngredientSubtypeInterpreter<ItemStack> anvils = (stack, context) -> {
+      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:377: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮapply(T,UidContext)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・
+      IIngredientSubtypeInterpreter<ItemStack> anvils = (stack, context) -> {
+                                                        ^
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繧､繝ｳ繧ｿ繝輔ぉ繝ｼ繧ｹ IIngredientSubtypeInterpreter縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:385: 隴ｦ蜻・ [removal] mezz.jei.api.ingredients.subtypes縺ｮIIngredientSubtypeInterpreter縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝
+槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        return IIngredientSubtypeInterpreter.NONE;
+               ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:385: 隴ｦ蜻・ [removal] IIngredientSubtypeInterpreter縺ｮNONE縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・        return 
+IIngredientSubtypeInterpreter.NONE;
+                                            ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:387: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerTables.tinkersAnvil.asItem(), anvils);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\JEIPlu
+gin.java:388: 隴ｦ蜻・ [removal] ISubtypeRegistration縺ｮ<B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,I
+IngredientSubtypeInterpreter<I>)縺ｯ謗ｨ螂ｨ縺輔ｌ縺ｦ縺翫ｉ縺壹∝炎髯､逕ｨ縺ｫ繝槭・繧ｯ縺輔ｌ縺ｦ縺・∪縺・      registry.registerSubtypeInterpreter(Vanil
+laTypes.ITEM_STACK, TinkerTables.scorchedAnvil.asItem(), anvils);
+              ^
+    B,I縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋB extends Object
+      繝｡繧ｽ繝・ラ <B,I>registerSubtypeInterpreter(IIngredientTypeWithSubtypes<B,I>,B,IIngredientSubtypeInterpreter<I>)縺ｧ螳｣險
+縺輔ｌ縺ｦ縺・ｋI extends Object
+  繝弱・繝・ 蜈･蜉帙ヵ繧｡繧､繝ｫ縺ｮ謫堺ｽ懊・縺・■縲∵悴繝√ぉ繝・け縺ｾ縺溘・螳牙・縺ｧ縺ｯ縺ｪ縺・ｂ縺ｮ縺後≠繧翫∪縺吶・
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\Shoo
+tProjectileDispenserBehavior.java:28: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      Level level = source.getLevel();
+                          ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getLevel()
+    蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 source
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\Shoo
+tProjectileDispenserBehavior.java:32: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
+                                    ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getBlockState()
+    蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 source
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\Shoo
+tProjectileDispenserBehavior.java:44: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      pSource.getLevel().levelEvent(LevelEvent.SOUND_DISPENSER_PROJECTILE_LAUNCH, pSource.getPos(), 0);
+             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getLevel()
+    蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 pSource
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\item\Shoo
+tProjectileDispenserBehavior.java:44: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      pSource.getLevel().levelEvent(LevelEvent.SOUND_DISPENSER_PROJECTILE_LAUNCH, pSource.getPos(), 0);
+                                                                                         ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getPos()
+    蝣ｴ謇: 繧ｿ繧､繝唯lockSource縺ｮ螟画焚 pSource
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGad
+gets.java:103: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        .setCustomClientFactory((spawnEntity, world) -> new FancyItemFrameEntity(TinkerGadgets.itemFrameEntity.get(), w
+orld))
+        ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<FancyItemFrameEntity>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGad
+gets.java:112: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        .setCustomClientFactory((spawnEntity, world) -> new GlowballEntity(TinkerGadgets.glowBallEntity.get(), world))
+        ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<GlowballEntity>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGad
+gets.java:121: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        .setCustomClientFactory((spawnEntity, world) -> new EFLNEntity(TinkerGadgets.eflnEntity.get(), world))
+        ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<EFLNEntity>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGad
+gets.java:129: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        .setCustomClientFactory((spawnEntity, world) -> new QuartzShurikenEntity(TinkerGadgets.quartzShurikenEntity.get
+(), world))
+        ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<QuartzShurikenEntity>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\gadgets\TinkerGad
+gets.java:138: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        .setCustomClientFactory((spawnEntity, world) -> new FlintShurikenEntity(TinkerGadgets.flintShurikenEntity.get()
+, world))
+        ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ setCustomClientFactory((spawnEnti[...]orld))
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Builder<FlintShurikenEntity>
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\ar
+mor\texture\MaterialArmorTextureSupplier.java:150: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        CompoundTag tag = stack.getTag();
+                               ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+    蝣ｴ謇: 繧ｿ繧､繝悠temStack縺ｮ螟画焚 stack
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\ar
+mor\texture\MaterialHasFallbackTextureSupplier.java:62: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      CompoundTag tag = stack.getTag();
+                             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+    蝣ｴ謇: 繧ｿ繧､繝悠temStack縺ｮ螟画焚 stack
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\Gu
+iUtil.java:142: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      BufferBuilder builder = Tesselator.getInstance().getBuilder();
+                                                      ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getBuilder()
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Tesselator
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\Gu
+iUtil.java:143: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      builder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ begin(Mode,VertexFormat)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\Gu
+iUtil.java:180: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      BufferUploader.drawWithShader(builder.end());
+                                           ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ end()
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\Gu
+iUtil.java:199: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      builder.vertex(matrix, x1, y2, z).uv(u1, v2).endVertex();
+             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\Gu
+iUtil.java:200: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      builder.vertex(matrix, x2, y2, z).uv(u2, v2).endVertex();
+             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\Gu
+iUtil.java:201: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      builder.vertex(matrix, x2, y1, z).uv(u2, v1).endVertex();
+             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\Gu
+iUtil.java:202: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      builder.vertex(matrix, x1, y1, z).uv(u1, v1).endVertex();
+             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,int)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 builder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mo
+del\TinkerItemProperties.java:36: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      CompoundTag nbt = stack.getTag();
+                             ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+    蝣ｴ謇: 繧ｿ繧､繝悠temStack縺ｮ螟画焚 stack
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mo
+difiers\model\FluidModifierModel.java:58: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        return new CacheKey(fluid.getFluid(), fluid.getTag());
+                                                   ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+    蝣ｴ謇: 繧ｿ繧､繝友luidStack縺ｮ螟画焚 fluid
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mo
+difiers\model\TankModifierModel.java:69: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        return new CacheKey(fluid.getFluid(), fluid.getTag(), fluid.getAmount() + tolerance < helper.getCapacity(tool))
+;
+                                                   ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTag()
+    蝣ｴ謇: 繧ｿ繧､繝友luidStack縺ｮ螟画焚 fluid
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\client\mo
+difiers\ModifierModelManager.java:94: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        ModLoader.get().postEvent(new ModifierModelRegistrationEvent());
+                 ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ get()
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ ModLoader
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\materi
+al\MaterialsCraftingExtension.java:86: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      return recipe.getId();
+                   ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getId()
+    蝣ｴ謇: 繧ｿ繧､繝裕縺ｮ螟画焚 recipe
+    T縺悟梛螟画焚縺ｮ蝣ｴ蜷・
+      繧ｯ繝ｩ繧ｹ MaterialsCraftingExtension縺ｧ螳｣險縺輔ｌ縺ｦ縺・ｋT extends CraftingRecipe,MaterialsCraftingTableRecipe
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\plugin\jei\materi
+al\MaterialsCraftingExtension.java:105: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        Mantle.logger.error("Failed to create focus link for {} as the layout {} is not 3x3", recipe.getId(), builder.g
+etClass().getName());
+                                                                                                    ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getId()
+    蝣ｴ謇: 繧ｿ繧､繝佑raftingRecipe縺ｮ螟画焚 recipe
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\su
+bcommand\GenerateHiddenFluidsCommand.java:52: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      Path tagPath = pack.resolve(PackType.SERVER_DATA.getDirectory() + '/' + tag.getNamespace() + '/' + TagManager.get
+TagDir(Registries.FLUID) + '/' + tag.getPath() + ".json");
+                                                                                                                   ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getTagDir(ResourceKey<Registry<Fluid>>)
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ TagManager
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\command\su
+bcommand\GenerateMeltingRecipesCommand.java:168: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+        if (skipRecipes.contains(holder.id().location())) {
+                                            ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ location()
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ ResourceLocation
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClie
+nt.java:132: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+          BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+                                                                ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ getBuilder()
+    蝣ｴ謇: 繧ｯ繝ｩ繧ｹ Tesselator
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClie
+nt.java:148: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+          bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+                       ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ begin(Mode,VertexFormat)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClie
+nt.java:150: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+          bufferbuilder.vertex(matrix4f, -1, -1, -0.5f).uv(u1, v1).endVertex();
+                       ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClie
+nt.java:151: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+          bufferbuilder.vertex(matrix4f, 1, -1, -0.5f).uv(u0, v1).endVertex();
+                       ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClie
+nt.java:152: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+          bufferbuilder.vertex(matrix4f, 1, 1, -0.5f).uv(u0, v0).endVertex();
+                       ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClie
+nt.java:153: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+          bufferbuilder.vertex(matrix4f, -1, 1, -0.5f).uv(u1, v0).endVertex();
+                       ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(Matrix4f,int,int,float)
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\TinkerClie
+nt.java:154: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+          BufferUploader.drawWithShader(bufferbuilder.end());
+                                                     ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ end()
+    蝣ｴ謇: 繧ｿ繧､繝唯ufferBuilder縺ｮ螟画焚 bufferbuilder
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\TintedVertexBuilder.java:18: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      return inner.vertex(x, y, z);
+                  ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ vertex(double,double,double)
+    蝣ｴ謇: 繧ｿ繧､繝遊ertexConsumer縺ｮ螟画焚 inner
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\TintedVertexBuilder.java:23: 繧ｨ繝ｩ繝ｼ: 繧ｷ繝ｳ繝懊Ν繧定ｦ九▽縺代ｉ繧後∪縺帙ｓ
+      return inner.color((red * tintRed) / 0xFF, (green * tintGreen) / 0xFF, (blue * tintBlue) / 0xFF, (alpha * tintAlp
+ha) / 0xFF);
+                  ^
+    繧ｷ繝ｳ繝懊Ν:   繝｡繧ｽ繝・ラ color(int,int,int,int)
+    蝣ｴ謇: 繧ｿ繧､繝遊ertexConsumer縺ｮ螟画焚 inner
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\module\Mo
+duleHook.java:16: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\module\Mo
+duleHook.java:24: 隴ｦ蜻・ Not generating getDefaultInstance(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\fluid\FluidEffectContext.java:137: 隴ｦ蜻・ Not generating getLocation(): A method with that name already exists
+      @Getter
+      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\fluid\FluidEffectContext.java:193: 隴ｦ蜻・ Not generating getHitResult(): A method with that name already exists
+      @Getter
+      ^
+24 actionable tasks: 1 executed, 23 up-to-date
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\world\block\Folia
+geType.java:40: 隴ｦ蜻・ Not generating getSerializedName(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\nbt
+\ModDataNBT.java:23: 隴ｦ蜻・ Not generating getData(): A method with that name already exists
+    @Getter(AccessLevel.PROTECTED)
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\cap
+ability\TinkerDataCapability.java:47: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+      @Getter
+      ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\fluid\Emp
+tyFluidHandlerItem.java:15: 隴ｦ蜻・ Not generating getContainer(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\materials
+\definition\MaterialVariant.java:13: 隴ｦ蜻・ Not generating getVariant(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\nbt
+\MaterialNBT.java:37: 隴ｦ蜻・ Not generating getList(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\world\block\DirtT
+ype.java:32: 隴ｦ蜻・ Not generating getSerializedName(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\nbt
+\ModifierNBT.java:40: 隴ｦ蜻・ Not generating getModifiers(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\shared\block\Slim
+eType.java:41: 隴ｦ蜻・ Not generating getSerializedName(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\fluids\util\Const
+antFluidContainerWrapper.java:19: 隴ｦ蜻・ Not generating getContainer(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\materials
+\definition\LazyMaterial.java:15: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\ModifierEntry.java:63: 隴ｦ蜻・ Not generating getLevel(): A method with that name already exists
+    @Getter @With
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\ModifierEntry.java:64: 隴ｦ蜻・ Not generating withLevel(): A method with that name already exists
+    protected final int level;
+                        ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\def
+inition\ToolDefinition.java:23: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\tools\def
+inition\ToolDefinition.java:26: 隴ｦ蜻・ Not generating getData(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\library\modifiers
+\util\LazyModifier.java:18: 隴ｦ蜻・ Not generating getId(): A method with that name already exists
+    @Getter
+    ^
+  C:\Users\SPLIGAN\Documents\GitHub\TinkersConstructForNeoForge\src\main\java\slimeknights\tconstruct\smeltery\client\u
+til\TintedVertexBuilder.java:10: 繧ｨ繝ｩ繝ｼ: TintedVertexBuilder縺ｯabstract縺ｧ縺ｪ縺上〃ertexConsumer蜀・・abstract繝｡繧ｽ繝・ラsetNormal(
+float,float,float)繧偵が繝ｼ繝舌・繝ｩ繧､繝峨＠縺ｾ縺帙ｓ
+  public class TintedVertexBuilder implements VertexConsumer {
+         ^
+  繝弱・繝・ 荳驛ｨ縺ｮ繝｡繝・そ繝ｼ繧ｸ縺ｯ邁｡逡･蛹悶＆繧後※縺・∪縺吶・Xdiags:verbose縺ｧ蜀阪さ繝ｳ繝代う繝ｫ縺励※螳悟・縺ｪ蜃ｺ蜉帙ｒ蜿門ｾ励＠縺ｦ縺上□縺輔＞
+  繧ｨ繝ｩ繝ｼ100蛟・
+  隴ｦ蜻・00蛟・
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 32s

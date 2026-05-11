@@ -30,6 +30,11 @@ public final class ItemStackTagCompat {
     return ItemStack.parse(FALLBACK_REGISTRY, compoundTag).orElse(ItemStack.EMPTY);
   }
 
+  /** True when the stack carries {@link DataComponents#CUSTOM_DATA} (closest analogue to pre-1.20.5 {@link ItemStack#hasTag()} for recipe/datagen checks). */
+  public static boolean hasCustomData(ItemStack stack) {
+    return stack.has(DataComponents.CUSTOM_DATA);
+  }
+
   @Nullable
   public static CompoundTag getTag(ItemStack stack) {
     CustomData customData = stack.get(DataComponents.CUSTOM_DATA);

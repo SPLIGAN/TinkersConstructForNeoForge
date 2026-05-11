@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.gadgets;
 
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -20,8 +21,8 @@ import slimeknights.tconstruct.tools.client.material.ThrownShurikenRenderer;
 public class GadgetClientEvents extends ClientEventBase {
   @SubscribeEvent
   static void registerModels(RegisterAdditional event) {
-    FancyItemFrameRenderer.LOCATIONS_MODEL.values().forEach(event::register);
-    FancyItemFrameRenderer.LOCATIONS_MODEL_MAP.values().forEach(event::register);
+    FancyItemFrameRenderer.LOCATIONS_MODEL.values().forEach(rl -> event.register(ModelResourceLocation.standalone(rl)));
+    FancyItemFrameRenderer.LOCATIONS_MODEL_MAP.values().forEach(rl -> event.register(ModelResourceLocation.standalone(rl)));
   }
 
   @SubscribeEvent

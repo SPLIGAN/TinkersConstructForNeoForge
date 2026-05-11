@@ -2,7 +2,12 @@ package slimeknights.tconstruct.shared;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.font.FontManager;
+import net.minecraft.client.gui.font.FontSet;
+import net.minecraft.resources.ResourceLocation;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
@@ -27,7 +32,7 @@ public class CommonsClientEvents extends ClientEventBase {
 
   @SubscribeEvent
   static void registerModelLoaders(RegisterGeometryLoaders event) {
-    event.register("gui", UniqueGuiModel.LOADER);
+    event.register(TConstruct.getResource("gui"), UniqueGuiModel.LOADER);
   }
 
   @SubscribeEvent
@@ -50,12 +55,37 @@ public class CommonsClientEvents extends ClientEventBase {
 
   /** Gets the unicode font renderer */
   public static Font unicodeFontRender() {
-    if (unicodeRenderer == null)
-      unicodeRenderer = new Font(rl -> {
-        FontManager resourceManager = Minecraft.getInstance().fontManager;
-        return resourceManager.fontSets.get(Minecraft.UNIFORM_FONT);
-      }, false);
+    if (unicodeRenderer == null) {
+      unicodeRenderer = new Font(rl -> DefaultFontAccess.uniformSet(Minecraft.getInstance().font), false);
+    }
 
     return unicodeRenderer;
+  }
+
+  /**
+   * {@link Font#getFontSet} is not accessible from this package; resolve the uniform {@link FontSet} through the
+   * vanilla default {@link Font} (public) instead of {@link Minecraft#fontManager}.
+   */
+  private static final class DefaultFontAccess {
+    private static final MethodHandle GET_FONT_SET;
+
+    static {
+      try {
+        MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(Font.class, MethodHandles.lookup());
+        GET_FONT_SET = lookup.findVirtual(Font.class, "getFontSet", MethodType.methodType(FontSet.class, ResourceLocation.class));
+      } catch (IllegalAccessException | NoSuchMethodException e) {
+        throw new ExceptionInInitializerError(e);
+      }
+    }
+
+    private DefaultFontAccess() {}
+
+    static FontSet uniformSet(Font vanillaFont) {
+      try {
+        return (FontSet) GET_FONT_SET.invokeExact(vanillaFont, Minecraft.UNIFORM_FONT);
+      } catch (Throwable t) {
+        throw new RuntimeException(t);
+      }
+    }
   }
 }

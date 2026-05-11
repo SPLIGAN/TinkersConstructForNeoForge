@@ -8,7 +8,8 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
-import slimeknights.mantle.recipe.helper.SimpleFinishedRecipe;
+import slimeknights.tconstruct.common.recipe.data.SimpleFinishedRecipe;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -42,6 +43,6 @@ public class SpecialSeveringRecipeBuilder extends AbstractRecipeBuilder<SpecialS
 
   @Override
   public void save(RecipeOutput consumer, ResourceLocation id) {
-    consumer.accept(new SimpleFinishedRecipe(id, serializer));
+    consumer.accept(id, new SimpleFinishedRecipe(id, serializer, TinkerRecipeTypes.SEVERING.get()), null);
   }
 }

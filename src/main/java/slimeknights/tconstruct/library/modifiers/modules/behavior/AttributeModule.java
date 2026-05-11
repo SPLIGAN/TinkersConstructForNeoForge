@@ -203,6 +203,11 @@ public record AttributeModule(String unique, Attribute attribute, Operation oper
     return new Builder(attribute, operation);
   }
 
+  /** Builder from a registered attribute holder (1.21+). */
+  public static Builder builder(Holder<Attribute> attribute, Operation operation) {
+    return new Builder(attribute.value(), operation);
+  }
+
   public static Builder builder(Supplier<Attribute> attribute, Operation operation) {
     return new Builder(attribute.get(), operation);
   }

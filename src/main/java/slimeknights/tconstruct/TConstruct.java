@@ -33,6 +33,7 @@ import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.shared.TinkerAttributes;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerEffects;
+import slimeknights.tconstruct.shared.inventory.BlockContainerOpenedTrigger;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.entity.CastingTankBlockEntity;
@@ -121,6 +122,7 @@ public class TConstruct {
 
   @SubscribeEvent
   static void commonSetup(final FMLCommonSetupEvent event) {
+    BlockContainerOpenedTrigger.bootstrap();
     ToolDefinitionLoader.init();
     StationSlotLayoutLoader.init();
   }

@@ -67,9 +67,9 @@ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.common.world.ForgeBiomeModifiers.AddFeaturesBiomeModifier;
-import net.neoforged.neoforge.common.world.ForgeBiomeModifiers.AddSpawnsBiomeModifier;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.world.BiomeModifiers.AddFeaturesBiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers.AddSpawnsBiomeModifier;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.holdersets.AndHolderSet;
 import net.neoforged.neoforge.registries.holdersets.NotHolderSet;
 import net.neoforged.neoforge.registries.holdersets.OrHolderSet;
@@ -153,7 +153,7 @@ public class WorldgenProvider {
     builder.add(Registries.PLACED_FEATURE, WorldgenProvider::registerPlacedFeatures);
     builder.add(Registries.STRUCTURE, WorldgenProvider::registerStructures);
     builder.add(Registries.STRUCTURE_SET, WorldgenProvider::registerStructureSets);
-    builder.add(ForgeRegistries.Keys.BIOME_MODIFIERS, WorldgenProvider::registerBiomeModifiers);
+    builder.add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, WorldgenProvider::registerBiomeModifiers);
   }
 
   /** Registers all configured features */
@@ -310,7 +310,7 @@ public class WorldgenProvider {
       .addTree(configured.getOrThrow(TreeFeatures.SPRUCE), 2)
       .addTree(configured.getOrThrow(TreeFeatures.ACACIA), 1)
       .addTree(configured.getOrThrow(TreeFeatures.JUNGLE_TREE_NO_VINE), 1)
-      .addGrass(Blocks.GRASS, 7)
+      .addGrass(Blocks.SHORT_GRASS, 7)
       .addGrass(Blocks.FERN, 1)
       .build(new StructureSettings(biomes.getOrThrow(TinkerTags.Biomes.CLAY_ISLANDS), monsterOverride(TinkerWorld.terracubeEntity.get(), 2, 4), Decoration.SURFACE_STRUCTURES, TerrainAdjustment.NONE)));
     // blood island

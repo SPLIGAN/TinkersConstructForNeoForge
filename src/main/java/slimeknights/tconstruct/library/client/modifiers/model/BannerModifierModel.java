@@ -1,18 +1,17 @@
 package slimeknights.tconstruct.library.client.modifiers.model;
 
 import com.mojang.math.Transformation;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BannerPattern;
 import slimeknights.mantle.client.model.util.MantleItemLayerModel;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -46,17 +45,23 @@ public record BannerModifierModel(@Nullable ResourceLocation smallPrefix, @Nulla
   @Override
   public void validate(Function<Material, TextureAtlasSprite> spriteGetter) {
     // since these are dynamically loaded, condition based on the config option
-    if (Config.CLIENT.logMissingModifierTextures.get()) {
-      for (ResourceKey<BannerPattern> key : Sheets.SHIELD_MATERIALS.keySet()) {
-        String suffix = MaterialRenderInfo.getSuffix(key.location());
-        if (smallPrefix != null) {
-          spriteGetter.apply(ModifierModel.blockAtlas(smallPrefix.withSuffix(suffix)));
-        }
-        if (largePrefix != null) {
-          spriteGetter.apply(ModifierModel.blockAtlas(largePrefix.withSuffix(suffix)));
-        }
-      }
+    if (!Config.CLIENT.logMissingModifierTextures.get()) {
+      return;
     }
+    Minecraft mc = Minecraft.getInstance();
+    if (mc.level == null) {
+      return;
+    }
+    // Sheets.SHIELD_MATERIALS is private in 1.21; validate against all registered banner patterns instead.
+    mc.level.registryAccess().lookupOrThrow(Registries.BANNER_PATTERN).listElementIds().forEach((ResourceKey<BannerPattern> key) -> {
+      String suffix = MaterialRenderInfo.getSuffix(key.location());
+      if (smallPrefix != null) {
+        spriteGetter.apply(ModifierModel.blockAtlas(smallPrefix.withSuffix(suffix)));
+      }
+      if (largePrefix != null) {
+        spriteGetter.apply(ModifierModel.blockAtlas(largePrefix.withSuffix(suffix)));
+      }
+    });
   }
 
   @Override

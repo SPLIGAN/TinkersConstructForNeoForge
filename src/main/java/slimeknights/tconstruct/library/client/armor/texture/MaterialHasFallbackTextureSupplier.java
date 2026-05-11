@@ -3,8 +3,6 @@ package slimeknights.tconstruct.library.client.armor.texture;
 import com.google.common.collect.ImmutableSet;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.data.loadable.array.ArrayLoadable;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
@@ -12,6 +10,7 @@ import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.HashMap;
@@ -59,12 +58,13 @@ public class MaterialHasFallbackTextureSupplier implements ArmorTextureSupplier,
 
   @Override
   public ArmorTexture getArmorTexture(ItemStack stack, TextureType type, RegistryAccess access) {
-    CompoundTag tag = stack.getTag();
-    if (tag != null && tag.contains(ToolStack.TAG_MATERIALS, Tag.TAG_LIST)) {
-      String material = tag.getList(ToolStack.TAG_MATERIALS, Tag.TAG_STRING).getString(index);
-      if (!material.isEmpty() && cache.computeIfAbsent(material, this)) {
-        return apply.getArmorTexture(stack, type, access);
-      }
+    MaterialNBT materials = ToolStack.from(stack).getMaterials();
+    if (materials.isEmpty()) {
+      return ArmorTexture.EMPTY;
+    }
+    String material = materials.get(index).getVariant().toString();
+    if (!material.isEmpty() && cache.computeIfAbsent(material, this)) {
+      return apply.getArmorTexture(stack, type, access);
     }
     return ArmorTexture.EMPTY;
   }

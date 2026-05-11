@@ -4,8 +4,8 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.common.Tags;
 import slimeknights.mantle.recipe.data.IRecipeHelper;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -65,10 +65,10 @@ public interface ICastCreationHelper extends IRecipeHelper {
                          .setPatternItem(Ingredient.of(TinkerTags.Items.RED_SAND_CASTS))
                          .save(consumer, location(folder + "red_sand/builder_cast/" + name));
     ItemPartRecipeBuilder.item(pattern, ItemOutput.fromItem(cast.getSand(), 4))
-                         .setPatternItem(Ingredient.of(Tags.Items.SAND_COLORLESS))
+                         .setPatternItem(Ingredient.of(Items.SAND))
                          .save(consumer, location(folder + "sand/builder_block/" + name));
     ItemPartRecipeBuilder.item(pattern, ItemOutput.fromItem(cast.getRedSand(), 4))
-                         .setPatternItem(Ingredient.of(Tags.Items.SAND_RED))
+                         .setPatternItem(Ingredient.of(Items.RED_SAND))
                          .save(consumer, location(folder + "red_sand/builder_block/" + name));
   }
 }

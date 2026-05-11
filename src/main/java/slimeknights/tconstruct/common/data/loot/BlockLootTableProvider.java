@@ -1,13 +1,15 @@
 package slimeknights.tconstruct.common.data.loot;
 
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
+import net.minecraft.advancements.critereon.ItemEnchantmentsPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.ItemSubPredicates;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.flag.FeatureFlags;
@@ -59,16 +61,37 @@ import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.block.DirtType;
 import slimeknights.tconstruct.world.block.FoliageType;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BlockLootTableProvider extends BlockLootSubProvider {
+  /** Mirrors vanilla {@code BlockLootSubProvider.NORMAL_LEAVES_STICK_CHANCES} (private since 1.21). */
+  private static final float[] NORMAL_LEAVES_STICK_CHANCES = new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F};
+
+  private final Holder<Enchantment> fortuneEnchantment;
+  private final LootItemCondition.Builder silkTouch;
+  private final LootItemCondition.Builder silkTouchOrShears;
+  private final LootItemCondition.Builder noShearsOrSilkTouch;
+
   protected BlockLootTableProvider(HolderLookup.Provider registries) {
     super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
+    HolderLookup.RegistryLookup<Enchantment> enchantments = registries.lookupOrThrow(Registries.ENCHANTMENT);
+    this.fortuneEnchantment = enchantments.getOrThrow(Enchantments.FORTUNE);
+    this.silkTouch = MatchTool.toolMatches(
+      ItemPredicate.Builder.item()
+        .withSubPredicate(
+          ItemSubPredicates.ENCHANTMENTS,
+          ItemEnchantmentsPredicate.enchantments(
+            List.of(new EnchantmentPredicate(enchantments.getOrThrow(Enchantments.SILK_TOUCH), MinMaxBounds.Ints.atLeast(1)))
+          )
+        )
+    );
+    this.silkTouchOrShears = SHEARS.or(this.silkTouch);
+    this.noShearsOrSilkTouch = this.silkTouchOrShears.invert();
   }
 
-  @SuppressWarnings("deprecation")  // the vanilla registry is perfectly fine for our uses, will make migration away from forge registries easier
   @Override
   protected Iterable<Block> getKnownBlocks() {
     return BuiltInRegistries.BLOCK.stream()
@@ -204,7 +227,7 @@ public class BlockLootTableProvider extends BlockLootSubProvider {
     // mangrove leaves do not drop saplings, they just drop sticks. We do slimeballs instead
     this.add(TinkerWorld.slimeLeaves.get(FoliageType.ENDER), leaves -> droppingSilkOrShears(leaves,
       applyExplosionDecay(leaves, LootItem.lootTableItem(TinkerCommons.slimeball.get(SlimeType.ENDER)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
-        .when(BonusLevelTableCondition.bonusLevelFlatChance(fortune(), NORMAL_LEAVES_STICK_CHANCES))));
+        .when(BonusLevelTableCondition.bonusLevelFlatChance(this.fortuneEnchantment, NORMAL_LEAVES_STICK_CHANCES))));
     this.add(TinkerWorld.slimeFern.get(FoliageType.ENDER), BlockLootTableProvider::onlyShears);
 
 
@@ -332,35 +355,19 @@ public class BlockLootTableProvider extends BlockLootSubProvider {
 
   private static final LootItemCondition.Builder SHEARS = CanItemPerformAbility.canItemPerformAbility(ItemAbilities.SHEARS_DIG);
 
-  private Holder<Enchantment> silkTouch() {
-    return this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH);
-  }
-
-  private Holder<Enchantment> fortune() {
-    return this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
-  }
-
-  private LootItemCondition.Builder silkTouchCondition() {
-    return MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(silkTouch(), MinMaxBounds.Ints.atLeast(1))));
-  }
-
-  private LootItemCondition.Builder silkTouchOrShears() {
-    return SHEARS.or(silkTouchCondition());
-  }
-
   protected static LootTable.Builder onlyShears(ItemLike item) {
     return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).when(SHEARS).add(LootItem.lootTableItem(item)));
   }
 
   /** Recreation of {@link #createShearsDispatchTable(Block, Builder)} using the tool action instead of the shears item */
   private LootTable.Builder droppingSilkOrShears(Block block, LootPoolEntryContainer.Builder<?> alternativeLootEntry) {
-    return createSelfDropDispatchTable(block, silkTouchOrShears(), alternativeLootEntry);
+    return createSelfDropDispatchTable(block, this.silkTouchOrShears, alternativeLootEntry);
   }
 
   /** Reimplementation of {@link #createLeavesDrops(Block, Block, float...)} dropping the sticks from the loot table */
   private LootTable.Builder dropSapling(Block leaves, Block sapling, float... fortune) {
     return droppingSilkOrShears(leaves, applyExplosionCondition(leaves, LootItem.lootTableItem(sapling))
-      .when(BonusLevelTableCondition.bonusLevelFlatChance(fortune(), fortune)));
+      .when(BonusLevelTableCondition.bonusLevelFlatChance(this.fortuneEnchantment, fortune)));
   }
 
   private LootTable.Builder randomDropSlimeBallOrSapling(FoliageType foliageType, Block leaves, Block sapling, float... fortune) {
@@ -369,9 +376,9 @@ public class BlockLootTableProvider extends BlockLootSubProvider {
     if (slime != null) {
       return builder.withPool(
         LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-                .when(HAS_NO_SHEARS_OR_SILK_TOUCH)
+                .when(this.noShearsOrSilkTouch)
                 .add(applyExplosionCondition(leaves, LootItem.lootTableItem(TinkerCommons.slimeball.get(slime)))
-                       .when(BonusLevelTableCondition.bonusLevelFlatChance(fortune(), 1 / 50f, 1 / 45f, 1 / 40f, 1 / 30f, 1 / 20f))));
+                       .when(BonusLevelTableCondition.bonusLevelFlatChance(this.fortuneEnchantment, 1 / 50f, 1 / 45f, 1 / 40f, 1 / 30f, 1 / 20f))));
     }
     return builder;
   }
@@ -437,7 +444,7 @@ public class BlockLootTableProvider extends BlockLootSubProvider {
     builder.apply(COPY_NAME).apply(RetexturedLootFunction::new));
   /** Properties for a tinkers anvil table */
   private final Function<Block, LootTable.Builder> ADD_ANVIL = block -> droppingWithFunctions(block, (builder) ->
-    builder.apply(COPY_NAME).apply(RetexturedLootFunction::new)).apply(COPY_MATERIAL);
+    builder.apply(COPY_NAME).apply(RetexturedLootFunction::new).apply(COPY_MATERIAL));
 
   /** Registers a block that drops with its own texture stored in NBT */
   private void dropTable(Block table) {
@@ -454,7 +461,7 @@ public class BlockLootTableProvider extends BlockLootSubProvider {
     this.add(cluster, block -> createSilkTouchDispatchTable(
       block, LootItem.lootTableItem(drop)
         .apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F)))
-        .apply(ApplyBonusCount.addOreBonusCount(fortune()))
+        .apply(ApplyBonusCount.addOreBonusCount(this.fortuneEnchantment))
         .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES)))
         .otherwise(applyExplosionDecay(block, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))));
   }

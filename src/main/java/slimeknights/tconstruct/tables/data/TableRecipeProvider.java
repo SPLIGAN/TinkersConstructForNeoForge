@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tables.data;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -7,7 +8,6 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component.Serializer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -21,7 +21,8 @@ import slimeknights.mantle.Mantle;
 import slimeknights.mantle.recipe.crafting.ShapedRetexturedRecipeBuilder;
 import slimeknights.mantle.recipe.data.ItemNameIngredient;
 import slimeknights.mantle.recipe.data.ItemNameOutput;
-import slimeknights.mantle.recipe.helper.SimpleFinishedRecipe;
+import slimeknights.tconstruct.common.recipe.data.SimpleFinishedRecipe;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;
@@ -44,22 +45,17 @@ import java.util.function.Function;
 public class TableRecipeProvider extends BaseRecipeProvider {
 
   public TableRecipeProvider(PackOutput packOutput) {
-    super(packOutput);
+    super(packOutput, java.util.concurrent.CompletableFuture.completedFuture(net.minecraft.data.registries.VanillaRegistries.createLookup()));
   }
 
   @Override
-  public String getName() {
-    return "Tinkers' Construct Table Recipes";
-  }
-
-  @Override
-  protected void buildRecipes(RecipeOutput consumer) {
-    this.tableRecipes(consumer);
+  protected void buildRecipes(RecipeOutput consumer, HolderLookup.Provider registries) {
+    this.tableRecipes(consumer, registries);
     this.damageRecipes(consumer);
     this.recyclingRecipes(consumer);
   }
 
-  private void tableRecipes(RecipeOutput consumer) {
+  private void tableRecipes(RecipeOutput consumer, HolderLookup.Provider registries) {
     String folder = "tables/";
     // pattern
     ShapedRecipeBuilder.shaped(RecipeCategory.MISC, TinkerTables.pattern, 6)
@@ -210,7 +206,7 @@ public class TableRecipeProvider extends BaseRecipeProvider {
     {
       CompoundTag nbt = new CompoundTag();
       CompoundTag display = new CompoundTag();
-      display.putString("Name", Serializer.toJson(Component.translatable("block.tconstruct.tool_forge")));
+      display.putString("Name", Component.Serializer.toJson(Component.translatable("block.tconstruct.tool_forge"), registries));
       nbt.put("display", display);
       toolForge = CraftingNBTWrapper.wrap(consumer, nbt);
     }
@@ -289,8 +285,10 @@ public class TableRecipeProvider extends BaseRecipeProvider {
       .save(consumer, location(folder + "throwing_axe_part_swapping"));
 
     // tool repair recipe
-    consumer.accept(new SimpleFinishedRecipe(location(folder + "tinker_station_repair"), TinkerTables.tinkerStationRepairSerializer.get()));
-    consumer.accept(new SimpleFinishedRecipe(location(folder + "crafting_table_repair"), TinkerTables.craftingTableRepairSerializer.get()));
+    ResourceLocation tinkerStationRepair = location(folder + "tinker_station_repair");
+    consumer.accept(tinkerStationRepair, new SimpleFinishedRecipe(tinkerStationRepair, TinkerTables.tinkerStationRepairSerializer.get(), TinkerRecipeTypes.TINKER_STATION.get()), null);
+    ResourceLocation craftingTableRepair = location(folder + "crafting_table_repair");
+    consumer.accept(craftingTableRepair, new SimpleFinishedRecipe(craftingTableRepair, TinkerTables.craftingTableRepairSerializer.get(), TinkerRecipeTypes.TINKER_STATION.get()), null);
   }
 
   private void damageRecipes(RecipeOutput consumer) {
@@ -377,12 +375,12 @@ public class TableRecipeProvider extends BaseRecipeProvider {
     // turtle shell
     Pattern scale = new Pattern(TConstruct.MOD_ID, "scale");
     PartBuilderRecycleBuilder.tool(Items.TURTLE_HELMET)
-      .result(scale, Items.SCUTE, 5)
+      .result(scale, Items.TURTLE_SCUTE, 5)
       .save(consumer, location(folder + "turtle_helmet"));
 
     // twilight forest
     String tfId = "twilightforest";
-    Function<String,ResourceLocation> tf = name -> new ResourceLocation(tfId, name);
+    Function<String,ResourceLocation> tf = name -> ResourceLocation.fromNamespaceAndPath(tfId, name);
     RecipeOutput tfConsumer = withCondition(consumer, new ModLoadedCondition(tfId));
     // naga scale armor
     ResourceLocation nagaScale = tf.apply("naga_scale");

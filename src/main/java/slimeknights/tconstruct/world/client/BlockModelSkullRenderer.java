@@ -36,7 +36,11 @@ public class BlockModelSkullRenderer extends SkullModelBase {
   }
 
   @Override
-  public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay, float red, float green, float blue, float alpha) {
+  public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay, int color) {
+    float alpha = (float)(color >>> 24) / 255.0F;
+    float red = (float)(color >> 16 & 255) / 255.0F;
+    float green = (float)(color >> 8 & 255) / 255.0F;
+    float blue = (float)(color & 255) / 255.0F;
     poseStack.pushPose();
 
     // from CustomHeadLayer#translateToHead, with final scale adjusted

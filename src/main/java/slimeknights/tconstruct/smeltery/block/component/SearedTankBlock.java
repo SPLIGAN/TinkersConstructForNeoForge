@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.smeltery.block.component;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -139,7 +138,6 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
     return stack;
   }
 
-  @AllArgsConstructor
   public enum TankType implements StringRepresentable {
     FUEL_TANK(TankBlockEntity.DEFAULT_CAPACITY),
     FUEL_GAUGE(TankBlockEntity.DEFAULT_CAPACITY),
@@ -148,6 +146,10 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
 
     @Getter
     private final int capacity;
+
+    TankType(int capacity) {
+      this.capacity = capacity;
+    }
 
     @Override
     public String getSerializedName() {

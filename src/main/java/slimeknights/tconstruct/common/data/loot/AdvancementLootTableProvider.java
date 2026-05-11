@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.common.data.loot;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,9 @@ import slimeknights.tconstruct.shared.TinkerCommons;
 import java.util.function.BiConsumer;
 
 public class AdvancementLootTableProvider implements LootTableSubProvider {
+  @SuppressWarnings("unused")
+  public AdvancementLootTableProvider(HolderLookup.Provider registries) {}
+
   @Override
   public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
     ResourceLocation id = TConstruct.getResource("gameplay/starting_book");

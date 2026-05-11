@@ -9,12 +9,12 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
@@ -35,6 +35,7 @@ import slimeknights.mantle.util.html.HtmlSerializable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.book.elements.TinkerItemElement;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
+import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildingRecipe;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.definition.module.material.ToolPartsHook;
@@ -158,10 +159,11 @@ public class ContentTool extends PageContent {
       List<IToolPart> required = ToolPartsHook.parts(tool.getToolDefinition());
 
       // get the stacks for the first crafting table recipe, prefer this option over parts as it may not be craftable with said parts
-      Recipe<CraftingContainer> recipe = Optional.ofNullable(Minecraft.getInstance().level)
+      CraftingRecipe recipe = Optional.ofNullable(Minecraft.getInstance().level)
                                                  .flatMap(world -> {
                                                    RegistryAccess access = world.registryAccess();
-                                                   return world.getRecipeManager().byType(RecipeType.CRAFTING).values().stream()
+                                                   return world.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING).stream()
+                                                        .map(RecipeHolder::value)
                                                         .filter(r -> r.getResultItem(access).getItem() == tool.asItem())
                                                         .findFirst();
                                                  })
@@ -182,10 +184,13 @@ public class ContentTool extends PageContent {
           partBuilder.add(ItemStackList.of(ToolBuildHandler.getDisplayPart(required.get(i), i)));
         }
         // fetch the tool building recipe for extra ingredients
+        @SuppressWarnings("unchecked")
+        RecipeType<ITinkerStationRecipe> stationRecipeType = (RecipeType<ITinkerStationRecipe>) TinkerRecipeTypes.TINKER_STATION.get();
         List<Ingredient> extraRequirements = Optional.ofNullable(Minecraft.getInstance().level)
-                                                     .flatMap(world -> world.getRecipeManager().byType(TinkerRecipeTypes.TINKER_STATION.get()).values().stream()
+                                                     .flatMap(world -> world.getRecipeManager().getAllRecipesFor(stationRecipeType).stream()
+                                                                            .map(RecipeHolder::value)
                                                                             .filter(r -> r instanceof ToolBuildingRecipe toolRecipe && toolRecipe.getOutput() == tool)
-                                                                            .map(r -> ((ToolBuildingRecipe)r).getExtraRequirements())
+                                                                            .map(r -> ((ToolBuildingRecipe) r).getExtraRequirements())
                                                                             .findFirst()).orElse(List.of());
         for (Ingredient ingredient : extraRequirements) {
           partBuilder.add(ItemStackList.of(ingredient.getItems()));

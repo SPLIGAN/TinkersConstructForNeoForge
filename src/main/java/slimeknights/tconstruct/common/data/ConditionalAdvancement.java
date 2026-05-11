@@ -49,7 +49,7 @@ public final class ConditionalAdvancement {
         throw new IllegalStateException("Cannot add an advancement with no conditions.");
       }
       conditions.add(currentConditions.toArray(ICondition[]::new));
-      advancements.add(() -> advancement.build(advancementId).value().deconstruct().serializeToJson());
+      advancements.add(() -> Advancement.CODEC.encodeStart(JsonOps.INSTANCE, advancement.build(advancementId).value()).getOrThrow(IllegalStateException::new));
       currentConditions.clear();
       return this;
     }

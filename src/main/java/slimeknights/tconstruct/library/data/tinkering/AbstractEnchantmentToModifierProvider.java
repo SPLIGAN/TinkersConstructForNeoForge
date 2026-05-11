@@ -5,15 +5,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.PackOutput.Target;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
-import slimeknights.tconstruct.library.utils.BuiltinRegistryAccess;
-
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /** Data generator for mappings from enchantments to modifiers */
@@ -43,17 +41,17 @@ public abstract class AbstractEnchantmentToModifierProvider extends GenericDataP
   }
 
   /** Adds the given enchantment */
-  protected void add(Enchantment enchantment, ModifierId modifierId) {
+  protected void add(ResourceKey<Enchantment> enchantment, ModifierId modifierId) {
     add(enchantment, modifierId, false);
   }
 
   /** Adds the given enchantment, allowing making the modifier optional */
-  protected void add(Enchantment enchantment, ModifierId modifierId, boolean optionalModifier) {
-    String key = Objects.requireNonNull(BuiltinRegistryAccess.get(Registries.ENCHANTMENT).getKey(enchantment)).toString();
+  protected void add(ResourceKey<Enchantment> enchantment, ModifierId modifierId, boolean optionalModifier) {
+    String key = enchantment.location().toString();
     if (enchantmentMap.has(key) || enchantmentMap.has(key + '?')) {
       throw new IllegalArgumentException("Duplicate enchantment " + key);
     }
-    enchantmentMap.addProperty(key, optionalId(modifierId, optionalModifier));
+    enchantmentMap.addProperty(key, optionalId(modifierId.getLocation(), optionalModifier));
   }
 
   /** Adds the given optional enchantment, ignoring errors if missing */
@@ -62,7 +60,7 @@ public abstract class AbstractEnchantmentToModifierProvider extends GenericDataP
     if (enchantmentMap.has(key) || enchantmentMap.has(key + '?')) {
       throw new IllegalArgumentException("Duplicate enchantment " + key);
     }
-    enchantmentMap.addProperty(key + '?', optionalId(modifierId, optionalModifier));
+    enchantmentMap.addProperty(key + '?', optionalId(modifierId.getLocation(), optionalModifier));
   }
 
   /** Adds the given enchantment tag */
@@ -76,7 +74,7 @@ public abstract class AbstractEnchantmentToModifierProvider extends GenericDataP
     if (enchantmentMap.has(key)) {
       throw new IllegalArgumentException("Duplicate enchantment tag " + tag.location());
     }
-    enchantmentMap.addProperty(key, optionalId(modifierId, optionalModifier));
+    enchantmentMap.addProperty(key, optionalId(modifierId.getLocation(), optionalModifier));
   }
 
   /** Adds the given enchantment tag */

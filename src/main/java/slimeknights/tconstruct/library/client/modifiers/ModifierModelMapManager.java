@@ -55,7 +55,7 @@ public class ModifierModelMapManager extends MergingJsonDataLoader<Builder> {
   public CompletableFuture<Void> reload(PreparationBarrier stage, ResourceManager resourceManager, ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor) {
     // run in the first stage instead of the second stage
     return CompletableFuture.runAsync(() -> {
-      if (ModLoader.isLoadingStateValid()) {
+      if (!ModLoader.hasErrors()) {
         this.onResourceManagerReload(resourceManager);
       }
     }, backgroundExecutor).thenCompose(stage::wait);
@@ -128,7 +128,7 @@ public class ModifierModelMapManager extends MergingJsonDataLoader<Builder> {
         // for simplicity, treat an array as a compound
         model = CompoundModifierModel.create(CompoundModifierModel.LIST_LOADABLE.convert(value, key.toString(), context.apply(id, key)));
       } else if (value.isJsonPrimitive()) {
-        model = new NormalModifierModel(ModifierModel.blockAtlas(new ResourceLocation(value.getAsString())), null);
+        model = new NormalModifierModel(ModifierModel.blockAtlas(ResourceLocation.parse(value.getAsString())), null);
       } else {
         JsonObject json = value.getAsJsonObject();
         if (!json.has("type")) {

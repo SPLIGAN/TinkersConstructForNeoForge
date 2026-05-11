@@ -34,7 +34,7 @@ public class TrimMaterialPaletteGenerator extends GenericTextureGenerator {
 
   /** Gets the sprite transformer for the given material */
   protected ISpriteTransformer getTransformer(MaterialId material) {
-    return Objects.requireNonNull(materialProvider.getMaterialInfo(material), "Missing material provider " + material).getTransformer();
+    return Objects.requireNonNull(materialProvider.getMaterialInfo(material.getLocation()), "Missing material provider " + material).getTransformer();
   }
 
   @SuppressWarnings("removal")
@@ -51,11 +51,11 @@ public class TrimMaterialPaletteGenerator extends GenericTextureGenerator {
       }
       trimmedJson.add("pairs", values);
 
-      NativeImage original = spriteReader.read(new ResourceLocation("trim_palette"));
+      NativeImage original = spriteReader.read(ResourceLocation.withDefaultNamespace("trim_palette"));
       return allOf(Stream.concat(
-        Stream.of(saveJson(cache, new ResourceLocation("trimmed", "maps/unchecked/custom_trim_material_permutations"), trimmedJson)),
+        Stream.of(saveJson(cache, ResourceLocation.fromNamespaceAndPath("trimmed", "maps/unchecked/custom_trim_material_permutations"), trimmedJson)),
         Arrays.stream(materials).map(
-        material -> saveImage(cache, material.withPrefix(PALETTE_TEXTURES + '/'), getTransformer(material).transformCopy(original, false)))))
+        material -> saveImage(cache, material.getLocation().withPrefix(PALETTE_TEXTURES + '/'), getTransformer(material).transformCopy(original, false)))))
         .thenRunAsync(spriteReader::closeAll);
     } catch (IOException ex) {
       return CompletableFuture.failedFuture(ex);

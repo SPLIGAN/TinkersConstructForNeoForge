@@ -3,6 +3,7 @@ package slimeknights.tconstruct.library.recipe.worktable;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -21,6 +22,9 @@ import java.util.List;
  * Main interface for all recipes in the Modifier Worktable
  */
 public interface IModifierWorktableRecipe extends ICommonRecipe<ITinkerableContainer> {
+  /** Datapack / registry id for JEI and debugging — recipe JSON id is no longer on {@link net.minecraft.world.item.crafting.Recipe} alone in 1.21+. */
+  ResourceLocation getId();
+
   @Override
   default RecipeType<?> getType() {
     return TinkerRecipeTypes.MODIFIER_WORKTABLE.get();

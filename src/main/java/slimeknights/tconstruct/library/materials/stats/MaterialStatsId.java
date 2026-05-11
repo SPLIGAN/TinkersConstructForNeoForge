@@ -1,6 +1,11 @@
 package slimeknights.tconstruct.library.materials.stats;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import net.minecraft.resources.ResourceLocation;
+
+import java.io.IOException;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.utils.IdParser;
@@ -12,6 +17,18 @@ import javax.annotation.Nullable;
  * This is just a copy of ResourceLocation for type safety.
  */
 public class MaterialStatsId extends ResourceId {
+  public static final TypeAdapter<MaterialStatsId> GSON_TYPE_ADAPTER = new TypeAdapter<>() {
+    @Override
+    public void write(JsonWriter out, MaterialStatsId value) throws IOException {
+      out.value(value.toString());
+    }
+
+    @Override
+    public MaterialStatsId read(JsonReader in) throws IOException {
+      return new MaterialStatsId(ResourceLocation.parse(in.nextString()));
+    }
+  };
+
   public static final IdParser<MaterialStatsId> PARSER = new IdParser<>(MaterialStatsId::new, "Material Stat Type");
 
   public MaterialStatsId(String text) {

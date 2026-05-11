@@ -3,7 +3,6 @@ package slimeknights.tconstruct.tables.client.inventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.gui.screens.inventory.SmithingScreen;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import slimeknights.mantle.client.SafeClientAccess;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
@@ -42,6 +42,12 @@ public abstract class ToolTableScreen<T extends BlockEntity, C extends TabbedCon
   private static final Component TRAITS_TEXT = TConstruct.makeTranslation("gui", "tinker_station.traits");
 
   private static final ResourceLocation ICON_TEXTURE = TConstruct.getResource("textures/gui/icons.png");
+
+  /**
+   * Same base pose as {@code SmithingScreen}'s armor preview (private {@code ARMOR_STAND_ANGLE} in vanilla 1.21+).
+   * Values from {@link net.minecraft.client.gui.screens.inventory.SmithingScreen}.
+   */
+  private static final Quaternionf ARMOR_STAND_PREVIEW_BASE_POSE = new Quaternionf().rotationXYZ(0.43633232F, 0.0F, (float) Math.PI);
 
   /** Side panels, for tools and modifiers */
   protected final InfoPanelScreen<ToolTableScreen<T,C>,C> tinkerInfo;
@@ -94,9 +100,16 @@ public abstract class ToolTableScreen<T extends BlockEntity, C extends TabbedCon
    */
   protected void renderArmorStand(GuiGraphics graphics) {
     if (this.armorStandPreview != null) {
-      Quaternionf pose = new Quaternionf();
-      SmithingScreen.ARMOR_STAND_ANGLE.rotateY(this.armorStandAngle, pose);
-      InventoryScreen.renderEntityInInventory(graphics, this.armorStandX, this.armorStandY, this.armorStandScale, pose, null, this.armorStandPreview);
+      // Match SmithingScreen 1.21 preview: base pose + extra Y spin from mouse drag.
+      Quaternionf bodyPose = new Quaternionf(ARMOR_STAND_PREVIEW_BASE_POSE).rotateY(this.armorStandAngle);
+      InventoryScreen.renderEntityInInventory(graphics,
+        (float) this.armorStandX,
+        (float) this.armorStandY,
+        (float) this.armorStandScale,
+        new Vector3f(),
+        bodyPose,
+        null,
+        this.armorStandPreview);
 
       graphics.blit(ICON_TEXTURE, armorStandX - 16, armorStandY - 16, 0, 184, 32, 32);
     }

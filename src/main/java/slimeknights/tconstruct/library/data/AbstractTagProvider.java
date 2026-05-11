@@ -11,6 +11,8 @@ import net.minecraft.tags.TagFile;
 import net.minecraft.tags.TagKey;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import slimeknights.mantle.data.GenericDataProvider;
+import slimeknights.tconstruct.library.materials.definition.MaterialId;
+import slimeknights.tconstruct.library.modifiers.ModifierId;
 
 import java.util.List;
 import java.util.Map;
@@ -119,7 +121,55 @@ public abstract class AbstractTagProvider<T> extends GenericDataProvider {
       return this;
     }
 
-    /** Adds an optional ID to the tag */
+    /** Adds {@link MaterialId} entries for material tag JSON. */
+    public TagAppender<T> add(MaterialId materialId) {
+      this.internalBuilder.addElement(materialId.getLocation());
+      return this;
+    }
+
+    @SafeVarargs
+    public final TagAppender<T> add(MaterialId first, MaterialId... rest) {
+      this.internalBuilder.addElement(first.getLocation());
+      for (MaterialId id : rest) {
+        this.internalBuilder.addElement(id.getLocation());
+      }
+      return this;
+    }
+
+    @SafeVarargs
+    public final TagAppender<T> addOptional(MaterialId first, MaterialId... rest) {
+      this.internalBuilder.addOptionalElement(first.getLocation());
+      for (MaterialId id : rest) {
+        this.internalBuilder.addOptionalElement(id.getLocation());
+      }
+      return this;
+    }
+
+    /** Adds {@link ModifierId} entries for modifier tag JSON. */
+    public TagAppender<T> add(ModifierId modifierId) {
+      this.internalBuilder.addElement(modifierId.getLocation());
+      return this;
+    }
+
+    @SafeVarargs
+    public final TagAppender<T> add(ModifierId first, ModifierId... rest) {
+      this.internalBuilder.addElement(first.getLocation());
+      for (ModifierId id : rest) {
+        this.internalBuilder.addElement(id.getLocation());
+      }
+      return this;
+    }
+
+    @SafeVarargs
+    public final TagAppender<T> addOptional(ModifierId first, ModifierId... rest) {
+      this.internalBuilder.addOptionalElement(first.getLocation());
+      for (ModifierId id : rest) {
+        this.internalBuilder.addOptionalElement(id.getLocation());
+      }
+      return this;
+    }
+
+    /** Adds an optional raw ID to the tag */
     public TagAppender<T> addOptional(ResourceLocation... ids) {
       for (ResourceLocation id : ids) {
         this.internalBuilder.addOptionalElement(id);

@@ -5,8 +5,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
+import slimeknights.mantle.inventory.SmartItemHandlerSlot;
 import slimeknights.mantle.client.screen.ElementScreen;
 import slimeknights.mantle.client.screen.ModuleScreen;
 import slimeknights.mantle.client.screen.MultiModuleScreen;
@@ -105,9 +107,9 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
     return this.firstSlotId <= slot.getSlotIndex() && this.lastSlotId > slot.getSlotIndex();
   }
 
-  @Override
+  // Not an @Override: ModuleScreen no longer declares Slot-based hover; kept for API compatibility with older Mantle or mixins.
   public boolean isHovering(Slot slotIn, double mouseX, double mouseY) {
-    return super.isHovering(slotIn, mouseX, mouseY) && this.shouldDrawSlot(slotIn);
+    return super.isHovering(slotIn.x, slotIn.y, 16, 16, mouseX, mouseY) && this.shouldDrawSlot(slotIn);
   }
 
   public void updateSlotCount(int newSlotCount) {
@@ -221,28 +223,44 @@ public class SideInventoryScreen<P extends MultiModuleScreen<?>, C extends Abstr
       yd += this.textBackground.h;
     }
 
-    for (Slot slot : this.menu.slots) {
+    for (int i = 0; i < this.menu.slots.size(); i++) {
+      Slot slot = this.menu.slots.get(i);
+      if (!(slot instanceof SmartItemHandlerSlot smart)) {
+        continue;
+      }
       if (this.shouldDrawSlot(slot)) {
-        // calc position of the slot
         int offset = slot.getSlotIndex() - this.firstSlotId;
         int x = (offset % this.columns) * this.slot.w;
         int y = (offset / this.columns) * this.slot.h;
 
-        slot.x = xd + x + 1;
-        slot.y = yd + y + 1;
+        int slotX = xd + x + 1;
+        int slotY = yd + y + 1;
 
         if (this.right) {
-          slot.x += this.parent.realWidth;
+          slotX += this.parent.realWidth;
+        } else {
+          slotX -= this.imageWidth;
         }
-        else {
-          slot.x -= this.imageWidth;
-        }
-      }
-      else {
-        slot.x = 0;
-        slot.y = 0;
+        replaceSmartSlotAt(this.menu, i, smart, slotX, slotY);
+      } else {
+        replaceSmartSlotAt(this.menu, i, smart, 0, 0);
       }
     }
+  }
+
+  /** Vanilla {@code Slot} x/y are final in 1.21+; recreate {@link SmartItemHandlerSlot} when GUI coordinates change. */
+  private static void replaceSmartSlotAt(AbstractContainerMenu menu, int listIndex, SmartItemHandlerSlot current, int newX, int newY) {
+    if (current.x == newX && current.y == newY) {
+      return;
+    }
+    SmartItemHandlerSlot neu = new SmartItemHandlerSlot(current.getItemHandler(), current.getSlotIndex(), newX, newY);
+    // SlotItemHandler declares its own `index`; AbstractContainerMenu uses Slot#index (menu list position).
+    ((Slot) neu).index = ((Slot) current).index;
+    Pair<ResourceLocation, ResourceLocation> bg = current.getNoItemIcon();
+    if (bg != null) {
+      neu.setBackground(bg.getFirst(), bg.getSecond());
+    }
+    menu.slots.set(listIndex, neu);
   }
 
   @Override

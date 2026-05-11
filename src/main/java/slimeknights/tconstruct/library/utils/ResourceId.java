@@ -29,6 +29,11 @@ public abstract class ResourceId {
     return location;
   }
 
+  /** Prepends to this ID's path (delegates to {@link ResourceLocation#withPrefix}). */
+  public ResourceLocation withPrefix(String prefix) {
+    return location.withPrefix(prefix);
+  }
+
   public String getNamespace() {
     return location.getNamespace();
   }
